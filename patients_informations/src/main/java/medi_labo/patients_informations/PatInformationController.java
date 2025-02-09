@@ -88,7 +88,7 @@ public class PatInformationController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add/")
     public ResponseEntity<PatInformation> createPatient(@RequestBody PatInformation patInformation) {
         log.info("POST " + pathController + "/add"
                 +patInformation.getLastName()
@@ -107,7 +107,7 @@ public class PatInformationController {
         }
     }
 
-    @PutMapping("/update/id")
+    @PutMapping("/update/id/")
     public ResponseEntity<PatInformation> updatePatient(String id , @RequestBody PatInformation patInformation) {
         log.info("PUT " + pathController + "/update/id" +id
                 +patInformation.getLastName()
@@ -126,7 +126,7 @@ public class PatInformationController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/id/")
     public ResponseEntity<Void> deletePatient(String id) {
         log.info("DELETE " + pathController + "/delete/" +id);
         try {

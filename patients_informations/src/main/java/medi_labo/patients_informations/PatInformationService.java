@@ -74,7 +74,7 @@ public class PatInformationService {
         patInformationToUpdate.setGender(patInformation.getGender());
         patInformationToUpdate.setAddress(patInformation.getAddress());
         patInformationToUpdate.setPhone(patInformation.getPhone());
-        return patInformationRepository.save(patInformation);
+        return patInformationRepository.save(patInformationToUpdate);
     }
 
     public void deletePatInformation(String id) {
