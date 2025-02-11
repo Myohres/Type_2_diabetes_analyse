@@ -78,7 +78,8 @@ public class PatInformationService {
     }
 
     public void deletePatInformation(String id) {
-        patInformationRepository.deleteById(id);
+        PatInformation patInformation = getPatInformationById(id);
+        patInformationRepository.deleteById(patInformation.getId());
     }
 
     public Integer calculateAgePatient(String birthday) {

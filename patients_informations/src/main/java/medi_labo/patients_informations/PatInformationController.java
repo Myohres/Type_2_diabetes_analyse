@@ -57,12 +57,12 @@ public class PatInformationController {
 
     @GetMapping("/information/")
     public ResponseEntity<List<PatInformation>> getPatientByAllInformation(
-            String lastName,
-            String firstName,
-            String birthDay,
-            String gender,
-            String address,
-            String phone
+            @RequestParam String lastName,
+            @RequestParam String firstName,
+            @RequestParam String birthDay,
+            @RequestParam String gender,
+            @RequestParam String address,
+            @RequestParam String phone
     ) {
         log.info("GET " + pathController + "/information/" +lastName+firstName+birthDay+gender+address+phone);
         try {
@@ -76,7 +76,7 @@ public class PatInformationController {
     }
 
     @GetMapping("/age/")
-    public ResponseEntity<Integer> getPatientAge(String birthDay) {
+    public ResponseEntity<Integer> getPatientAge(@RequestParam String birthDay) {
         log.info("GET " + pathController + "/age/" +birthDay);
         try {
             return ResponseEntity.ok(
@@ -108,7 +108,7 @@ public class PatInformationController {
     }
 
     @PutMapping("/update/id/")
-    public ResponseEntity<PatInformation> updatePatient(String id , @RequestBody PatInformation patInformation) {
+    public ResponseEntity<PatInformation> updatePatient(@RequestParam String id , @RequestBody PatInformation patInformation) {
         log.info("PUT " + pathController + "/update/id" +id
                 +patInformation.getLastName()
                 +patInformation.getFirstName()
@@ -127,7 +127,7 @@ public class PatInformationController {
     }
 
     @DeleteMapping("/delete/id/")
-    public ResponseEntity<Void> deletePatient(String id) {
+    public ResponseEntity<Void> deletePatient(@RequestParam String id) {
         log.info("DELETE " + pathController + "/delete/" +id);
         try {
             patInformationService.deletePatInformation(id);
