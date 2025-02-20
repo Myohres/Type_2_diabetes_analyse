@@ -3,6 +3,7 @@ import TheWelcome from '../components/TheWelcome.vue'
 </script>
 
 <template>
+
   <main>
     <TheWelcome />
   </main>
@@ -12,6 +13,6 @@ import TheWelcome from '../components/TheWelcome.vue'
 main{
   border-bottom-width: 5px;
   border: #222222;
-  background-color: red;
+
 }
 </style>

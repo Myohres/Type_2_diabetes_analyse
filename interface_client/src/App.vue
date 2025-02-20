@@ -4,11 +4,11 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <div class="body">
+<div class="body">
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
+    <div>
       <HelloWorld msg="Medi Labo Solution" />
 
       <nav>
@@ -23,11 +23,12 @@ import HelloWorld from './components/HelloWorld.vue'
   </header>
 
   <RouterView />
-  </div>
+</div>
 </template>
 
 <style scoped>
 .body{
+  center;
   background-color: blueviolet;
 }
 
@@ -68,7 +69,7 @@ nav a:first-of-type {
 
 @media (min-width: 1024px) {
   header {
-    display: flex;
+
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
   }
@@ -78,9 +79,8 @@ nav a:first-of-type {
   }
 
   header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+
+
   }
 
   nav {
