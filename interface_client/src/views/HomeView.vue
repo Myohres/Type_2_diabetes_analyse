@@ -7,3 +7,11 @@ import TheWelcome from '../components/TheWelcome.vue'
     <TheWelcome />
   </main>
 </template>
+
+<style>
+main{
+  border-bottom-width: 5px;
+  border: #222222;
+  background-color: red;
+}
+</style>

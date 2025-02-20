@@ -4,23 +4,33 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
+  <div class="body">
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="Medi Labo Solution" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/inscription">Inscription</RouterLink>
+        <RouterLink to="/connexion">Connexion</RouterLink>
+        <RouterLink to="/parametre">Parametre</RouterLink>
+        <RouterLink to="/patient">Patient Page</RouterLink>
+        <RouterLink to="/bilan">Bilan</RouterLink>
       </nav>
     </div>
   </header>
 
   <RouterView />
+  </div>
 </template>
 
 <style scoped>
+.body{
+  background-color: blueviolet;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
