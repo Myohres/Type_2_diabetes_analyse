@@ -1,46 +1,58 @@
 <template>
   <div class="body">
 <h2>Recherche patient</h2>
-  <div>
-    <input placeholder="Nom">
-    <input placeholder="Prénom">
-    <input placeholder="Date de naissance">
-    <input placeholder="Sexe">
-    <input placeholder="Adresse">
-    <input placeholder="Téléphone">
-    <button>Rechercher patient</button>
-  </div>
-  <h2>Resultat</h2>
-    <table>
-      <thead>
-      <tr>
-        <th>Id</th>
-        <th>LastName</th>
-        <th>FirstName</th>
-        <th>Date de naissance</th>
-        <th>Sexe</th>
-        <th>Adresse</th>
-        <th>Téléphonne</th>
-      </tr>
-      </thead>
-      <tr>
-        <th>Id</th>
-        <th>LastName</th>
-        <th>FirstName</th>
-        <th>Date de naissance</th>
-        <th>Sexe</th>
-        <th>Adresse</th>
-        <th>Téléphonne</th>
-        <input type="radio" v-model="picked">
-      </tr>
-    </table>
+    <div class="container">
+      <h1 class="text-center"> Patient List</h1>
+      <table class="table table-striped">
+        <thead>
+          <th>ID</th>
+          <th>LastName</th>
+          <th>FirstName</th>
+          <th>BirthDay</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>Phone</th>
+        </thead>
+        <tbody>
+          <tr v-for ="patient in patientList" v-bind:key="patient.id">
+              <td>{{patient.id}}</td>
+            <td>{{patient.lastName}}</td>
+            <td>{{patient.firstName}}</td>
+            <td>{{patient.birthDay}}</td>
+            <td>{{patient.gender}}</td>
+            <td>{{patient.address}}</td>
+            <td>{{patient.phone}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </template>
 
 <script>
+import PatientService from '../../services/patientInformationService.js'
 export default {
-  name: "PatientResearch"
+  name: "PatientResearch",
+
+  data(){
+    return {
+      patientList : []
+    }
+  },
+  methods: {
+    getAllPatient(){
+      PatientInformationService.getAllPatient().then((response) =>{
+        this.patientList = response.data();
+      });
+  },
+  created() {
+      this.getAllPatient()
+
+  }
+  }
 }
+
 </script>
 
 <style scoped>

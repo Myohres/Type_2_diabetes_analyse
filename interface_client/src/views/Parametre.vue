@@ -1,5 +1,7 @@
 <template>
-
+<div>
+  infos compte
+</div>
 </template>
 
 <script>

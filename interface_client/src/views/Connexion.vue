@@ -1,7 +1,10 @@
 <template>
   <h1>Connexion</h1>
-  <div>Nom Prénom BirthDay, genre, Adress, telephone</div>
-  <div>Bouton connexion</div>
+  <div>
+    <input placeholder="Login">
+    <input placeholder="Mot de passe">
+    <button>Connexion</button>
+  </div>
 </template>
 
 

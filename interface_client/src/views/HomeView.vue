@@ -1,11 +1,12 @@
 <script setup>
 import TheWelcome from '../components/TheWelcome.vue'
+import Connexion from "@/views/Connexion.vue";
 </script>
 
 <template>
 
   <main>
-    <TheWelcome />
+  <Connexion></Connexion>
   </main>
 </template>
 

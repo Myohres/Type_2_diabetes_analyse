@@ -1,7 +1,14 @@
 <template>
 <h1>Inscription</h1>
-  <div>Nom Prénom BirthDay, genre, Adress, telephone</div>
-  <div>Bouton incription</div>
+  <div>
+    <input placeholder="Nom">
+    <input placeholder="Prénom">
+    <input placeholder="Date de naissance">
+    <input placeholder="Sexe">
+    <input placeholder="Adresse">
+    <input placeholder="Téléphone">
+    <button>Inscription</button>
+  </div>
 </template>
 
 <script>

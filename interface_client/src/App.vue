@@ -28,7 +28,7 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <style scoped>
 .body{
-  center;
+  text-align: center;
   background-color: blueviolet;
 }
 
@@ -43,6 +43,7 @@ header {
 }
 
 nav {
+  background-color: burlywood;
   width: 100%;
   font-size: 12px;
   text-align: center;
