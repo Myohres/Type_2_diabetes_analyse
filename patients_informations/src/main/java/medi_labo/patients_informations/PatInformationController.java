@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/patient")
-@CrossOrigin(origins = "http://localhost:5174/")
+@CrossOrigin(origins = "http://localhost:5173/")
 public class PatInformationController {
 
     private final String pathController = "/patient";

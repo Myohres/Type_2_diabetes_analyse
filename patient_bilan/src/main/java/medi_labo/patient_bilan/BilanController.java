@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/assessment/")
+@CrossOrigin(origins = "http://localhost:5173/")
 public class BilanController {
 
     private static final Logger log = LoggerFactory.getLogger(BilanController.class);

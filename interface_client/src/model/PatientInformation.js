@@ -8,6 +8,4 @@ export default class PatientInformation {
         this.address = address;
         this.phone = phone
     }
-
-
 }
