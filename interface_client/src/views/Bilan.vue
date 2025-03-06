@@ -1,18 +1,18 @@
 <template>
   <div class="body">
-    <PatientResearch></PatientResearch>
-    <PatientBilan></PatientBilan>
-
+    <h1>Bilan Page</h1>
+<WelcomeItem></WelcomeItem>
   </div>
 </template>
 
 <script>
-import PatientResearch from "@/components/icons/PatientResearch.vue";
-import PatientBilan from "@/components/icons/PatientBilan.vue";
 
+
+import PatientResearch from "@/components/PatientResearch.vue";
+import WelcomeItem from "@/components/WelcomeItem.vue";
 export default {
   name: "Bilan",
-  components: {PatientBilan, PatientResearch }
+  components: {WelcomeItem, PatientResearch}
 
 }
 </script>

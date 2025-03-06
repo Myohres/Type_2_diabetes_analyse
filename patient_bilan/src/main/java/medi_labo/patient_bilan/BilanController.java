@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/assessment/")
+@RequestMapping("/assessment")
 @CrossOrigin(origins = "http://localhost:5173/")
 public class BilanController {
 
@@ -18,15 +18,15 @@ public class BilanController {
 
     private final BilanService bilanService = new BilanService();
 
-    @GetMapping("")
-    public ResponseEntity<Bilan> getBilan(
-            @RequestParam String patId,
-            @RequestBody List<String> patientNoteList,
-            @RequestParam String birthDay,
-            @RequestParam String gender) {
-        log.info("GET /assessment/");
+    @PostMapping("")
+    public ResponseEntity<Bilan> getBilan(@RequestBody RequestBilan requestBilan) {
+        log.info("POST /assessment/");
         try {
-           return ResponseEntity.ok(bilanService.generateBilan(patId, patientNoteList, birthDay, gender));
+           return ResponseEntity.ok(bilanService.generateBilan(
+                   requestBilan.getPatId(),
+                   requestBilan.getPatientNoteList(),
+                   requestBilan.getBirthDay(),
+                   requestBilan.getGender()));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

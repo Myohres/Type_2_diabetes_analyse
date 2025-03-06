@@ -1,6 +1,6 @@
 <template>
-<div>
-  <h1>Parametre</h1>
+<div class="container">
+  <h1>page</h1>
 
 </div>
 </template>
@@ -8,8 +8,8 @@
 <script>
 
 export default {
-  name: "Parametre",
-
+  name: "all",
+  components: {}
 }
 </script>
 

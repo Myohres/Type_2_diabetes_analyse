@@ -2,13 +2,14 @@ import axios from "axios";
 import PatientInformation from "@/model/PatientInformation.js";
 import PatientHistorique from "@/model/PatientHistorique.js";
 
-const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8080/historique'
+const PATIENT_HISTORIQUE_API_BASE_URL = 'http://localhost:8081/historique'
 
-class PatientHistoriqueService{
-    async getPatientHistoriqueByPatId(patId){
+class PatientHistoriqueService {
+    async getPatientHistoriqueByPatId(patId) {
         try {
-            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'/patId',{
-                params: { patId: patId}});
+            const response = await axios.get(PATIENT_HISTORIQUE_API_BASE_URL + '/patId', {
+                params: {patId: patId}
+            });
             return response.data.map(patientHistorique => new PatientHistorique(
                 patientHistorique.id,
                 patientHistorique.patId,
@@ -21,6 +22,19 @@ class PatientHistoriqueService{
         }
     }
 
+    async addNote(patId, patient, note) {
+        try {
+            const response = await axios.post(PATIENT_HISTORIQUE_API_BASE_URL + '/note', {
+                patId: patId,
+                patient: patient,
+                note: note
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout de la note:', error);
+            throw error;
+        }
+    }
 }
 
 export default new PatientHistoriqueService()

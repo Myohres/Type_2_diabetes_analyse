@@ -1,5 +1,5 @@
 <script >
-import PatientInformationService from '../../services/PatientInformationService.js'
+import PatientInformationService from '../services/PatientinformationService.js'
 import PatientInformation from "@/model/PatientInformation.js";
 export default {
   name: "PatientBilan",

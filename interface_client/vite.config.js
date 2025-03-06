@@ -12,8 +12,21 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false
+      },
+      '/historique' : {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+        secure: false
+      },
+      '/assessment' : {
+        target: 'http://localhost:8082',
+        changeOrigin: true,
+        secure: false
       }
-    }
+    },
+
+
+
   },
   plugins: [
     vue(),
