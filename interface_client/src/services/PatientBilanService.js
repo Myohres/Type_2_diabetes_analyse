@@ -17,7 +17,7 @@ class PatientBilanService{
 
             return response.data.map(bilan => new Bilan( bilan.id, bilan.riskLevel))
         } catch (error) {
-            console.error('Service Erreur lors du chargement du bilan', error);
+            console.error('Service Erreur lors du chargement du bilan ', error);
             throw error;
         }
     }

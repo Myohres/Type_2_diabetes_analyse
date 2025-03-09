@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(patientHistorique, index) in historiqueList" :key="index">
+        <tr v-for="(patientHistorique, index) in patientNoteList" :key="index">
           <td>{{ patientHistorique.id }}</td>
           <td>{{ patientHistorique.patId}}</td>
           <td>{{ patientHistorique.patient}}</td>
@@ -63,7 +63,7 @@ import PatientBilanService from "@/services/PatientBilanService.js";
 const route = useRoute();
 const router = useRouter();
 const patient = ref(null);
-const historiqueList = ref(null);
+const patientNoteList = ref(null);
 const noteToADD = ref(null);
 const bilan = ref(null);
 
@@ -72,6 +72,7 @@ onMounted(() => {
   try {
     if (route.query.data) {
       patient.value = JSON.parse(decodeURIComponent(route.query.data));
+      getHistorique()
     } else {
       console.warn("Aucune donnée de patient reçue.");
     }
@@ -87,7 +88,7 @@ const goBack = () => {
 
 const getHistorique = async () => {
   try {
-    historiqueList.value = await PatientHistoriqueService.getPatientHistoriqueByPatId("2")
+    patientNoteList.value = await PatientHistoriqueService.getPatientHistoriqueByPatId("2")
   } catch (error) {
     console.error("Erreur lors de la recherche de l'historique du patient", error)
   }
@@ -105,10 +106,10 @@ const addNote = async () => {
 
 const generateBilan = async () => {
   try {
-   bilan.value = await PatientBilanService.getPatientBilan(patient.value.id,historiqueList,patient.value.birthDay,patient.value.gender)
+   bilan.value = await PatientBilanService.getPatientBilan(patient.value.id,patientNoteList,patient.value.birthDay,patient.value.gender)
   } catch (error) {
-    console.error(patient.value.id, historiqueList.value, patient.value.birthDay, patient.value.gender)
-    console.error("Erreur lors du chargement du bilan")
+    console.error("valeur " + patient.value.id, patientNoteList, patient.value.birthDay, patient.value.gender)
+    console.error("Erreur lors du chargement du bilan " +error)
   }
 }
 </script>
