@@ -8,6 +8,7 @@ public class PatInformation {
 
     @Id
     private String id;
+    private String patId;
     private String lastName;
     private String firstName;
     private String birthDay;
@@ -21,6 +22,14 @@ public class PatInformation {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPatId() {
+        return patId;
+    }
+
+    public void setPatId(String patId) {
+        this.patId = patId;
     }
 
     public String getLastName() {

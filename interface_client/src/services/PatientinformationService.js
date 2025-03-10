@@ -24,10 +24,11 @@ class PatientinformationService{
 
     }
 
-    async getPatientByAllInformation(lastName, firstName, birthDay, gender, address, phone){
+    async getPatientByAllInformation(patId, lastName, firstName, birthDay, gender, address, phone){
        try {
            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'information/', {
                params: {
+                   patId: patId,
                    lastName: lastName,
                    firstName: firstName,
                    birthDay: birthDay,
@@ -37,6 +38,7 @@ class PatientinformationService{
                } });
            return response.data.map(patientInformation => new PatientInformation(
                patientInformation.id,
+               patientInformation.patId,
                patientInformation.lastName,
                patientInformation.firstName,
                patientInformation.birthDay,

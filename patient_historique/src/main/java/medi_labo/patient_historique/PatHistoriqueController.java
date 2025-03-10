@@ -76,11 +76,11 @@ public class PatHistoriqueController {
     }
 
     @PostMapping("/note")
-    public ResponseEntity<PatHistorique> addNote(@RequestBody PatHistorique patHistorique) {
-        log.info("POST/historique/note " );
+    public ResponseEntity<PatHistorique> addNote(@RequestBody PatHistorique patientHistorique) {
+        log.info("POST/historique/note " +patientHistorique.getPatId() + patientHistorique.getPatient() +patientHistorique.getNote());
 
         try {
-            return ResponseEntity.ok(patHistoriqueService.addNote(patHistorique.getPatId(),patHistorique.getPatient(),patHistorique.getNote()));
+            return ResponseEntity.ok(patHistoriqueService.addNote(patientHistorique.getPatId(),patientHistorique.getPatient(),patientHistorique.getNote()));
         } catch (NoSuchElementException e) {
             log.error(e.getMessage());
             return ResponseEntity.notFound().build();

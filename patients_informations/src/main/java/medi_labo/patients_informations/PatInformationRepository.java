@@ -11,7 +11,9 @@ import java.util.Optional;
 public interface PatInformationRepository extends MongoRepository<PatInformation, String> {
 
     List<PatInformation> findByLastNameOrFirstName(String lastName, String firstName);
+
+    Optional<PatInformation> findByPatId(String patId);
     Optional<PatInformation> findByLastName(String lastName);
-    List<PatInformation> findByLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
-            String lastName, String firstName, String birthDay, String gender, String address, String phone);
+    List<PatInformation> findByPatIdOrLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
+           String patId, String lastName, String firstName, String birthDay, String gender, String address, String phone);
 }

@@ -2,6 +2,10 @@
   <div class="body">
     <h2>Recherche patient</h2>
     <form @submit.prevent="searchPatient">
+
+      <label for="patId">Numéro Patient :</label>
+      <input type="text" id="patId" v-model="patId"><br><br>
+
       <label for="lastName">Nom :</label>
       <input type="text" id="lastName" v-model="lastName"><br><br>
 
@@ -32,6 +36,7 @@
       <table class="table table-striped">
         <thead>
         <tr>
+          <th>Numéro patient</th>
           <th>Nom</th>
           <th>Prénom</th>
           <th>Date de naissance</th>
@@ -43,18 +48,14 @@
         </thead>
         <tbody>
         <tr v-for="(patient, index) in patientList" :key="index">
-          <td>{{ patient.lastName }}</td>
-          <td>{{ patient.firstName }}</td>
-          <td>{{ patient.birthDay }}</td>
-          <td>{{ patient.gender }}</td>
-          <td>{{ patient.address }}</td>
-          <td>{{ patient.phone }}</td>
+          <td>{{patient.patId}}</td>
+          <td>{{patient.lastName}}</td>
+          <td>{{patient.firstName}}</td>
+          <td>{{patient.birthDay}}</td>
+          <td>{{patient.gender}}</td>
+          <td>{{patient.address}}</td>
+          <td>{{patient.phone}}</td>
           <td>
-            <input type="radio"
-                   v-model="selectedPatient"
-                   :value="patient"
-                   name="patientRadio"
-                   @change="updateSelectedPatient(patient)">
             <button @click="goToPatientPage(patient)">Voir Détails</button>
           </td>
         </tr>
@@ -71,6 +72,7 @@ import PatientInformationService from "@/services/PatientinformationService.js";
 
 // Déclaration des variables réactives
 const router = useRouter();
+const patId = ref("");
 const lastName = ref("");
 const firstName = ref("");
 const birthDay = ref("");
@@ -83,7 +85,7 @@ const selectedPatient = ref(null);
 // Méthode de recherche des patients
 const searchPatient = async () => {
   try {
-    patientList.value = await PatientInformationService.getPatientByAllInformation(
+    patientList.value = await PatientInformationService.getPatientByAllInformation(patId.value,
         lastName.value, firstName.value, birthDay.value, gender.value, address.value, phone.value
     );
   } catch (error) {

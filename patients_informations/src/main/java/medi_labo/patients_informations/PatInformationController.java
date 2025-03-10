@@ -44,6 +44,18 @@ public class PatInformationController {
         }
     }
 
+    @GetMapping("/patId/")
+    public ResponseEntity<PatInformation> getPatientInformationByPatId(String patId){
+        log.info("GET " + pathController + "/patId/" +patId);
+        try {
+            return ResponseEntity.ok(
+                    patInformationService.getPatInformationByPatId(patId));
+        } catch (NoSuchElementException e) {
+            log.error("getPatInformationByPatId error : " + e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/lastName/")
     public ResponseEntity<PatInformation> getPatientInformationByLastName(String lastName) {
         log.info("GET " + pathController + "/lastName/" +lastName);
@@ -58,6 +70,7 @@ public class PatInformationController {
 
     @GetMapping("/information/")
     public ResponseEntity<List<PatInformation>> getPatientByAllInformation(
+            @RequestParam String patId,
             @RequestParam String lastName,
             @RequestParam String firstName,
             @RequestParam String birthDay,
@@ -65,10 +78,10 @@ public class PatInformationController {
             @RequestParam String address,
             @RequestParam String phone
     ) {
-        log.info("GET " + pathController + "/information/" +lastName+firstName+birthDay+gender+address+phone);
+        log.info("GET " + pathController + "/information/" +patId+lastName+firstName+birthDay+gender+address+phone);
         try {
             return ResponseEntity.ok(
-                    patInformationService.getPatInformationByAllInformation(
+                    patInformationService.getPatInformationByAllInformation(patId,
                             lastName,firstName,birthDay,gender,address,phone)
             );} catch (NoSuchElementException e) {
             log.error("getPatientByAllInformation error : " + e.getMessage());

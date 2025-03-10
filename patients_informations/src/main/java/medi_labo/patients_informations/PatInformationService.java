@@ -31,11 +31,20 @@ public class PatInformationService {
         }
     }
 
+    public PatInformation getPatInformationByPatId(String patId) {
+        Optional<PatInformation> patInformation = patInformationRepository.findByPatId(patId);
+        if (patInformation.isPresent()) {
+            return patInformation.get();
+        } else {
+            throw new NoSuchElementException("Patient not found");
+        }
+    }
+
     public List<PatInformation> getPatInformationByAllInformation(
-            String lastName, String firstName, String birthday, String gender, String address, String phone
+          String patId, String lastName, String firstName, String birthday, String gender, String address, String phone
     ) {
-        List<PatInformation> patInformationList = patInformationRepository.findByLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
-                lastName, firstName, birthday, gender, address, phone);
+        List<PatInformation> patInformationList = patInformationRepository.findByPatIdOrLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
+               patId, lastName, firstName, birthday, gender, address, phone);
         if (patInformationList.isEmpty()){
             throw new NoSuchElementException("Patient not found");
         } else {

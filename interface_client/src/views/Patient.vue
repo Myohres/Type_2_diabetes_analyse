@@ -1,52 +1,35 @@
 <template>
-  <div>
+  <div class="detailPat">
     <h2>Détails du Patient</h2>
-    <p><strong>ID:</strong> {{ patient?.id }}</p>
-    <p><strong>Nom:</strong> {{ patient?.lastName }}</p>
-    <p><strong>Prénom:</strong> {{ patient?.firstName }}</p>
-    <p><strong>Date de naissance:</strong> {{ patient?.birthDay }}</p>
-    <p><strong>Sexe:</strong> {{ patient?.gender }}</p>
-    <p><strong>Adresse:</strong> {{ patient?.address }}</p>
-    <p><strong>Téléphone:</strong> {{ patient?.phone }}</p>
-
-    <button @click="goBack">Retour</button>
+    <p>ID: {{ patient?.id }}</p>
+    <p>patId: {{ patient?.patId }}</p>
+    <p>Nom: {{ patient?.lastName }}</p>
+    <p>Prénom: {{ patient?.firstName }}</p>
+    <p>Date de naissance: {{ patient?.birthDay }}</p>
+    <p>Sexe: {{ patient?.gender }}</p>
+    <p>Adresse: {{ patient?.address }}</p>
+    <p>Téléphone: {{ patient?.phone }}</p>
   </div>
 
   <div>
-    <div class="container">
-      <h2 class="text-center">Historique du patient</h2>
-      <button @click="getHistorique">Afficher historique</button>
+    <div class="historiquePat">
+      <h2>Historique du patient</h2>
       <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>Id</th>
-          <th>patId</th>
-          <th>Patient</th>
-          <th>Note</th>
-
-        </tr>
-        </thead>
         <tbody>
         <tr v-for="(patientHistorique, index) in patientNoteList" :key="index">
-          <td>{{ patientHistorique.id }}</td>
-          <td>{{ patientHistorique.patId}}</td>
-          <td>{{ patientHistorique.patient}}</td>
           <td>{{ patientHistorique.note }}</td>
-          <td>
-          </td>
         </tr>
         </tbody>
       </table>
-      <div>
-        <h3>Nouvelle note</h3>
-        <label for="noteToADD">Note :</label>
-        <input type="text" id="noteToADD" v-model="noteToADD"><br><br>
-        <button @click="addNote" >Ajouter note</button>
+      <div class="NouvelleNote">
+        <h2>Nouvelle note</h2>
+        <textarea type="text" id="noteToADD" v-model="noteToADD"></textarea>
+        <div><button @click="addNote" >Ajouter note</button></div>
       </div>
     </div>
   </div>
 
-  <div>
+  <div class="BilanPat">
     <h2>Bilan du patient</h2>
     <button @click="generateBilan">Générer bilan</button>
     {{bilan}}
@@ -59,6 +42,9 @@ import { useRoute, useRouter } from "vue-router";
 import PatientinformationService from "@/services/PatientinformationService.js";
 import PatientHistoriqueService from "@/services/PatientHistoriqueService.js";
 import PatientBilanService from "@/services/PatientBilanService.js";
+import PatientInformation from "@/model/PatientInformation.js";
+import PatientHistorique from "@/model/PatientHistorique.js";
+import RequestBilan from "@/model/RequestBilan.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -81,22 +67,20 @@ onMounted(() => {
   }
 });
 
-// Fonction pour revenir en arrière
-const goBack = () => {
-  router.go(-1);
-};
 
 const getHistorique = async () => {
   try {
-    patientNoteList.value = await PatientHistoriqueService.getPatientHistoriqueByPatId("2")
+    patientNoteList.value = await PatientHistoriqueService.getPatientHistoriqueByPatId(patient.value.patId)
   } catch (error) {
     console.error("Erreur lors de la recherche de l'historique du patient", error)
   }
 }
 
 const addNote = async () => {
+  const patientHistorique = new PatientHistorique("", patient.value.patId, patient.value.lastName, noteToADD.value)
   try {
-    await PatientHistoriqueService.addNote(patient.value.id, patient.value.lastName, noteToADD.value)
+    console.info("valeur " + patient.value.patId, patient.value.lastName, noteToADD.value)
+    await PatientHistoriqueService.addNote(patientHistorique)
   } catch (error) {
     console.error("Erreur lors de l'ajout de la note'", error)
   }
@@ -105,11 +89,26 @@ const addNote = async () => {
 }
 
 const generateBilan = async () => {
+  const patientNoteListToBilan = patientNoteList.value.map(patientHistorique => patientHistorique.note)
+  const requestBilan = new RequestBilan(patient.value.patId,patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
   try {
-   bilan.value = await PatientBilanService.getPatientBilan(patient.value.id,patientNoteList,patient.value.birthDay,patient.value.gender)
+   bilan.value = await PatientBilanService.getPatientBilan(requestBilan)
   } catch (error) {
-    console.error("valeur " + patient.value.id, patientNoteList, patient.value.birthDay, patient.value.gender)
+    console.error("valeur " + patient.value.id, patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
     console.error("Erreur lors du chargement du bilan " +error)
   }
 }
 </script>
+<style>
+.detailPat{
+  text-align: left;
+}
+
+.historiquePat{
+  text-align: left;
+}
+
+.BilanPat{
+  text-align: left;
+}
+</style>

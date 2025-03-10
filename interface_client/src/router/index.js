@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Inscription from "@/views/Inscription.vue";
-import All from "@/views/All.vue"
-import Recherche from "@/views/Recherche.vue";
 import Patient from "@/views/Patient.vue"
-import App from "@/App.vue"
+
 
 
 const router = createRouter({
@@ -41,22 +39,11 @@ const router = createRouter({
       component: Patient,
       props : true,
     },
-
-    {
-      path: '/bilan',
-      name: 'bilan',
-      component: () => import('../views/Bilan.vue'),
-    },
     {
       path: '/parametre',
       name: 'parametre',
       component: () => import('../views/Parametre.vue'),
     },
-    {
-      path: '/all',
-      name: 'all',
-      component: All,
-    }
   ],
 })
 

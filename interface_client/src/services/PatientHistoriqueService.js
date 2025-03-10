@@ -22,13 +22,9 @@ class PatientHistoriqueService {
         }
     }
 
-    async addNote(patId, patient, note) {
+    async addNote(patientHistorique) {
         try {
-            const response = await axios.post(PATIENT_HISTORIQUE_API_BASE_URL + '/note', {
-                patId: patId,
-                patient: patient,
-                note: note
-            });
+            const response = await axios.post(PATIENT_HISTORIQUE_API_BASE_URL + '/note', patientHistorique);
             return response.data;
         } catch (error) {
             console.error('Erreur lors de l\'ajout de la note:', error);

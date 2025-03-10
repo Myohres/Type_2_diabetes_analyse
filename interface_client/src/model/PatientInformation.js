@@ -1,6 +1,7 @@
 export default class PatientInformation {
-    constructor(id, lastName, firstName, birthDay, gender, address, phone) {
+    constructor(id, patId, lastName, firstName, birthDay, gender, address, phone) {
         this.id = id;
+        this.patId = patId;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthDay = birthDay;

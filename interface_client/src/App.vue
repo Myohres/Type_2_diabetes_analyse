@@ -17,8 +17,6 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/connexion">Connexion</RouterLink>
         <RouterLink to="/recherche">Recherche Patient</RouterLink>
         <RouterLink to="/parametre">Parametre</RouterLink>
-        <RouterLink to="/bilan">Bilan</RouterLink>
-        <RouterLink to="/all">All</RouterLink>
       </nav>
     </div>
   </header>
