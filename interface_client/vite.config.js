@@ -22,6 +22,11 @@ export default defineConfig({
         target: 'http://localhost:8082',
         changeOrigin: true,
         secure: false
+      },
+      '/user' : {
+        target: 'http://localhost:8083',
+        changeOrigin: true,
+        secure: false,
       }
     },
 

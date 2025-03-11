@@ -28,7 +28,7 @@ import HelloWorld from './components/HelloWorld.vue'
 <style scoped>
 .body{
   text-align: center;
-  background-color: blueviolet;
+
 }
 
 header {

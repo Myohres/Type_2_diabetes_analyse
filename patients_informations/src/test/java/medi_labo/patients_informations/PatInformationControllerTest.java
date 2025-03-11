@@ -96,7 +96,7 @@ class PatInformationControllerTest {
     void getPatientByAllInformation() throws Exception {
         patInformationList = new ArrayList<>();
         patInformationList.add(patInformation);
-        when(patInformationService.getPatInformationByAllInformation(any(),any(),any(),any(),any(),any())).thenReturn(patInformationList);
+        when(patInformationService.getPatInformationByAllInformation(any(),any(),any(),any(),any(),any(),any())).thenReturn(patInformationList);
         mockMvc.perform(get("/patient/information/")
                         .param("lastName", "lastName")
                         .param("firstName", "lastName")
@@ -111,7 +111,7 @@ class PatInformationControllerTest {
     void getPatientByAllInformationNotFound() throws Exception {
         patInformationList = new ArrayList<>();
         patInformationList.add(patInformation);
-        when(patInformationService.getPatInformationByAllInformation(any(),any(),any(),any(),any(),any())).thenThrow(new NoSuchElementException());
+        when(patInformationService.getPatInformationByAllInformation(any(),any(),any(),any(),any(),any(),any())).thenThrow(new NoSuchElementException());
         mockMvc.perform(get("/patient/information/")
                 .param("lastName", "lastName")
                 .param("firstName", "lastName")

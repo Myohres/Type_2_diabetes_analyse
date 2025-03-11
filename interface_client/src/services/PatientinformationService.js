@@ -1,6 +1,6 @@
 import axios from "axios";
 import PatientInformation from "@/model/PatientInformation.js";
-import patientInformation from "@/components/PatientInformation.vue";
+
 
 const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8080/patient/'
 
@@ -51,6 +51,14 @@ class PatientinformationService{
        }
     }
 
+    async updatePatientInformation(id, patientInformation) {
+       try {
+           const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL+'update/'+id, patientInformation );
+           return response.data;
+       } catch (error) {
+           console.error("Service Erreur lors de l'update du patient: ", error)
+       }
+    }
 
 }
 

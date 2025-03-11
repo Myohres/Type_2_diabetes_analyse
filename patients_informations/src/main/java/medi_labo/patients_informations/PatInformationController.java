@@ -121,9 +121,9 @@ public class PatInformationController {
         }
     }
 
-    @PutMapping("/update/id/")
-    public ResponseEntity<PatInformation> updatePatient(@RequestParam String id , @RequestBody PatInformation patInformation) {
-        log.info("PUT " + pathController + "/update/id" +id
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PatInformation> updatePatient(@PathVariable String id , @RequestBody PatInformation patInformation) {
+        log.info("PUT " + pathController + "/update/" +id
                 +patInformation.getLastName()
                 +patInformation.getFirstName()
                 +patInformation.getBirthDay()
