@@ -17,6 +17,16 @@ class UserService{
             throw error;
         }
     }
+
+    async addUser(user){
+        try {
+            const response = await axios.post(PATIENT_INFORMATION_API_BASE_URL, user)
+            return response.data;
+        } catch (error) {
+            console.error('Service addUser error : ', error);
+            throw error;
+        }
+    }
 }
 
 export default new UserService()
