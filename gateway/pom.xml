@@ -5,15 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.2</version>
+        <version>3.4.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>medi_labo</groupId>
-    <artifactId>Type2_diabetes_analyse</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Type 2 diabetes analyse</name>
-    <description>Type 2 diabetes analyse</description>
+    <name>gateway</name>
+    <description>gateway</description>
     <url/>
     <licenses>
         <license/>
@@ -33,7 +32,11 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>
@@ -51,13 +54,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <modules>
-        <module>patients_informations</module>
-        <module>patient_historique</module>
-        <module>patient_bilan</module>
-        <module>gateway</module>
-
-    </modules>
 
 </project>

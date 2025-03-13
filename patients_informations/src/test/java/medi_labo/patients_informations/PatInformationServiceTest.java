@@ -66,19 +66,19 @@ class PatInformationServiceTest {
     void getPatInformationByAllInformation() {
         List<PatInformation> patList = new ArrayList<>();
         patList.add(patInformation);
-        when(patInformationRepository.findByLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
-                any(),any(),any(),any(),any(),any())).thenReturn(patList);
+        when(patInformationRepository.findByPatIdOrLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
+                any(),any(),any(),any(),any(),any(),any())).thenReturn(patList);
         List<PatInformation> patInformationList = patInformationService.getPatInformationByAllInformation(
-                "1","","","","","");
+                "1","","","","","","");
         assertEquals(patInformationList.get(0).getLastName(), patInformation.getLastName());
     }
 
     @Test
     void getPatInformationByAllInformationNotFound() {
-        when(patInformationRepository.findByLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
-                any(),any(),any(),any(),any(),any())).thenReturn(new ArrayList<>());
+        when(patInformationRepository.findByPatIdOrLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
+                any(), any(),any(),any(),any(),any(),any())).thenReturn(new ArrayList<>());
         assertThrows(NoSuchElementException.class, ()-> patInformationService.getPatInformationByAllInformation(
-                "1","","","","",""));
+                "1","","","","","",""));
     }
 
     @Test
