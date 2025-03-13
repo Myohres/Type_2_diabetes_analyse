@@ -2,7 +2,6 @@
   <h1>Connexion</h1>
   <div>
     <input type="text" id="login" placeholder="Login"><br><br>
-
     <input type="password" id="password" placeholder="Mot de passe"><br><br>
     <button @click="getConnection">Connexion</button>
   </div>

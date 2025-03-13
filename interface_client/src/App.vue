@@ -91,5 +91,14 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+
+  button {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
 }
 </style>

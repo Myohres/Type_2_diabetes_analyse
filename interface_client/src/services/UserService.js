@@ -27,6 +27,16 @@ class UserService{
             throw error;
         }
     }
+
+    async loginFree(login){
+        try {
+            const response = await axios.get(`${PATIENT_INFORMATION_API_BASE_URL}/signUp/${login}`);
+            return response.data;
+        } catch (error) {
+            console.error('Service loginFree error : ', error);
+            throw error;
+        }
+    }
 }
 
 export default new UserService()
