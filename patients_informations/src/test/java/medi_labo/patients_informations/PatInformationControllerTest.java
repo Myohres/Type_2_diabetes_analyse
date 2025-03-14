@@ -100,8 +100,8 @@ class PatInformationControllerTest {
         mockMvc.perform(get("/patient/information/")
                         .param("lastName", "lastName")
                         .param("firstName", "lastName")
-                        .param("birthDay", "lastName")
-                        .param("gender", "lastName")
+                        .param("birthDay", "1950-12-01")
+                        .param("gender", "F")
                         .param("address", "lastName")
                         .param("phone", "lastName"))
                 .andExpect(status().isOk());
@@ -115,8 +115,8 @@ class PatInformationControllerTest {
         mockMvc.perform(get("/patient/information/")
                 .param("lastName", "lastName")
                 .param("firstName", "lastName")
-                .param("birthDay", "lastName")
-                .param("gender", "lastName")
+                .param("birthDay", "1950-01-01")
+                .param("gender", "M")
                 .param("address", "lastName")
                 .param("phone", "lastName"))
                 .andExpect(status().isNotFound());
@@ -136,6 +136,7 @@ class PatInformationControllerTest {
         mockMvc.perform(post("/patient/add/")
                         .contentType(MediaType.APPLICATION_JSON).content(
                                 "{\n" +
+                                        "\"patId\": \"10\",\n" +
                                         "    \"lastName\": \"TestNone\",\n" +
                                         "    \"firstName\": \"Test\",\n" +
                                         "    \"birthDay\": \"1966-12-31\",\n" +
@@ -149,10 +150,10 @@ class PatInformationControllerTest {
     @Test
     void updatePatient() throws Exception {
         when(patInformationService.updatePatInformation(any(), any())).thenReturn(patInformation);
-        mockMvc.perform(put("/patient/update/id/")
-                        .param("id", "1")
+        mockMvc.perform(put("/patient/update/12")
                         .contentType(MediaType.APPLICATION_JSON).content(
                                 "{\n" +
+                                        "\"patId\": \"10\",\n" +
                                         "    \"lastName\": \"TestNone\",\n" +
                                         "    \"firstName\": \"Test\",\n" +
                                         "    \"birthDay\": \"1966-12-31\",\n" +
