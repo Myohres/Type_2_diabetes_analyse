@@ -93,13 +93,11 @@ const searchPatient = async () => {
   }
 };
 
-// Méthode de sélection du patient
 const updateSelectedPatient = (patient) => {
   selectedPatient.value = patient ? { ...patient } : null;
   console.log("Patient sélectionné:", selectedPatient.value);
 };
 
-// Navigation vers la page du patient
 const goToPatientPage = (patient) => {
   if (!patient || !patient.id) {
     console.error("Erreur: patient invalide", patient);

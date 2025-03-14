@@ -1,9 +1,12 @@
 package medi_labo.patients_informations;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +15,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/patient")
 @CrossOrigin(origins = "http://localhost:5173/")
+@Validated
 public class PatInformationController {
 
     private final String pathController = "/patient";
@@ -70,13 +74,21 @@ public class PatInformationController {
 
     @GetMapping("/information/")
     public ResponseEntity<List<PatInformation>> getPatientByAllInformation(
-            @RequestParam String patId,
-            @RequestParam String lastName,
-            @RequestParam String firstName,
-            @RequestParam String birthDay,
-            @RequestParam String gender,
-            @RequestParam String address,
-            @RequestParam String phone
+            @RequestParam(required = false) String patId,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false)
+            @Pattern(
+                    regexp = "\\d{4}-\\d{2}-\\d{2}",
+                    message = "birthDay doit être au format YYYY-MM-DD"
+            ) String birthDay,
+            @RequestParam(required = false)
+            @Pattern(
+                    regexp = "M|F",
+                    message = "gender doit être 'M' ou 'F'"
+            ) String gender,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String phone
     ) {
         log.info("GET " + pathController + "/information/" +patId+lastName+firstName+birthDay+gender+address+phone);
         try {
@@ -90,7 +102,12 @@ public class PatInformationController {
     }
 
     @GetMapping("/age/")
-    public ResponseEntity<Integer> getPatientAge(@RequestParam String birthDay) {
+    public ResponseEntity<Integer> getPatientAge(
+            @RequestParam
+            @Pattern(
+                    regexp = "\\d{4}-\\d{2}-\\d{2}",
+                    message = "La date de naissance doit être au format YYYY/MM/DD")
+            String birthDay) {
         log.info("GET " + pathController + "/age/" +birthDay);
         try {
             return ResponseEntity.ok(
@@ -103,7 +120,7 @@ public class PatInformationController {
     }
 
     @PostMapping("/add/")
-    public ResponseEntity<PatInformation> createPatient(@RequestBody PatInformation patInformation) {
+    public ResponseEntity<PatInformation> createPatient(@Valid @RequestBody PatInformation patInformation) {
         log.info("POST " + pathController + "/add"
                 +patInformation.getLastName()
                 +patInformation.getFirstName()
@@ -122,7 +139,7 @@ public class PatInformationController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<PatInformation> updatePatient(@PathVariable String id , @RequestBody PatInformation patInformation) {
+    public ResponseEntity<PatInformation> updatePatient(@PathVariable String id , @Valid @RequestBody PatInformation patInformation) {
         log.info("PUT " + pathController + "/update/" +id
                 +patInformation.getLastName()
                 +patInformation.getFirstName()

@@ -29,11 +29,13 @@ import HelloWorld from './components/HelloWorld.vue'
 .body{
   text-align: center;
 
+
 }
 
 header {
   line-height: 1.5;
   max-height: 100vh;
+
 }
 
 .logo {
@@ -71,7 +73,7 @@ nav a:first-of-type {
   header {
 
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+
   }
 
   .logo {

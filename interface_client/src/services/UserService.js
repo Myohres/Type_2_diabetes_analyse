@@ -5,7 +5,7 @@ const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/user'
 class UserService{
     async getConnection(login, password){
         try {
-            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'/connection/',{
+            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'/connexion/',{
                 params : {
                     login : login,
                     password : password,
@@ -30,7 +30,11 @@ class UserService{
 
     async loginFree(login){
         try {
-            const response = await axios.get(`${PATIENT_INFORMATION_API_BASE_URL}/signUp/${login}`);
+            const response = await axios.get(`${PATIENT_INFORMATION_API_BASE_URL}/signUpLogin/`, {
+                params : {
+                    login : login,
+                }
+            });
             return response.data;
         } catch (error) {
             console.error('Service loginFree error : ', error);

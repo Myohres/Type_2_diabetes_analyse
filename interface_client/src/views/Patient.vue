@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="detailPat">
     <h2>Détails du Patient</h2>
-    <p>patId: {{ patient?.patId }}</p>
+    <p>Numéro patient: {{ patient?.patId }}</p>
     <p>Nom: {{ patient?.lastName }}</p>
     <p>Prénom: {{ patient?.firstName }}</p>
     <p>Date de naissance: {{ patient?.birthDay }}</p>
@@ -10,18 +10,27 @@
     <p>Téléphone: {{ patient?.phone }}</p>
   </div>
 
-    <div class="updatePatient">
-      <h2>Modifier les informations du patient</h2>
-      <div v-if="patient">
-        <div v-for="(value, key) in patient" :key="key" class="input-group">
-          <label :for="key">{{ key }}</label>
-          <input :id="key" type="text" v-model="patient[key]" />
+  <div class="updatePatient">
+    <h2>Modifier les informations du patient</h2>
+    <div v-if="patient">
+      <div v-for="(value, key) in patient" :key="key" class="input-group">
+        <label :for="key">{{ key }}</label>
+        <input
+            :id="key"
+            type="text"
+            v-model="patient[key]"
+            :class="{'is-invalid': errors[key]}"
+        />
+        <!-- Affichage des erreurs -->
+        <div v-if="errors[key]" class="error-message">
+          {{ errors[key] }}
         </div>
-
-        <button @click="updatePatientInformation">Mettre à jour</button>
       </div>
-      <p v-else>Chargement des données...</p>
+
+      <button @click="updatePatientInformation">Mettre à jour</button>
     </div>
+    <p v-else>Chargement des données...</p>
+  </div>
 
 
   <div>
@@ -45,7 +54,7 @@
 
   <div class="BilanPat">
     <h2>Bilan du patient</h2>
-    <div>{{bilan}}</div>
+    <div>{{bilanMessage}}</div>
     <button @click="generateBilan">Générer bilan</button>
 
   </div>
@@ -60,15 +69,16 @@ import PatientBilanService from "@/services/PatientBilanService.js";
 import PatientInformation from "@/model/PatientInformation.js";
 import PatientHistorique from "@/model/PatientHistorique.js";
 import RequestBilan from "@/model/RequestBilan.js";
+import Bilan from "@/model/Bilan.js";
 
 
 const route = useRoute();
 const patient = ref(null);
 const patientNoteList = ref(null);
 const noteToADD = ref(null);
-const bilan = ref(null);
+const bilanMessage = ref(null);
+const errors = ref({});
 
-// Fonction pour récupérer les données du patient
 onMounted(() => {
   try {
     if (route.query.data) {
@@ -93,12 +103,20 @@ const updatePatientInformation = async () => {
   patientInformationToUpdate.address = patient.value.address;
   patientInformationToUpdate.phone = patient.value.phone;
 
-  try{
-    await PatientinformationService.updatePatientInformation(patient.value.id, patientInformationToUpdate)
+  try {
+    await PatientinformationService.updatePatientInformation(patient.value.id, patientInformationToUpdate);
+    errors.value = {}; // Réinitialiser les erreurs après une mise à jour réussie
   } catch (error) {
-    console.error("erreur lors de l'update du patient")
+    if (error.response && error.response.data) {
+      // Supposons que le backend renvoie les erreurs dans un format JSON
+      // { fieldName: "Le champ est obligatoire", ... }
+      errors.value = error.response.data; // Mettre à jour les erreurs dans le frontend
+    } else {
+      console.error("Erreur lors de l'update du patient", error);
+    }
   }
 }
+
 
 
 const getHistorique = async () => {
@@ -124,9 +142,10 @@ const addNote = async () => {
 const generateBilan = async () => {
   const patientNoteListToBilan = patientNoteList.value.map(patientHistorique => patientHistorique.note)
   const requestBilan = new RequestBilan(patient.value.patId,patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
-  const bilan = new bilan();
+  let bilan2 = new Bilan("","");
   try {
-    bilan.value = await PatientBilanService.getPatientBilan(requestBilan)
+    bilan2 = await PatientBilanService.getPatientBilan(requestBilan);
+    bilanMessage.value = bilan2.riskLevel
   } catch (error) {
     console.error("valeur " + patient.value.id, patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
     console.error("Erreur lors du chargement du bilan " +error)

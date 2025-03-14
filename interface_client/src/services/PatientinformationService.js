@@ -52,14 +52,21 @@ class PatientinformationService{
     }
 
     async updatePatientInformation(id, patientInformation) {
-       try {
-           const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL+'update/'+id, patientInformation );
-           return response.data;
-       } catch (error) {
-           console.error("Service Erreur lors de l'update du patient: ", error)
-       }
+        try {
+            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + id, patientInformation);
+            return response.data;
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                const errorMessages = error.response.data;
+                errorMessages.forEach((msg) => {
+                    console.error(msg); // Afficher dans la console ou mettre à jour l'UI
+                    // Mettez à jour l'UI pour afficher les erreurs
+                });
+            } else {
+                console.error("Erreur lors de la soumission du formulaire", error);
+            }
+        }
     }
-
 }
 
 export default new PatientinformationService()
