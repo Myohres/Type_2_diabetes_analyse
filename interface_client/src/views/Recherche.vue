@@ -1,36 +1,31 @@
 <template>
   <div class="body">
     <h2>Recherche patient</h2>
+    <div class="form-container">
     <form @submit.prevent="searchPatient">
 
-      <label for="patId">Numéro Patient :</label>
-      <input type="text" id="patId" v-model="patId"><br><br>
 
-      <label for="lastName">Nom :</label>
-      <input type="text" id="lastName" v-model="lastName"><br><br>
+      <input type="text" id="patId" v-model="patId" placeholder="Numéro patient"><br><br>
 
-      <label for="firstName">Prénom :</label>
-      <input type="text" id="firstName" v-model="firstName"><br><br>
+      <input type="text" id="lastName" v-model="lastName" placeholder="Nom"><br><br>
 
-      <label for="birthDay">Date de naissance :</label>
+      <input type="text" id="firstName" v-model="firstName" placeholder="Prénom"><br><br>
+
       <input type="date" id="birthDay" v-model="birthDay"><br><br>
 
-      <label for="gender">Sexe :</label>
-      <select id="gender" v-model="gender">
-        <option value="">Sélectionnez</option>
+      <select id="gender" v-model="gender" >
+        <option value="">Sexe</option>
         <option value="M">Homme</option>
         <option value="F">Femme</option>
       </select><br><br>
 
-      <label for="address">Adresse :</label>
-      <input type="text" id="address" v-model="address"><br><br>
+      <input type="text" id="address" v-model="address" placeholder="Adresse"><br><br>
 
-      <label for="phone">Téléphone :</label>
-      <input type="text" id="phone" v-model="phone"><br><br>
+      <input type="text" id="phone" v-model="phone" placeholder="Téléphonne"><br><br>
 
       <button type="button" @click="searchPatient">Recherche patient</button>
     </form>
-
+    </div>
     <div class="container">
       <h2 class="text-center">Résultat</h2>
       <table class="table table-striped">
@@ -113,5 +108,11 @@ const goToPatientPage = (patient) => {
 </script>
 
 <style scoped>
-/* Ajoutez ici vos styles si nécessaire */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  margin: auto;
+}
 </style>
