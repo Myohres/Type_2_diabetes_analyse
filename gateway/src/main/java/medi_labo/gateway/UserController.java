@@ -47,9 +47,9 @@ public class UserController {
         log.info("GET/connexion/{}{}", login, password);
         try {
             return ResponseEntity.ok(userService.checkPassword(login, password));
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             log.error("CheckPassWord error : " + e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 

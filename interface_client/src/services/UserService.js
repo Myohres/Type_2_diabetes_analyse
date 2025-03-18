@@ -5,7 +5,7 @@ const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/user'
 class UserService{
     async getConnection(login, password){
         try {
-            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'/connexion/',{
+            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'/connexion',{
                 params : {
                     login : login,
                     password : password,
@@ -13,7 +13,11 @@ class UserService{
             })
             return response.data
         } catch (error) {
-            console.error('Service Erreur lors de la connection ', error);
+            if (error.response && error.response.status === 404) {
+                console.error('Utilisateur non trouvé (404)');
+            } else {
+                console.error('Service Erreur lors de la connexion', error);
+            }
             throw error;
         }
     }

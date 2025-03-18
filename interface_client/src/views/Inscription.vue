@@ -56,7 +56,7 @@ const inscription = async () => {
   errors.firstName = firstName.value ? "" : "Le prénom est obligatoire.";
   errors.login = login.value ? "" : "Le login est obligatoire.";
   errors.password = password.value ? "" : "Le mot de passe est obligatoire.";
-  errors.confirmPassword = confirmPassword.value === password.value ? "" : "Les mots de passe doivent être identiques.";
+  errors.confirmPassword = confirmPassword.value !== password.value ? "" : "Les mots de passe doivent être identiques.";
 
 
   if (Object.values(errors).some(error => error)) {
@@ -66,7 +66,6 @@ const inscription = async () => {
 
   try {
     const loginFree = await UserService.loginFree(login.value);
-    console.error(loginFree)
     if (loginFree === false) {
       message.value = "Login déjà pris";
       return;
