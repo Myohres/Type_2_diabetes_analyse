@@ -13,12 +13,13 @@ public class PatInformation {
     @Id
     private String id;
 
-    @NotBlank(message = "patId est obligatoire")
+
     private String patId;
 
     @NotBlank(message = "lastName est obligatoire")
     private String lastName;
 
+    @NotBlank(message = "firstName est obligatoire")
     private String firstName;
 
     @NotBlank(message = "birthDay est obligatoire")

@@ -44,6 +44,11 @@ const router = createRouter({
       name: 'parametre',
       component: () => import('../views/Parametre.vue'),
     },
+    {
+      path: '/nouveauPatient',
+      name: 'nouveauPatient',
+      component: () => import('../views/NouveauPatient.vue')
+    }
   ],
 })
 

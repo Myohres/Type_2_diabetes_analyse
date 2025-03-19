@@ -51,9 +51,19 @@ class PatientinformationService{
        }
     }
 
+    async addPatient(newPatient) {
+       try {
+           const response = await axios.post(PATIENT_INFORMATION_API_BASE_URL + 'add/', newPatient);
+           return response.data;
+       } catch (error){
+           console.error("Erreur lors de l'ajout d'un nouveau patient", error);
+           throw error;
+       }
+    }
+
     async updatePatientInformation(id, patientInformation) {
         try {
-            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + id, patientInformation);
+            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + id, {patientInformation});
             return response.data;
         } catch (error) {
             if (error.response && error.response.status === 400) {
