@@ -1,6 +1,8 @@
 package medi_labo.patients_informations;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,21 +79,24 @@ public class PatInformationController {
             @RequestParam(required = false) String patId,
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String firstName,
-            @Pattern(
-                    regexp = "\\d{4}-\\d{2}-\\d{2}",
-                    message = "birthDay doit être au format YYYY-MM-DD"
-            )
+            @Nullable
+
+            @Pattern(regexp = "^$|\\d{4}-\\d{2}-\\d{2}", message = "birthDay doit être au format YYYY-MM-DD")
             @RequestParam(required = false)
             String birthDay,
-            @RequestParam(required = false)
+
+            @Nullable
             @Pattern(
-                    regexp = "M|F",
+                    regexp = "^$|M|F",
                     message = "gender doit être 'M' ou 'F'"
-            ) String gender,
+            )
+            @RequestParam(required = false)
+            String gender,
             @RequestParam(required = false) String address,
             @RequestParam(required = false) String phone
     ) {
-        log.info("GET " + pathController + "/information/" +patId+lastName+firstName+birthDay+gender+address+phone);
+        log.info("GET {}/information - patId: {}, lastName: {}, firstName: {}, birthDay: {}, gender: {}, address: {}, phone: {}",
+                pathController, patId, lastName, firstName, birthDay, gender, address, phone);
         try {
             return ResponseEntity.ok(
                     patInformationService.getPatInformationByAllInformation(patId,
