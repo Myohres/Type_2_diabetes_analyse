@@ -29,7 +29,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/signUpLogin")
+    @GetMapping("/signUpLogin/")
     public ResponseEntity<Boolean> checkLoginFree(@RequestParam String login) {
         log.info("GET/signUpLogin/{}", login);
         try {
@@ -40,7 +40,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/connexion")
+    @GetMapping("/connexion/")
     public ResponseEntity<Boolean> checkPassWord(
             @RequestParam String login,
             @RequestParam String password) {

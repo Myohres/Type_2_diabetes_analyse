@@ -77,11 +77,12 @@ public class PatInformationController {
             @RequestParam(required = false) String patId,
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String firstName,
-            @RequestParam(required = false)
             @Pattern(
                     regexp = "\\d{4}-\\d{2}-\\d{2}",
                     message = "birthDay doit être au format YYYY-MM-DD"
-            ) String birthDay,
+            )
+            @RequestParam(required = false)
+            String birthDay,
             @RequestParam(required = false)
             @Pattern(
                     regexp = "M|F",
@@ -96,6 +97,7 @@ public class PatInformationController {
                     patInformationService.getPatInformationByAllInformation(patId,
                             lastName,firstName,birthDay,gender,address,phone)
             );} catch (NoSuchElementException e) {
+
             log.error("getPatientByAllInformation error : " + e.getMessage());
             return ResponseEntity.notFound().build();
         }

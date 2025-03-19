@@ -1,0 +1,114 @@
+
+
+services:
+
+  vue-app:
+    build: .
+    container_name: vue-container
+    ports:
+      - "8085:80"
+    restart: always
+    depends_on:
+      pat_information:
+        condition: service_started
+      pat_historique:
+        condition: service_started
+      pat_bilan:
+        condition: service_started
+      gateway:
+        condition: service_started
+      mongo:
+        condition: service_started
+    networks:
+      - springboot-network
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    ports:
+      - "8083:8083"
+    depends_on:
+        pat_information:
+          condition: service_started
+        pat_historique:
+          condition: service_started
+        pat_bilan:
+          condition: service_started
+        mongo:
+          condition: service_started
+    networks:
+      - springboot-network
+
+  pat_information:
+    build:
+      context: ./patients_informations
+      dockerfile: Dockerfile
+    container_name: patient_information
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
+    depends_on:
+        mongo :
+        condition: service_healthy
+    networks:
+      - springboot-network
+
+  pat_historique:
+    build:
+      context: ./patient_historique
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
+    depends_on:
+        pat_information:
+          condition: service_started
+        mongo:
+          condition: service_started
+    networks:
+      - springboot-network
+
+  pat_bilan:
+    build:
+      context: ./patient_bilan
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      pat_information:
+        condition: service_started
+      pat_historique:
+        condition : service_started
+      mongo:
+        condition: service_started
+    networks:
+      - springboot-network
+
+  mongo:
+    image: mongo:latest
+    container_name: medi_labo_mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: medi_labo_solution_bdd
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - springboot-network
+    healthcheck:
+        test: [ "CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+volumes:
+  mongo_data:
+
+networks:
+  springboot-network:
+    driver: bridge

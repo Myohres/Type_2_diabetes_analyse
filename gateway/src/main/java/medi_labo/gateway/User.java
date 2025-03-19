@@ -3,7 +3,7 @@ package medi_labo.gateway;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "user")
+@Document(collection = "User")
 public class User {
 
     @Id
