@@ -10,7 +10,7 @@ class PatientinformationService{
        try {
            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL);
            return response.data.map(patientInformation => new PatientInformation(
-               patientInformation.id,
+               patientInformation.patId,
                patientInformation.lastName,
                patientInformation.firstName,
                patientInformation.birthDay,
@@ -37,7 +37,6 @@ class PatientinformationService{
                    phone: phone
                } });
            return response.data.map(patientInformation => new PatientInformation(
-               patientInformation.id,
                patientInformation.patId,
                patientInformation.lastName,
                patientInformation.firstName,
@@ -61,16 +60,15 @@ class PatientinformationService{
        }
     }
 
-    async updatePatientInformation(id, patientInformation) {
+    async updatePatientInformation(patId, patientInformation) {
         try {
-            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + id, {patientInformation});
+            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + patId, {patientInformation});
             return response.data;
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 const errorMessages = error.response.data;
                 errorMessages.forEach((msg) => {
-                    console.error(msg); // Afficher dans la console ou mettre à jour l'UI
-                    // Mettez à jour l'UI pour afficher les erreurs
+                    console.error(msg);
                 });
             } else {
                 console.error("Erreur lors de la soumission du formulaire", error);

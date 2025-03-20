@@ -1,4 +1,4 @@
-package medi_labo.patients_informations;
+package medi_labo.patients_informations.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

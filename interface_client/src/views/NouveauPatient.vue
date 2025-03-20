@@ -53,6 +53,7 @@ import { useRouter } from "vue-router";
 import PatientInformationService from "@/services/PatientinformationService.js";
 import UserService from "@/services/UserService.js";
 import PatientInformation from "@/model/PatientInformation.js";
+import PatientToAdd from "@/model/PatientToAdd.js";
 
 const lastName = ref("");
 const firstName = ref("");
@@ -79,7 +80,7 @@ const addPatient = async () => {
 
 
 
-  const newPatient = new PatientInformation("","", lastName.value, firstName.value, birthDay.value, gender.value, address.value, phone.value)
+  const newPatient = new PatientToAdd( lastName.value, firstName.value, birthDay.value, gender.value, address.value, phone.value)
   await PatientInformationService.addPatient(newPatient);
   message.value = "patient ajouté"
 

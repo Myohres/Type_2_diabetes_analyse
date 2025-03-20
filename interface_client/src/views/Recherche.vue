@@ -4,7 +4,6 @@
     <div class="form-container">
     <form @submit.prevent="searchPatient">
 
-
       <input type="text" id="patId" v-model="patId" placeholder="Numéro patient"><br><br>
 
       <input type="text" id="lastName" v-model="lastName" placeholder="Nom"><br><br>
@@ -42,7 +41,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(patient, index) in patientList" :key="index">
+        <tr v-for="patient in patientList" :key="patient.patId">
           <td>{{patient.patId}}</td>
           <td>{{patient.lastName}}</td>
           <td>{{patient.firstName}}</td>
@@ -88,21 +87,16 @@ const searchPatient = async () => {
   }
 };
 
-const updateSelectedPatient = (patient) => {
-  selectedPatient.value = patient ? { ...patient } : null;
-  console.log("Patient sélectionné:", selectedPatient.value);
-};
-
 const goToPatientPage = (patient) => {
-  if (!patient || !patient.id) {
+  if (!patient || !patient.patId) {
     console.error("Erreur: patient invalide", patient);
     return;
   }
 
   router.push({
     name: 'PatientPage',
-    params: { id: String(patient.id) }, // S'assurer que l'ID est une chaîne
-    query: { data: encodeURIComponent(JSON.stringify(patient)) } // Éviter les erreurs JSON
+    params: { patId: String(patient.patId) },
+    query: { data: encodeURIComponent(JSON.stringify(patient)) }
   });
 };
 </script>

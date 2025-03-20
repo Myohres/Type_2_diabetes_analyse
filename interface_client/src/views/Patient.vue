@@ -94,7 +94,6 @@ onMounted(() => {
 
 const updatePatientInformation = async () => {
   const patientInformationToUpdate = new PatientInformation();
-  patientInformationToUpdate.id = patient.value.id;
   patientInformationToUpdate.patId = patient.value.patId;
   patientInformationToUpdate.lastName = patient.value.lastName;
   patientInformationToUpdate.firstName = patient.value.firstName;
@@ -104,20 +103,16 @@ const updatePatientInformation = async () => {
   patientInformationToUpdate.phone = patient.value.phone;
 
   try {
-    await PatientinformationService.updatePatientInformation(patient.value.id, patientInformationToUpdate);
-    errors.value = {}; // Réinitialiser les erreurs après une mise à jour réussie
+    await PatientinformationService.updatePatientInformation(patient.value.patId, patientInformationToUpdate);
+    errors.value = {};
   } catch (error) {
     if (error.response && error.response.data) {
-      // Supposons que le backend renvoie les erreurs dans un format JSON
-      // { fieldName: "Le champ est obligatoire", ... }
-      errors.value = error.response.data; // Mettre à jour les erreurs dans le frontend
+      errors.value = error.response.data;
     } else {
       console.error("Erreur lors de l'update du patient", error);
     }
   }
 }
-
-
 
 const getHistorique = async () => {
   try {
@@ -130,7 +125,6 @@ const getHistorique = async () => {
 const addNote = async () => {
   const patientHistorique = new PatientHistorique("", patient.value.patId, patient.value.lastName, noteToADD.value)
   try {
-    console.info("valeur " + patient.value.patId, patient.value.lastName, noteToADD.value)
     await PatientHistoriqueService.addNote(patientHistorique)
   } catch (error) {
     console.error("Erreur lors de l'ajout de la note'", error)

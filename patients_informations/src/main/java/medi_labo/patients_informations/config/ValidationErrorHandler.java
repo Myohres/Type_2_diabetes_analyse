@@ -1,4 +1,4 @@
-package medi_labo.patients_informations;
+package medi_labo.patients_informations.config;
 
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;

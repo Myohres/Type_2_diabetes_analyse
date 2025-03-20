@@ -2,7 +2,6 @@ package medi_labo.patients_informations;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,43 +32,19 @@ public class PatInformationController {
             return ResponseEntity.ok(
                     patInformationService.getAllPatInformation());
         } catch (NoSuchElementException e) {
-            log.error("getAllPatInformation error : " + e.getMessage());
+            log.error("getAllPatInformation error : {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("/id/")
-    public ResponseEntity<PatInformation> getPatientInformationById(String id) {
-        log.info("GET " + pathController + "/id/" +id);
-        try {
-            return ResponseEntity.ok(
-                    patInformationService.getPatInformationById(id));
-        } catch (NoSuchElementException e) {
-            log.error("getPatientInformationById error : " + e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/patId/")
-    public ResponseEntity<PatInformation> getPatientInformationByPatId(String patId){
-        log.info("GET " + pathController + "/patId/" +patId);
+    @GetMapping("/patId/{patId}")
+    public ResponseEntity<PatInformation> getPatientInformationByPatId(@PathVariable(name="patId") String patId){
+        log.info("GET " + pathController + "/patId/{}", patId);
         try {
             return ResponseEntity.ok(
                     patInformationService.getPatInformationByPatId(patId));
         } catch (NoSuchElementException e) {
-            log.error("getPatInformationByPatId error : " + e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/lastName/")
-    public ResponseEntity<PatInformation> getPatientInformationByLastName(String lastName) {
-        log.info("GET " + pathController + "/lastName/" +lastName);
-        try {
-            return ResponseEntity.ok(
-                    patInformationService.getPatInformationByLastName(lastName));
-        } catch (NoSuchElementException e) {
-            log.error("getPatientInformationByLastName error : " + e.getMessage());
+            log.error("getPatInformationByPatId error : {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -80,11 +55,9 @@ public class PatInformationController {
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String firstName,
             @Nullable
-
             @Pattern(regexp = "^$|\\d{4}-\\d{2}-\\d{2}", message = "birthDay doit être au format YYYY-MM-DD")
             @RequestParam(required = false)
             String birthDay,
-
             @Nullable
             @Pattern(
                     regexp = "^$|M|F",
@@ -103,7 +76,7 @@ public class PatInformationController {
                             lastName,firstName,birthDay,gender,address,phone)
             );} catch (NoSuchElementException e) {
 
-            log.error("getPatientByAllInformation error : " + e.getMessage());
+            log.error("getPatientByAllInformation error : {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -115,13 +88,13 @@ public class PatInformationController {
                     regexp = "\\d{4}-\\d{2}-\\d{2}",
                     message = "La date de naissance doit être au format YYYY/MM/DD")
             String birthDay) {
-        log.info("GET " + pathController + "/age/" +birthDay);
+        log.info("GET " + pathController + "/age/{}", birthDay);
         try {
             return ResponseEntity.ok(
                     patInformationService.calculateAgePatient(birthDay)
             );
         } catch (Exception e) {
-            log.error("getPatientAge error : " + e.getMessage());
+            log.error("getPatientAge error : {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -140,7 +113,7 @@ public class PatInformationController {
             return ResponseEntity.ok(
                     patInformationService.addPatInformation(patInformation)
             );} catch (Exception e){
-            log.error("createPatInformation error : " + e.getMessage());
+            log.error("createPatInformation error : {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -149,31 +122,31 @@ public class PatInformationController {
     public ResponseEntity<PatInformation> updatePatient(
             @PathVariable String id ,
             @Valid @RequestBody PatInformation patInformation) {
-        log.info("PUT " + pathController + "/update/" +id
-                +patInformation.getLastName()
-                +patInformation.getFirstName()
-                +patInformation.getBirthDay()
-                +patInformation.getGender()
-                +patInformation.getAddress()
-                +patInformation.getPhone());
+        log.info("PUT " + pathController + "/update/{}{}{}{}{}{}{}",
+                id, patInformation.getLastName(),
+                patInformation.getFirstName(),
+                patInformation.getBirthDay(),
+                patInformation.getGender(),
+                patInformation.getAddress(),
+                patInformation.getPhone());
         try {
             return ResponseEntity.ok(
                     patInformationService.updatePatInformation(id, patInformation)
             );
         } catch (NoSuchElementException e){
-            log.error("updatePatInformation error : " + e.getMessage());
+            log.error("updatePatInformation error : {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping("/delete/id/")
-    public ResponseEntity<Void> deletePatient(@RequestParam String id) {
-        log.info("DELETE " + pathController + "/delete/" +id);
+    @DeleteMapping("/delete/patId/")
+    public ResponseEntity<Void> deletePatient(@RequestParam String patId) {
+        log.info("DELETE " + pathController + "/delete/patId/{}", patId);
         try {
-            patInformationService.deletePatInformation(id);
+            patInformationService.deletePatInformation(patId);
             return ResponseEntity.noContent().build();
         } catch (NoSuchElementException e){
-            log.error("deletePatInformation error : " + e.getMessage());
+            log.error("deletePatInformation error : {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }

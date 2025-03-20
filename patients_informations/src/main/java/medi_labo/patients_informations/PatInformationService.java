@@ -1,13 +1,11 @@
 package medi_labo.patients_informations;
 
+import medi_labo.patients_informations.config.IdCounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -18,17 +16,11 @@ public class PatInformationService {
     @Autowired
     private PatInformationRepository patInformationRepository;
 
+    @Autowired
+    private IdCounterService idCounterService;
+
     public List<PatInformation> getAllPatInformation() {
         return patInformationRepository.findAll();
-    }
-
-    public PatInformation getPatInformationById(String id) {
-        Optional<PatInformation> patInformation = patInformationRepository.findById(id);
-        if (patInformation.isPresent()){
-            return patInformation.get();
-        } else {
-            throw new NoSuchElementException("Patient not found");
-        }
     }
 
     public PatInformation getPatInformationByPatId(String patId) {
@@ -50,33 +42,16 @@ public class PatInformationService {
         } else {
             return patInformationList;
         }
-
-    }
-    public PatInformation getPatInformationByLastName(String lastName) {
-        Optional<PatInformation> patInformation = patInformationRepository.findByLastName(lastName);
-        if (patInformation.isPresent()){
-            return patInformation.get();
-        } else {
-            throw new NoSuchElementException("Patient not found");
-        }
-    }
-
-    public List<PatInformation> getPatInformationByName(String lastName, String firstName) {
-        List<PatInformation> patInformationList =
-                patInformationRepository.findByLastNameOrFirstName(lastName, firstName);
-        if (patInformationList.isEmpty()){
-            throw new NoSuchElementException("Patient not found");
-        } else {
-            return patInformationList;
-        }
     }
 
     public PatInformation addPatInformation(PatInformation patInformation) {
+        String patId = Integer.toString(idCounterService.generateCounter("patId"));
+        patInformation.setPatId(patId);
         return patInformationRepository.save(patInformation);
     }
 
-    public PatInformation updatePatInformation(String id, PatInformation patInformation) {
-        PatInformation patInformationToUpdate = getPatInformationById(id);
+    public PatInformation updatePatInformation(String patId, PatInformation patInformation) {
+        PatInformation patInformationToUpdate = getPatInformationByPatId(patId);
         patInformationToUpdate.setLastName(patInformation.getLastName());
         patInformationToUpdate.setFirstName(patInformation.getFirstName());
         patInformationToUpdate.setBirthDay(patInformation.getBirthDay());
@@ -86,9 +61,9 @@ public class PatInformationService {
         return patInformationRepository.save(patInformationToUpdate);
     }
 
-    public void deletePatInformation(String id) {
-        PatInformation patInformation = getPatInformationById(id);
-        patInformationRepository.deleteById(patInformation.getId());
+    public void deletePatInformation(String patId) {
+        PatInformation patInformation = getPatInformationByPatId(patId);
+        patInformationRepository.deleteById(patInformation.getPatId());
     }
 
     public Integer calculateAgePatient(String birthday) {

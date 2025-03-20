@@ -1,5 +1,4 @@
-export default class PatientInformation {
-    patId;
+export default class PatientToAdd {
     lastName;
     firstName;
     birthDay;
@@ -7,8 +6,7 @@ export default class PatientInformation {
     address;
     phone;
 
-    constructor(patId, lastName, firstName, birthDay, gender, address, phone) {
-        this.patId = patId;
+    constructor( lastName, firstName, birthDay, gender, address, phone) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthDay = birthDay;

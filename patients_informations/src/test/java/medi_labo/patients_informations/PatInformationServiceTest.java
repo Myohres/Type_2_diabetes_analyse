@@ -1,11 +1,14 @@
 package medi_labo.patients_informations;
 
+import medi_labo.patients_informations.config.IdCounterRepo;
+import medi_labo.patients_informations.config.IdCounterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -26,13 +29,16 @@ class PatInformationServiceTest {
     @Mock
     private PatInformationRepository patInformationRepository;
 
+    @Mock
+    IdCounterService idCounterService;
+
     @InjectMocks
     private PatInformationService patInformationService;
 
     @BeforeEach
     public void setUp() {
         patInformation = new PatInformation();
-        patInformation.setId("0001");
+        patInformation.setPatId("0001");
         patInformation.setLastName("LastName");
         patInformation.setFirstName("FirstName");
         patInformation.setBirthDay("2000-01-01");
@@ -50,16 +56,16 @@ class PatInformationServiceTest {
     }
 
     @Test
-    void getPatInformationById() {
-        when(patInformationRepository.findById(any())).thenReturn(Optional.of(patInformation));
-        PatInformation patInformation1 = patInformationService.getPatInformationById("1");
-        assertEquals(patInformation1.getId(),patInformation.getId());
+    void getPatInformationByPatId() {
+        when(patInformationRepository.findByPatId(any())).thenReturn(Optional.of(patInformation));
+        PatInformation patInformation1 = patInformationService.getPatInformationByPatId("1");
+        assertEquals(patInformation1.getPatId(),patInformation.getPatId());
     }
 
     @Test
     void getPatInformationByIdNotFound() {
-        when(patInformationRepository.findById(any())).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, ()-> patInformationService.getPatInformationById("1"));
+        when(patInformationRepository.findByPatId(any())).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class, ()-> patInformationService.getPatInformationByPatId("1"));
     }
 
     @Test
@@ -81,36 +87,22 @@ class PatInformationServiceTest {
                 "1","","","","","",""));
     }
 
-    @Test
-    void getPatInformationByLastName() {
-        when(patInformationRepository.findByLastName(any())).thenReturn(Optional.of(patInformation));
-        PatInformation patInformation1 = patInformationService.getPatInformationByLastName("1");
-        assertEquals(patInformation1.getId(),patInformation.getId());
-    }
-    @Test
-    void getPatInformationByLastNameNotFound() {
-        when(patInformationRepository.findByLastName(any())).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, ()-> patInformationService.getPatInformationByLastName("1"));
-    }
-
-    @Test
-    void getPatInformationByName() {
-    }
 
     @Test
     void addPatInformation() {
+        when(idCounterService.generateCounter(any())).thenReturn(1);
         when(patInformationRepository.save(any())).thenReturn(patInformation);
         PatInformation patInformation1 = patInformationService.addPatInformation(patInformation);
-        assertEquals(patInformation1.getId(),patInformation.getId());
+        assertEquals(patInformation1.getPatId(),patInformation.getPatId());
         verify(patInformationRepository,times(1)).save(any());
     }
 
     @Test
     void updatePatInformation() {
-        when(patInformationRepository.findById(any())).thenReturn(Optional.of(patInformation));
+        when(patInformationRepository.findByPatId(any())).thenReturn(Optional.of(patInformation));
         when(patInformationRepository.save(any())).thenReturn(patInformation);
         PatInformation patInformation1 = new PatInformation();
-        patInformation1.setId("0001");
+        patInformation1.setPatId("0001");
         patInformation1.setLastName("LastName");
         patInformation1.setFirstName("FirstName");
         patInformation1.setBirthDay("2000-01-01");
