@@ -62,7 +62,7 @@ class PatientinformationService{
 
     async updatePatientInformation(patId, patientInformation) {
         try {
-            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + patId, {patientInformation});
+            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + patId, patientInformation);
             return response.data;
         } catch (error) {
             if (error.response && error.response.status === 400) {

@@ -73,6 +73,7 @@ import Bilan from "@/model/Bilan.js";
 
 
 const route = useRoute();
+
 const patient = ref(null);
 const patientNoteList = ref(null);
 const noteToADD = ref(null);
@@ -135,7 +136,7 @@ const addNote = async () => {
 
 const generateBilan = async () => {
   const patientNoteListToBilan = patientNoteList.value.map(patientHistorique => patientHistorique.note)
-  const requestBilan = new RequestBilan(patient.value.patId,patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
+  const requestBilan = new RequestBilan(patient.value.patId, patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
   let bilan2 = new Bilan("","");
   try {
     bilan2 = await PatientBilanService.getPatientBilan(requestBilan);
