@@ -24,6 +24,16 @@ class PatientinformationService{
 
     }
 
+    async getPatientByPatId(patId){
+       try {
+           const response = await axios.get(`${PATIENT_INFORMATION_API_BASE_URL}patId/${patId}`);
+           return response.data;
+       } catch (error) {
+           console.error('Erreur lors de la récupération de utilisateur:', error);
+           throw error;
+       }
+    }
+
     async getPatientByAllInformation(patId, lastName, firstName, birthDay, gender, address, phone){
        try {
            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'information/', {

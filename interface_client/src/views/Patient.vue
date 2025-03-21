@@ -10,18 +10,18 @@
     <p>Téléphone: {{ patient?.phone }}</p>
   </div>
 
-  <div class="updatePatient">
+  <!--<div class="updatePatient">
     <h2>Modifier les informations du patient</h2>
-    <div v-if="patient">
-      <div v-for="(value, key) in patient" :key="key" class="input-group">
+    <div v-if="patientToUpdate">
+      <div v-for="(value, key) in patientToUpdate" :key="key" class="input-group">
         <label :for="key">{{ key }}</label>
         <input
             :id="key"
             type="text"
-            v-model="patient[key]"
+            v-model="patientToUpdate[key]"
             :class="{'is-invalid': errors[key]}"
         />
-        <!-- Affichage des erreurs -->
+
         <div v-if="errors[key]" class="error-message">
           {{ errors[key] }}
         </div>
@@ -30,7 +30,32 @@
       <button @click="updatePatientInformation">Mettre à jour</button>
     </div>
     <p v-else>Chargement des données...</p>
-  </div>
+  </div>-->
+
+  <div class="body">
+    <h2>Modifier les informations du patient</h2>
+    <div class="form-container">
+      <form @submit.prevent="updatePatientInformation">
+
+        <input type="text" id="lastName" v-model="patientToUpdate.lastName" placeholder="Nom"><br><br>
+
+        <input type="text" id="firstName" v-model="patientToUpdate.firstName" placeholder="Prénom"><br><br>
+
+        <input type="date" id="birthDay" v-model="patientToUpdate.birthDay"><br><br>
+
+        <select id="gender" v-model="patientToUpdate.gender" >
+          <option value="">Sexe</option>
+          <option value="M">Homme</option>
+          <option value="F">Femme</option>
+        </select><br><br>
+
+        <input type="text" id="address" v-model="patientToUpdate.address" placeholder="Adresse"><br><br>
+
+        <input type="text" id="phone" v-model="patientToUpdate.phone" placeholder="Téléphonne"><br><br>
+
+        <button type="button" @click="updatePatientInformation">Mettre à jour</button>
+      </form>
+    </div>
 
 
   <div>
@@ -58,6 +83,7 @@
     <button @click="generateBilan">Générer bilan</button>
 
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -75,6 +101,7 @@ import Bilan from "@/model/Bilan.js";
 const route = useRoute();
 
 const patient = ref(null);
+const patientToUpdate = new PatientInformation();
 const patientNoteList = ref(null);
 const noteToADD = ref(null);
 const bilanMessage = ref(null);
@@ -84,6 +111,14 @@ onMounted(() => {
   try {
     if (route.query.data) {
       patient.value = JSON.parse(decodeURIComponent(route.query.data));
+      patientToUpdate.patId = patient.value.patId;
+      patientToUpdate.lastName = patient.value.lastName ;
+      patientToUpdate.firstName = patient.value.firstName;
+      patientToUpdate.birthDay = patient.value.birthDay;
+      patientToUpdate.gender = patient.value.gender;
+      patientToUpdate.address = patient.value.address;
+      patientToUpdate.phone = patient.value.phone;
+
       getHistorique()
     } else {
       console.warn("Aucune donnée de patient reçue.");
@@ -95,16 +130,17 @@ onMounted(() => {
 
 const updatePatientInformation = async () => {
   const patientInformationToUpdate = new PatientInformation();
-  patientInformationToUpdate.patId = patient.value.patId;
-  patientInformationToUpdate.lastName = patient.value.lastName;
-  patientInformationToUpdate.firstName = patient.value.firstName;
-  patientInformationToUpdate.birthDay = patient.value.birthDay;
-  patientInformationToUpdate.gender = patient.value.gender;
-  patientInformationToUpdate.address = patient.value.address;
-  patientInformationToUpdate.phone = patient.value.phone;
+  patientInformationToUpdate.patId = patientToUpdate.patId;
+  patientInformationToUpdate.lastName = patientToUpdate.lastName;
+  patientInformationToUpdate.firstName = patientToUpdate.firstName;
+  patientInformationToUpdate.birthDay = patientToUpdate.birthDay;
+  patientInformationToUpdate.gender = patientToUpdate.gender;
+  patientInformationToUpdate.address = patientToUpdate.address;
+  patientInformationToUpdate.phone = patientToUpdate.phone;
 
   try {
     await PatientinformationService.updatePatientInformation(patient.value.patId, patientInformationToUpdate);
+    patient.value = await PatientinformationService.getPatientByPatId(patientInformationToUpdate.patId);
     errors.value = {};
   } catch (error) {
     if (error.response && error.response.data) {
@@ -113,6 +149,9 @@ const updatePatientInformation = async () => {
       console.error("Erreur lors de l'update du patient", error);
     }
   }
+
+
+
 }
 
 const getHistorique = async () => {
