@@ -3,16 +3,22 @@ spring:
     gateway:
       routes:
         - id: patient_information
-          uri: http://localhost:8081
+          uri: http://localhost:8080
           predicates:
             - Path=/patient/**  # Toutes les requêtes "/users/**" iront vers http://localhost:8081
 
         - id: patient_historique
-          uri: http://localhost:8082
+          uri: http://localhost:8081
           predicates:
             - Path=/historique/**  # "/orders/**" est redirigé vers http://localhost:8082
 
         - id: patient_bilan
-          uri: http://localhost:8083
+          uri: http://localhost:8082
           predicates:
             - Path=/bilan/**
+
+      management:
+        endpoints:
+          web:
+            exposure:
+              include: "*"
