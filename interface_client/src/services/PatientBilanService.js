@@ -2,7 +2,7 @@ import axios from "axios";
 import PatientInformation from "@/model/PatientInformation.js";
 import Bilan from "@/model/Bilan.js";
 
-const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8082/assessment'
+const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/assessment'
 
 class PatientBilanService{
     async getPatientBilan(requestBilan){

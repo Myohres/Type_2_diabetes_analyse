@@ -27,11 +27,13 @@ const router = createRouter({
       path: '/recherche',
       name: 'recherche',
       component: () => import('@/views/Recherche.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/patient',
       name: 'patient',
       component: () => import('../views/Patient.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/patient/:patId',
@@ -43,11 +45,13 @@ const router = createRouter({
       path: '/parametre',
       name: 'parametre',
       component: () => import('../views/Parametre.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/nouveauPatient',
       name: 'nouveauPatient',
-      component: () => import('../views/NouveauPatient.vue')
+      component: () => import('../views/NouveauPatient.vue'),
+      meta: { requiresAuth: true },
     }
   ],
 })

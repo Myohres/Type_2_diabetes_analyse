@@ -45,6 +45,16 @@ class UserService{
             throw error;
         }
     }
+
+    async getLogin(login){
+        try {
+            const response = await axios.post(`${PATIENT_INFORMATION_API_BASE_URL}/login/`)
+            return response.data;
+        } catch (error) {
+            console.error('Service getLogin error : ', error);
+            throw error;
+        }
+    }
 }
 
 export default new UserService()

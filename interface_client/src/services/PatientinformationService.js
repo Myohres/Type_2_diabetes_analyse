@@ -2,7 +2,7 @@ import axios from "axios";
 import PatientInformation from "@/model/PatientInformation.js";
 
 
-const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8080/patient/'
+const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/patient/'
 
 
 class PatientinformationService{

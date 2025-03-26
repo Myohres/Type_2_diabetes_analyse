@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -14,8 +17,15 @@ import java.util.NoSuchElementException;
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    @Autowired
+
     private UserService userService;
+
+    private final AuthenticationManager authenticationManager;
+
+    public AuthController(AuthenticationManager authenticationManager, UserService userService) {
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+    }
 
     @GetMapping("/{login}")
     public ResponseEntity<User> getUserByLogin(@PathVariable("login") String login) {
@@ -86,6 +96,19 @@ public class UserController {
             log.error("DeleteUser error : " + e.getMessage());
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+
+
+    @PostMapping("/login")
+    public String login(@RequestBody AuthRequest request) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
+        );
+
+        User user = (User) authentication.getPrincipal();
+        return userService.generateToken(user.getLogin());
     }
 
 
