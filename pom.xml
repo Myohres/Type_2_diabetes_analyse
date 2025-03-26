@@ -55,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>medi_labo</groupId>
-            <artifactId>patient-patAssessment</artifactId>
+            <artifactId>patient-assessment</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
@@ -73,10 +73,8 @@
     <modules>
         <module>patient-information</module>
         <module>patient-history</module>
-        <module>patient-patAssessment</module>
+        <module>patient-assessment</module>
         <module>gateway</module>
-
-
     </modules>
 
 </project>

@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>medi_labo</groupId>
-    <artifactId>patient-patAssessment</artifactId>
+    <artifactId>patient-assessment</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>patient_bilan</name>
     <description>patient_bilan</description>
