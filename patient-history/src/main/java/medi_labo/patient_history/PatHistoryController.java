@@ -42,8 +42,8 @@ public class PatHistoryController {
         }
     }
 
-    @GetMapping("/patId")
-    public ResponseEntity<List<PatHistory>> getPatHistoryByPatId(@RequestParam("patId") String patId) {
+    @GetMapping("/patId/{patId}")
+    public ResponseEntity<List<PatHistory>> getPatHistoryByPatId(@PathVariable("patId") String patId) {
         log.info("GET/History/patId{}", patId);
         try {
             return ResponseEntity.ok(patHistoryService.getPatHistoryByPatId(patId));
