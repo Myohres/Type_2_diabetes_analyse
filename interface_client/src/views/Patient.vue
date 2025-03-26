@@ -1,24 +1,24 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="detailPat">
     <h2>Détails du Patient</h2>
-    <p>Numéro patient: {{ patient?.patId }}</p>
-    <p>Nom: {{ patient?.lastName }}</p>
-    <p>Prénom: {{ patient?.firstName }}</p>
-    <p>Date de naissance: {{ patient?.birthDay }}</p>
-    <p>Sexe: {{ patient?.gender }}</p>
-    <p>Adresse: {{ patient?.address }}</p>
-    <p>Téléphone: {{ patient?.phone }}</p>
+    <p>Numéro patient: {{ patInformation?.patId }}</p>
+    <p>Nom: {{ patInformation?.lastName }}</p>
+    <p>Prénom: {{ patInformation?.firstName }}</p>
+    <p>Date de naissance: {{ patInformation?.birthDay }}</p>
+    <p>Sexe: {{ patInformation?.gender }}</p>
+    <p>Adresse: {{ patInformation?.address }}</p>
+    <p>Téléphone: {{ patInformation?.phone }}</p>
   </div>
 
   <!--<div class="updatePatient">
     <h2>Modifier les informations du patient</h2>
-    <div v-if="patientToUpdate">
-      <div v-for="(value, key) in patientToUpdate" :key="key" class="input-group">
+    <div v-if="patInformationToUpdate">
+      <div v-for="(value, key) in patInformationToUpdate" :key="key" class="input-group">
         <label :for="key">{{ key }}</label>
         <input
             :id="key"
             type="text"
-            v-model="patientToUpdate[key]"
+            v-model="patInformationToUpdate[key]"
             :class="{'is-invalid': errors[key]}"
         />
 
@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <button @click="updatePatientInformation">Mettre à jour</button>
+      <button @click="updatePatInformation">Mettre à jour</button>
     </div>
     <p v-else>Chargement des données...</p>
   </div>-->
@@ -35,25 +35,25 @@
   <div class="body">
     <h2>Modifier les informations du patient</h2>
     <div class="form-container">
-      <form @submit.prevent="updatePatientInformation">
+      <form @submit.prevent="updatePatInformation">
 
-        <input type="text" id="lastName" v-model="patientToUpdate.lastName" placeholder="Nom"><br><br>
+        <input type="text" id="lastName" v-model="patInformationToUpdate.lastName" placeholder="Nom"><br><br>
 
-        <input type="text" id="firstName" v-model="patientToUpdate.firstName" placeholder="Prénom"><br><br>
+        <input type="text" id="firstName" v-model="patInformationToUpdate.firstName" placeholder="Prénom"><br><br>
 
-        <input type="date" id="birthDay" v-model="patientToUpdate.birthDay"><br><br>
+        <input type="date" id="birthDay" v-model="patInformationToUpdate.birthDay"><br><br>
 
-        <select id="gender" v-model="patientToUpdate.gender" >
+        <select id="gender" v-model="patInformationToUpdate.gender" >
           <option value="">Sexe</option>
           <option value="M">Homme</option>
           <option value="F">Femme</option>
         </select><br><br>
 
-        <input type="text" id="address" v-model="patientToUpdate.address" placeholder="Adresse"><br><br>
+        <input type="text" id="address" v-model="patInformationToUpdate.address" placeholder="Adresse"><br><br>
 
-        <input type="text" id="phone" v-model="patientToUpdate.phone" placeholder="Téléphonne"><br><br>
+        <input type="text" id="phone" v-model="patInformationToUpdate.phone" placeholder="Téléphonne"><br><br>
 
-        <button type="button" @click="updatePatientInformation">Mettre à jour</button>
+        <button type="button" @click="updatePatInformation">Mettre à jour</button>
       </form>
     </div>
 
@@ -63,7 +63,7 @@
       <h2>Historique du patient</h2>
       <table class="table table-striped">
         <tbody>
-        <tr v-for="(patientHistorique, index) in patientNoteList" :key="index">
+        <tr v-for="(patientHistorique, index) in patHistory" :key="index">
           <td>{{ patientHistorique.note }}</td>
         </tr>
         </tbody>
@@ -78,9 +78,9 @@
   </div>
 
   <div class="BilanPat">
-    <h2>Bilan du patient</h2>
-    <div>{{bilanMessage}}</div>
-    <button @click="generateBilan">Générer patAssessment</button>
+    <h2>PatAssessment du patient</h2>
+    <div>{{assessmentMessage}}</div>
+    <button @click="generatePatAssessment">Générer patAssessment</button>
 
   </div>
   </div>
@@ -89,37 +89,37 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute} from "vue-router";
-import PatientinformationService from "@/services/PatientinformationService.js";
-import PatientHistoriqueService from "@/services/PatientHistoriqueService.js";
-import PatientBilanService from "@/services/PatientBilanService.js";
-import PatientInformation from "@/model/PatientInformation.js";
-import PatientHistorique from "@/model/PatientHistorique.js";
-import RequestBilan from "@/model/RequestBilan.js";
-import Bilan from "@/model/Bilan.js";
+import PatientinformationService from "@/services/PatInformationService.js";
+import PatHistoryService from "@/services/PatientHistoryService.js";
+import PatAssessmentService from "@/services/PatAssessmentService.js";
+import PatInformation from "@/model/PatInformation.js";
+import PatHistory from "@/model/PatHistory.js";
+import RequestPatAssessment from "@/model/RequestPatAssessment.js";
+import PatAssessment from "@/model/PatAssessment.js";
 
 
 const route = useRoute();
 
-const patient = ref(null);
-const patientToUpdate = new PatientInformation();
-const patientNoteList = ref(null);
+const patInformation = ref(null);
+const patInformationToUpdate = new PatInformation();
+const patHistory = ref(null);
 const noteToADD = ref(null);
-const bilanMessage = ref(null);
+const assessmentMessage = ref(null);
 const errors = ref({});
 
 onMounted(() => {
   try {
     if (route.query.data) {
-      patient.value = JSON.parse(decodeURIComponent(route.query.data));
-      patientToUpdate.patId = patient.value.patId;
-      patientToUpdate.lastName = patient.value.lastName ;
-      patientToUpdate.firstName = patient.value.firstName;
-      patientToUpdate.birthDay = patient.value.birthDay;
-      patientToUpdate.gender = patient.value.gender;
-      patientToUpdate.address = patient.value.address;
-      patientToUpdate.phone = patient.value.phone;
+      patInformation.value = JSON.parse(decodeURIComponent(route.query.data));
+      patInformationToUpdate.patId = patInformation.value.patId;
+      patInformationToUpdate.lastName = patInformation.value.lastName ;
+      patInformationToUpdate.firstName = patInformation.value.firstName;
+      patInformationToUpdate.birthDay = patInformation.value.birthDay;
+      patInformationToUpdate.gender = patInformation.value.gender;
+      patInformationToUpdate.address = patInformation.value.address;
+      patInformationToUpdate.phone = patInformation.value.phone;
 
-      getHistorique()
+      getPatHistory()
     } else {
       console.warn("Aucune donnée de patient reçue.");
     }
@@ -128,19 +128,19 @@ onMounted(() => {
   }
 });
 
-const updatePatientInformation = async () => {
-  const patientInformationToUpdate = new PatientInformation();
-  patientInformationToUpdate.patId = patientToUpdate.patId;
-  patientInformationToUpdate.lastName = patientToUpdate.lastName;
-  patientInformationToUpdate.firstName = patientToUpdate.firstName;
-  patientInformationToUpdate.birthDay = patientToUpdate.birthDay;
-  patientInformationToUpdate.gender = patientToUpdate.gender;
-  patientInformationToUpdate.address = patientToUpdate.address;
-  patientInformationToUpdate.phone = patientToUpdate.phone;
+const updatePatInformation = async () => {
+  const patientInformationToUpdate = new PatInformation();
+  patientInformationToUpdate.patId = patInformationToUpdate.patId;
+  patientInformationToUpdate.lastName = patInformationToUpdate.lastName;
+  patientInformationToUpdate.firstName = patInformationToUpdate.firstName;
+  patientInformationToUpdate.birthDay = patInformationToUpdate.birthDay;
+  patientInformationToUpdate.gender = patInformationToUpdate.gender;
+  patientInformationToUpdate.address = patInformationToUpdate.address;
+  patientInformationToUpdate.phone = patInformationToUpdate.phone;
 
   try {
-    await PatientinformationService.updatePatientInformation(patient.value.patId, patientInformationToUpdate);
-    patient.value = await PatientinformationService.getPatientByPatId(patientInformationToUpdate.patId);
+    await PatientinformationService.updatePatInformation(patInformation.value.patId, patientInformationToUpdate);
+    patInformation.value = await PatientinformationService.getPatInformationByPatId(patientInformationToUpdate.patId);
     errors.value = {};
   } catch (error) {
     if (error.response && error.response.data) {
@@ -154,34 +154,34 @@ const updatePatientInformation = async () => {
 
 }
 
-const getHistorique = async () => {
+const getPatHistory = async () => {
   try {
-    patientNoteList.value = await PatientHistoriqueService.getPatientHistoriqueByPatId(patient.value.patId)
+    patHistory.value = await PatHistoryService.getPatHistoryByPatId(patInformation.value.patId)
   } catch (error) {
     console.error("Erreur lors de la recherche de l'historique du patient", error)
   }
 }
 
 const addNote = async () => {
-  const patientHistorique = new PatientHistorique("", patient.value.patId, patient.value.lastName, noteToADD.value)
+  const patHistory = new PatHistory("", patInformation.value.patId, patInformation.value.lastName, noteToADD.value)
   try {
-    await PatientHistoriqueService.addNote(patientHistorique)
+    await PatHistoryService.addNote(patHistory)
   } catch (error) {
     console.error("Erreur lors de l'ajout de la note'", error)
   }
   noteToADD.value = "";
-  await getHistorique();
+  await getPatHistory();
 }
 
-const generateBilan = async () => {
-  const patientNoteListToBilan = patientNoteList.value.map(patientHistorique => patientHistorique.note)
-  const requestBilan = new RequestBilan(patient.value.patId, patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
-  let bilan2 = new Bilan("","");
+const generatePatAssessment = async () => {
+  const patientNoteListToPatAssessment = patHistory.value.map(patHistory => patHistory.note)
+  const requestPatAssessment = new RequestPatAssessment(patInformation.value.patId, patientNoteListToPatAssessment, patInformation.value.birthDay, patInformation.value.gender)
+  let patAssessment2 = new PatAssessment("","");
   try {
-    bilan2 = await PatientBilanService.getPatientBilan(requestBilan);
-    bilanMessage.value = bilan2.riskLevel
+    patAssessment2 = await PatAssessmentService.getPatAssessment(requestPatAssessment);
+    assessmentMessage.value = patAssessment2.riskLevel
   } catch (error) {
-    console.error("valeur " + patient.value.id, patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
+    console.error("valeur " + patInformation.value.id, patientNoteListToPatAssessment, patInformation.value.birthDay, patInformation.value.gender)
     console.error("Erreur lors du chargement du patAssessment " +error)
   }
 

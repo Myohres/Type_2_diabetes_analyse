@@ -61,8 +61,8 @@
 </template>
 
 <script>
-import PatientInformationService from "@/services/PatientinformationService.js";
-import PatientInformation from "@/model/PatientInformation.js";
+import PatientInformationService from "@/services/PatInformationService.js";
+import PatInformation from "@/model/PatInformation.js";
 
 export default {
   name: "PatientResearch",
@@ -76,7 +76,7 @@ export default {
       address: "",
       phone: "",
       patientList: [], // Liste des patients trouvés
-      selectedPatient: new PatientInformation()  // Patient sélectionné
+      selectedPatient: new PatInformation()  // Patient sélectionné
     };
   },
 
@@ -92,7 +92,7 @@ export default {
           phone: this.phone
         };
 
-        this.patientList = await PatientInformationService.getPatientByAllInformation(this.lastName,this.firstName,this.birthDay,this.gender,this.address,this.phone);
+        this.patientList = await PatientInformationService.getPatInformationByAllInformation(this.lastName,this.firstName,this.birthDay,this.gender,this.address,this.phone);
       } catch (error) {
         console.error("Erreur lors de la recherche des patients:", error);
       }
@@ -100,7 +100,7 @@ export default {
 
     updateSelectedPatient(patient) {
       if (patient) {
-        this.selectedPatient = new PatientInformation(
+        this.selectedPatient = new PatInformation(
             patient.id,
             patient.lastName,
             patient.firstName,
@@ -111,7 +111,7 @@ export default {
         );
         console.log('Patient sélectionné:', this.selectedPatient);
       } else {
-        this.selectedPatient = new PatientInformation();
+        this.selectedPatient = new PatInformation();
         console.log('Aucun patient sélectionné');
       }
     },

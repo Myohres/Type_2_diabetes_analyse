@@ -1,6 +1,6 @@
 <script >
-import PatientInformationService from '../services/PatientinformationService.js'
-import PatientInformation from "@/model/PatientInformation.js";
+import PatientInformationService from '../services/PatInformationService.js'
+import PatInformation from "@/model/PatInformation.js";
 export default {
   name: "PatientBilan",
 
@@ -10,7 +10,7 @@ export default {
   gender: "",
   address: "",
   phone: "",
-  patientInformation: PatientInformation = this.patientInformation,
+  patientInformation: PatInformation = this.patientInformation,
 
   data(){
     return {
@@ -20,19 +20,19 @@ export default {
 
   methods: {
     getAllPatient() {
-      PatientInformationService.getAllPatientInformation().then((response) => {
+      PatientInformationService.getAllPatInformation().then((response) => {
         this.patientList = response.data();
       });
     }
   },
   async created() {
-    this.patientList = await PatientInformationService.getAllPatientInformation()
+    this.patientList = await PatientInformationService.getAllPatInformation()
   }
 }
 </script>
 
 <template>
-  <H1>Bilan</H1>
+  <H1>PatAssessment</H1>
   <div>Numéro patient</div>
   <div>Bouton lancer patAssessment</div>
 

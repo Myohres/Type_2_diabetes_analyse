@@ -38,7 +38,7 @@
           <div class="error" ></div>
         </div>
 
-        <button type="button" @click="addPatient">Ajouter patient</button>
+        <button type="button" @click="addPatientInformation">Ajouter patient</button>
         <div class="message">{{ message }}</div>
       </form>
     </div>
@@ -50,10 +50,10 @@
 <script setup>
 import {reactive, ref} from "vue";
 import { useRouter } from "vue-router";
-import PatientInformationService from "@/services/PatientinformationService.js";
+import PatInformationService from "@/services/PatInformationService.js";
 import UserService from "@/services/UserService.js";
-import PatientInformation from "@/model/PatientInformation.js";
-import PatientToAdd from "@/model/PatientToAdd.js";
+import PatInformation from "@/model/PatInformation.js";
+import PatInformationToAdd from "@/model/PatInformationToAdd.js";
 
 const lastName = ref("");
 const firstName = ref("");
@@ -71,7 +71,7 @@ const errors = reactive({
   phone: "",
 });
 
-const addPatient = async () => {
+const addPatientInformation = async () => {
   message.value = "";
   errors.lastName = lastName.value ? "" : "Le nom est obligatoire.";
   errors.firstName = firstName.value ? "" : "Le prénom est obligatoire.";
@@ -80,8 +80,8 @@ const addPatient = async () => {
 
 
 
-  const newPatient = new PatientToAdd( lastName.value, firstName.value, birthDay.value, gender.value, address.value, phone.value)
-  await PatientInformationService.addPatient(newPatient);
+  const patInformationToAdd = new PatInformationToAdd( lastName.value, firstName.value, birthDay.value, gender.value, address.value, phone.value)
+  await PatInformationService.addPatInformation(patInformationToAdd);
   message.value = "patient ajouté"
 
 

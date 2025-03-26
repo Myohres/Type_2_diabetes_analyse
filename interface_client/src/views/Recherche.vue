@@ -62,7 +62,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import PatientInformationService from "@/services/PatientinformationService.js";
+import PatInformationService from "@/services/PatInformationService.js";
 
 // Déclaration des variables réactives
 const router = useRouter();
@@ -79,7 +79,7 @@ const selectedPatient = ref(null);
 // Méthode de recherche des patients
 const searchPatient = async () => {
   try {
-    patientList.value = await PatientInformationService.getPatientByAllInformation(patId.value,
+    patientList.value = await PatInformationService.getPatInformationByAllInformation(patId.value,
         lastName.value, firstName.value, birthDay.value, gender.value, address.value, phone.value
     );
   } catch (error) {

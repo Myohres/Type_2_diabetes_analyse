@@ -1,4 +1,4 @@
-export default class PatientHistorique {
+export default class PatHistory {
     constructor(id, patId, patient, note) {
         this.id = id;
         this.patId = patId;

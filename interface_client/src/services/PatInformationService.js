@@ -1,15 +1,15 @@
 import axios from "axios";
-import PatientInformation from "@/model/PatientInformation.js";
+import PatInformation from "@/model/PatInformation.js";
 
 
-const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/patient/'
+const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/information/'
 
 
-class PatientinformationService{
-   async getAllPatientInformation(){
+class PatInformationService {
+   async getAllPatInformation(){
        try {
            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL);
-           return response.data.map(patientInformation => new PatientInformation(
+           return response.data.map(patientInformation => new PatInformation(
                patientInformation.patId,
                patientInformation.lastName,
                patientInformation.firstName,
@@ -18,23 +18,23 @@ class PatientinformationService{
                patientInformation.address,
                patientInformation.phone));
        } catch (error) {
-           console.error('Erreur lors de la récupération des utilisateurs:', error);
+           console.error('Erreur lors de la récupération des informations des utilisateurs:', error);
            throw error;
        }
 
     }
 
-    async getPatientByPatId(patId){
+    async getPatInformationByPatId(patId){
        try {
            const response = await axios.get(`${PATIENT_INFORMATION_API_BASE_URL}patId/${patId}`);
            return response.data;
        } catch (error) {
-           console.error('Erreur lors de la récupération de utilisateur:', error);
+           console.error('Erreur lors de la récupération des informations des utilisateurs:', error);
            throw error;
        }
     }
 
-    async getPatientByAllInformation(patId, lastName, firstName, birthDay, gender, address, phone){
+    async getPatInformationByAllInformation(patId, lastName, firstName, birthDay, gender, address, phone){
        try {
            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'information/', {
                params: {
@@ -46,7 +46,7 @@ class PatientinformationService{
                    address: address,
                    phone: phone
                } });
-           return response.data.map(patientInformation => new PatientInformation(
+           return response.data.map(patientInformation => new PatInformation(
                patientInformation.patId,
                patientInformation.lastName,
                patientInformation.firstName,
@@ -60,9 +60,9 @@ class PatientinformationService{
        }
     }
 
-    async addPatient(newPatient) {
+    async addPatInformation(patInformation) {
        try {
-           const response = await axios.post(PATIENT_INFORMATION_API_BASE_URL + 'add/', newPatient);
+           const response = await axios.post(PATIENT_INFORMATION_API_BASE_URL + 'add/', patInformation);
            return response.data;
        } catch (error){
            console.error("Erreur lors de l'ajout d'un nouveau patient", error);
@@ -70,9 +70,9 @@ class PatientinformationService{
        }
     }
 
-    async updatePatientInformation(patId, patientInformation) {
+    async updatePatInformation(patId, patInformation) {
         try {
-            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + patId, patientInformation);
+            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + patId, patInformation);
             return response.data;
         } catch (error) {
             if (error.response && error.response.status === 400) {
@@ -87,4 +87,4 @@ class PatientinformationService{
     }
 }
 
-export default new PatientinformationService()
+export default new PatInformationService()
