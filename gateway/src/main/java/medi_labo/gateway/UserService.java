@@ -1,12 +1,9 @@
 package medi_labo.gateway;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+
 import org.springframework.stereotype.Service;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,13 +26,7 @@ public class UserService {
         }
     }
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByLogin(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
-        return new org.springframework.security.core.userdetails.User(
-                user.getLogin(), user.getPassword(), new ArrayList<>()
-        );
-    }
+
 
     public User addUser(User user) {
         return userRepository.save(user);
@@ -66,14 +57,5 @@ public class UserService {
         return true;
     }
 
-    private static final String SECRET_KEY = "mySecretKey";
 
-    public String generateToken(String username) {
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1h
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact();
-    }
 }

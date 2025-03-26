@@ -9,11 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>medi_labo</groupId>
-    <artifactId>Type2_diabetes_analyse</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>patient-information</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Type 2 diabetes analyse</name>
-    <description>Type 2 diabetes analyse</description>
+    <name>patients_informations</name>
+    <description>patients_informations</description>
     <url/>
     <licenses>
         <license/>
@@ -33,7 +32,11 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>
@@ -42,23 +45,18 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>medi_labo</groupId>
-            <artifactId>patient-information</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
         </dependency>
         <dependency>
-            <groupId>medi_labo</groupId>
-            <artifactId>patient-history</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.0.Final</version>
         </dependency>
-        <dependency>
-            <groupId>medi_labo</groupId>
-            <artifactId>patient-patAssessment</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+
+
+
     </dependencies>
 
     <build>
@@ -69,14 +67,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <modules>
-        <module>patient-information</module>
-        <module>patient-history</module>
-        <module>patient-patAssessment</module>
-        <module>gateway</module>
-
-
-    </modules>
 
 </project>

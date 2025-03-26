@@ -34,7 +34,7 @@ export default {
 <template>
   <H1>Bilan</H1>
   <div>Numéro patient</div>
-  <div>Bouton lancer bilan</div>
+  <div>Bouton lancer patAssessment</div>
 
   <div>Resultat</div>
 </template>

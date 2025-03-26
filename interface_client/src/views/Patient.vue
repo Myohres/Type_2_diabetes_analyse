@@ -80,7 +80,7 @@
   <div class="BilanPat">
     <h2>Bilan du patient</h2>
     <div>{{bilanMessage}}</div>
-    <button @click="generateBilan">Générer bilan</button>
+    <button @click="generateBilan">Générer patAssessment</button>
 
   </div>
   </div>
@@ -182,7 +182,7 @@ const generateBilan = async () => {
     bilanMessage.value = bilan2.riskLevel
   } catch (error) {
     console.error("valeur " + patient.value.id, patientNoteListToBilan, patient.value.birthDay, patient.value.gender)
-    console.error("Erreur lors du chargement du bilan " +error)
+    console.error("Erreur lors du chargement du patAssessment " +error)
   }
 
 }

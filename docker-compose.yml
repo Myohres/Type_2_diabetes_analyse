@@ -43,7 +43,7 @@ services:
 
   pat_information:
     build:
-      context: ./patients_informations
+      context: patient-information
       dockerfile: Dockerfile
     container_name: patient_information
     ports:
