@@ -1,4 +1,4 @@
-package medi_labo.patient_assessment;
+package medi_labo.patient_assessment.model;
 
 public class TriggerWords {
 

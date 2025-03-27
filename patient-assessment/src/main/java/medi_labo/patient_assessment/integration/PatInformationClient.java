@@ -1,7 +1,6 @@
-package medi_labo.patient_assessment;
+package medi_labo.patient_assessment.integration;
 
-import feign.Response;
-import medi_labo.patient_information.BirthDayGenderDTO;
+import medi_labo.patient_assessment.dto.BirthDayGenderDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

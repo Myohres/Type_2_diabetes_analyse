@@ -85,6 +85,20 @@ class PatInformationServiceTest {
                 "1","","","","","",""));
     }
 
+    @Test
+    void getBirthDayGenderByPatId() {
+        when(patInformationRepository.findByPatId(any())).thenReturn(Optional.of(patInformation));
+        BirthDayGenderDTO birthDayGenderDTO = patInformationService.getBirthDayGenderByPatId("0001");
+        assertEquals(birthDayGenderDTO.getGender(), patInformation.getGender());
+        assertEquals(birthDayGenderDTO.getBirthDay(), patInformation.getBirthDay());
+    }
+
+    @Test
+    void getBirthDayGenderByPatIdNotFound() {
+        when(patInformationRepository.findByPatId(any())).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class, ()-> patInformationService.getBirthDayGenderByPatId("0001"));
+    }
+
 
     @Test
     void addPatInformation() {

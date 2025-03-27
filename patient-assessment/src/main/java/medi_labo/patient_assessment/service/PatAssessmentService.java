@@ -1,5 +1,6 @@
-package medi_labo.patient_assessment;
+package medi_labo.patient_assessment.service;
 
+import medi_labo.patient_assessment.model.PatAssessment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;

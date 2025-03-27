@@ -27,6 +27,7 @@ class PatInformationControllerTest {
     @MockitoBean
     private PatInformationService patInformationService;
 
+    String URL_PATIENT_INFORMATION = "/pat-information";
     List<PatInformation> patInformationList;
     PatInformation patInformation;
 
@@ -47,27 +48,27 @@ class PatInformationControllerTest {
         patInformationList = new ArrayList<>();
         patInformationList.add(patInformation);
         when(patInformationService.getAllPatInformation()).thenReturn(patInformationList);
-        mockMvc.perform(get("/patient/")).andExpect(status().isOk());
+        mockMvc.perform(get(URL_PATIENT_INFORMATION+"/")).andExpect(status().isOk());
     }
 
     @Test
     void getPatientInformationNotFound() throws Exception {
         patInformationList = new ArrayList<>();
         when(patInformationService.getAllPatInformation()).thenThrow(new NoSuchElementException());
-        mockMvc.perform(get("/patient/")).andExpect(status().isNotFound());
+        mockMvc.perform(get(URL_PATIENT_INFORMATION+"/")).andExpect(status().isNotFound());
     }
 
     @Test
     void getPatientInformationByPatIdId() throws Exception {
         when(patInformationService.getPatInformationByPatId(any())).thenReturn(patInformation);
-        mockMvc.perform(get("/patient/patId/1"))
+        mockMvc.perform(get(URL_PATIENT_INFORMATION+"/patId/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void getPatientInformationByIdNotFound() throws Exception {
         when(patInformationService.getPatInformationByPatId(any())).thenThrow(new NoSuchElementException());
-        mockMvc.perform(get("/patient/patId/1"))
+        mockMvc.perform(get(URL_PATIENT_INFORMATION+"/patId/1"))
                 .andExpect(status().isNotFound());
     }
 
@@ -77,7 +78,7 @@ class PatInformationControllerTest {
         patInformationList = new ArrayList<>();
         patInformationList.add(patInformation);
         when(patInformationService.getPatInformationByAllInformation(any(),any(),any(),any(),any(),any(),any())).thenReturn(patInformationList);
-        mockMvc.perform(get("/patient/information/")
+        mockMvc.perform(get(URL_PATIENT_INFORMATION+"/information/")
                         .param("lastName", "lastName")
                         .param("firstName", "lastName")
                         .param("birthDay", "1950-12-01")
@@ -92,7 +93,7 @@ class PatInformationControllerTest {
         patInformationList = new ArrayList<>();
         patInformationList.add(patInformation);
         when(patInformationService.getPatInformationByAllInformation(any(),any(),any(),any(),any(),any(),any())).thenThrow(new NoSuchElementException());
-        mockMvc.perform(get("/patient/information/")
+        mockMvc.perform(get(URL_PATIENT_INFORMATION +"/information/")
                 .param("lastName", "lastName")
                 .param("firstName", "lastName")
                 .param("birthDay", "1950-01-01")
@@ -103,17 +104,27 @@ class PatInformationControllerTest {
     }
 
     @Test
-    void getPatientAge() throws Exception {
-        when(patInformationService.calculateAgePatient(any())).thenReturn(10);
-        mockMvc.perform(get("/patient/age/")
-                .param("birthDay", "2000-01-01"))
+    void getBirthDayGenderByPatIdFound() throws Exception {
+        BirthDayGenderDTO birthDayGenderDTO = new BirthDayGenderDTO();
+        birthDayGenderDTO.setBirthDay("2000-01-01");
+        birthDayGenderDTO.setGender("M");
+        when(patInformationService.getBirthDayGenderByPatId(any())).thenReturn(birthDayGenderDTO);
+        mockMvc.perform(get(URL_PATIENT_INFORMATION+"/1/birthDayGender"))
                 .andExpect(status().isOk());
     }
 
     @Test
+    void getBirthDayGenderByPatIdNotFound() throws Exception {
+        when(patInformationService.getBirthDayGenderByPatId(any())).thenThrow(new NoSuchElementException());
+        mockMvc.perform(get(URL_PATIENT_INFORMATION+"/1/birthDayGender"))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
     void createPatient() throws Exception {
         when(patInformationService.addPatInformation(any())).thenReturn(patInformation);
-        mockMvc.perform(post("/patient/add/")
+        mockMvc.perform(post(URL_PATIENT_INFORMATION + "/add/")
                         .contentType(MediaType.APPLICATION_JSON).content(
                                 "{\n" +
                                         "\"patId\": \"10\",\n" +
@@ -130,7 +141,7 @@ class PatInformationControllerTest {
     @Test
     void updatePatient() throws Exception {
         when(patInformationService.updatePatInformation(any(), any())).thenReturn(patInformation);
-        mockMvc.perform(put("/patient/update/12")
+        mockMvc.perform(put(URL_PATIENT_INFORMATION + "/update/1")
                         .contentType(MediaType.APPLICATION_JSON).content(
                                 "{\n" +
                                         "\"patId\": \"10\",\n" +
@@ -146,8 +157,7 @@ class PatInformationControllerTest {
     @Test
     void updatePatientNotFound() throws Exception {
         when(patInformationService.updatePatInformation(any(), any())).thenThrow(new NoSuchElementException());
-        mockMvc.perform(put("/patient/update/id/")
-                        .param("id", "1")
+        mockMvc.perform(put(URL_PATIENT_INFORMATION + "/update/1")
                         .contentType(MediaType.APPLICATION_JSON).content(
                                 "{\n" +
                                         "    \"lastName\": \"TestNone\",\n" +
@@ -163,9 +173,7 @@ class PatInformationControllerTest {
     @Test
     void deletePatient() throws Exception {
         when(patInformationService.getPatInformationByPatId(any())).thenReturn(patInformation);
-
-        mockMvc.perform(delete("/patient/delete/patId/")
-                        .param("patId", "1"))
+        mockMvc.perform(delete(URL_PATIENT_INFORMATION + "/delete/1"))
                 .andExpect(status().isNoContent());
         verify(patInformationService, times(1)).deletePatInformation("1");
     }
@@ -173,8 +181,7 @@ class PatInformationControllerTest {
     @Test
     void deletePatientNotFound() throws Exception {
         doThrow(new NoSuchElementException()).when(patInformationService).deletePatInformation(any());
-        mockMvc.perform(delete("/patient/delete/patId/")
-                        .param("patId", "1"))
+        mockMvc.perform(delete(URL_PATIENT_INFORMATION + "/delete/1"))
                 .andExpect(status().isNotFound());
     }
 }

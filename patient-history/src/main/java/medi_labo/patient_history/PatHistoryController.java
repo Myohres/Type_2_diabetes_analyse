@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
-@RequestMapping("/history")
+@RequestMapping("/pat-history")
 @Controller
 @CrossOrigin(origins = "http://localhost:5173/")
 public class PatHistoryController {
@@ -75,6 +74,17 @@ public class PatHistoryController {
                             .stream()
                             .map(PatHistory::getNote).toList();
             return ResponseEntity.ok(noteList);
+        } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/patHistories/{patId}")
+    public ResponseEntity<PatHistoriesDTO> getPatHistoriesByPatId(@PathVariable("patId") String patId) {
+        log.info("GET/History/patHistories/{}", patId);
+        try {
+            return ResponseEntity.ok(patHistoryService.getPatHistoriesDTOByPatId(patId));
         } catch (NoSuchElementException e) {
             log.error(e.getMessage());
             return ResponseEntity.notFound().build();

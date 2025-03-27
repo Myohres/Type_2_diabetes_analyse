@@ -44,6 +44,14 @@ public class PatInformationService {
         }
     }
 
+    public BirthDayGenderDTO getBirthDayGenderByPatId(String patId) {
+        BirthDayGenderDTO birthDayGenderDTO = new BirthDayGenderDTO();
+        PatInformation patInformation = getPatInformationByPatId(patId);
+        birthDayGenderDTO.setBirthDay(patInformation.getBirthDay());
+        birthDayGenderDTO.setGender(patInformation.getGender());
+        return birthDayGenderDTO;
+    }
+
     public PatInformation addPatInformation(PatInformation patInformation) {
         String patId = Integer.toString(idCounterService.generateCounter("patId"));
         patInformation.setPatId(patId);

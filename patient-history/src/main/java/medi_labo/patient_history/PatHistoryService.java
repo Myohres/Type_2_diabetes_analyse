@@ -3,6 +3,7 @@ package medi_labo.patient_history;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -47,6 +48,18 @@ public class PatHistoryService {
         } else {
             return patHistoryList;
         }
+    }
+
+    public PatHistoriesDTO getPatHistoriesDTOByPatId(String patId) {
+        PatHistoriesDTO patHistoriesDTO = new PatHistoriesDTO();
+        List<PatHistory> patHistoryList = getPatHistoryByPatId(patId);
+        String patient = patHistoryList.get(0).getPatient();
+        List<String> noteListHistories = new ArrayList<>();
+        patHistoryList.forEach(patHistory -> noteListHistories.add(patHistory.getNote()));
+        patHistoriesDTO.setPatId(patId);
+        patHistoriesDTO.setPatient(patient);
+        patHistoriesDTO.setNoteListHistories(noteListHistories);
+        return patHistoriesDTO;
     }
 
     public PatHistory addPatHistory(PatHistory patHistory) {

@@ -1,6 +1,5 @@
 package medi_labo.patient_information;
 
-import com.sun.source.tree.TryTree;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/information")
+@RequestMapping("/pat-information")
 @CrossOrigin(origins = "http://localhost:5173/")
 @Validated
 public class PatInformationController {
@@ -50,7 +49,7 @@ public class PatInformationController {
         }
     }
 
-    @GetMapping("/information/")
+    @GetMapping("/information")
     public ResponseEntity<List<PatInformation>> getPatientByAllInformation(
             @RequestParam(required = false) String patId,
             @RequestParam(required = false) String lastName,
@@ -82,49 +81,26 @@ public class PatInformationController {
         }
     }
 
-    @GetMapping("/BirthDayGender/{patId}")
+    @GetMapping("/{patId}/birthDayGender")
     public ResponseEntity<BirthDayGenderDTO> getBirthDayGenderByPatId(@PathVariable String patId){
-        log.info("GET /BirthDayGender/{}", patId);
+        log.info("GET {}/BirthDayGender", patId);
         try {
-            BirthDayGenderDTO birthDayGenderDTO = new BirthDayGenderDTO();
-            PatInformation patInformation = patInformationService.getPatInformationByPatId(patId);
-            birthDayGenderDTO.setBirthDay(patInformation.getBirthDay());
-            birthDayGenderDTO.setGender(patInformation.getGender());
-            return ResponseEntity.ok(birthDayGenderDTO);
+            return ResponseEntity.ok(patInformationService.getBirthDayGenderByPatId(patId));
         } catch (NoSuchElementException e) {
             log.error("getBirthDayGenderByPatId error {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("/age/")
-    public ResponseEntity<Integer> getPatientAge(
-            @RequestParam
-            @Pattern(
-                    regexp = "\\d{4}-\\d{2}-\\d{2}",
-                    message = "La date de naissance doit être au format YYYY/MM/DD")
-            String birthDay) {
-        log.info("GET " + pathController + "/age/{}", birthDay);
-        try {
-            return ResponseEntity.ok(
-                    patInformationService.calculateAgePatient(birthDay)
-            );
-        } catch (Exception e) {
-            log.error("getPatientAge error : {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
     @PostMapping("/add/")
     public ResponseEntity<PatInformation> createPatient(@Valid @RequestBody PatInformation patInformation) {
-        log.info("POST " + pathController + "/add"
-                +patInformation.getLastName()
-                +patInformation.getFirstName()
-                +patInformation.getBirthDay()
-                +patInformation.getGender()
-                +patInformation.getAddress()
-                +patInformation.getPhone()
-        );
+        log.info("POST " + pathController + "/add{}{}{}{}{}{}",
+                patInformation.getLastName(),
+                patInformation.getFirstName(),
+                patInformation.getBirthDay(),
+                patInformation.getGender(),
+                patInformation.getAddress(),
+                patInformation.getPhone());
         try {
             return ResponseEntity.ok(
                     patInformationService.addPatInformation(patInformation)
@@ -134,12 +110,12 @@ public class PatInformationController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{patId}")
     public ResponseEntity<PatInformation> updatePatient(
-            @PathVariable String id ,
+            @PathVariable String patId ,
             @Valid @RequestBody PatInformation patInformation) {
         log.info("PUT " + pathController + "/update/{}{}{}{}{}{}{}",
-                id, patInformation.getLastName(),
+                patId, patInformation.getLastName(),
                 patInformation.getFirstName(),
                 patInformation.getBirthDay(),
                 patInformation.getGender(),
@@ -147,7 +123,7 @@ public class PatInformationController {
                 patInformation.getPhone());
         try {
             return ResponseEntity.ok(
-                    patInformationService.updatePatInformation(id, patInformation)
+                    patInformationService.updatePatInformation(patId, patInformation)
             );
         } catch (NoSuchElementException e){
             log.error("updatePatInformation error : {}", e.getMessage());
@@ -155,9 +131,9 @@ public class PatInformationController {
         }
     }
 
-    @DeleteMapping("/delete/patId/")
-    public ResponseEntity<Void> deletePatient(@RequestParam String patId) {
-        log.info("DELETE " + pathController + "/delete/patId/{}", patId);
+    @DeleteMapping("/delete/{patId}")
+    public ResponseEntity<Void> deletePatient(@PathVariable(name = "patId") String patId) {
+        log.info("DELETE " + pathController + "/delete/{}", patId);
         try {
             patInformationService.deletePatInformation(patId);
             return ResponseEntity.noContent().build();
