@@ -1,5 +1,6 @@
 package medi_labo.patient_information;
 
+import com.sun.source.tree.TryTree;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -77,6 +78,21 @@ public class PatInformationController {
             );} catch (NoSuchElementException e) {
 
             log.error("getPatientByAllInformation error : {}", e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/BirthDayGender/{patId}")
+    public ResponseEntity<BirthDayGenderDTO> getBirthDayGenderByPatId(@PathVariable String patId){
+        log.info("GET /BirthDayGender/{}", patId);
+        try {
+            BirthDayGenderDTO birthDayGenderDTO = new BirthDayGenderDTO();
+            PatInformation patInformation = patInformationService.getPatInformationByPatId(patId);
+            birthDayGenderDTO.setBirthDay(patInformation.getBirthDay());
+            birthDayGenderDTO.setGender(patInformation.getGender());
+            return ResponseEntity.ok(birthDayGenderDTO);
+        } catch (NoSuchElementException e) {
+            log.error("getBirthDayGenderByPatId error {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }

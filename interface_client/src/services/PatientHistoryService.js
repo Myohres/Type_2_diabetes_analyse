@@ -2,7 +2,7 @@ import axios from "axios";
 import PatInformation from "@/model/PatInformation.js";
 import PatHistory from "@/model/PatHistory.js";
 
-const PATIENT_HISTORY_API_BASE_URL = 'http://localhost:8083/historY'
+const PATIENT_HISTORY_API_BASE_URL = 'http://localhost:8082/history'
 
 class PatientHistoryService {
     async getPatHistoryByPatId(patId) {

@@ -6,23 +6,6 @@ const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/information/'
 
 
 class PatInformationService {
-   async getAllPatInformation(){
-       try {
-           const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL);
-           return response.data.map(patientInformation => new PatInformation(
-               patientInformation.patId,
-               patientInformation.lastName,
-               patientInformation.firstName,
-               patientInformation.birthDay,
-               patientInformation.gender,
-               patientInformation.address,
-               patientInformation.phone));
-       } catch (error) {
-           console.error('Erreur lors de la récupération des informations des utilisateurs:', error);
-           throw error;
-       }
-
-    }
 
     async getPatInformationByPatId(patId){
        try {

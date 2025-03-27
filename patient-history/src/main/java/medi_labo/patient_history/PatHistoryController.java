@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RequestMapping("/history")
 @Controller
@@ -58,6 +59,22 @@ public class PatHistoryController {
         log.info("GET/History/patient{}", patient);
         try {
             return ResponseEntity.ok(patHistoryService.getPatHistoryByPatientName(patient));
+        } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/noteListHistories/{patId}")
+    public ResponseEntity<List<String>> getNoteListHistoryByPatId(@PathVariable("patId") String patId) {
+        log.info("GET/History/noteListHistory/{}", patId);
+        try {
+            List<PatHistory> patHistories = patHistoryService.getPatHistoryByPatId(patId);
+            List<String> noteList =
+                    patHistories
+                            .stream()
+                            .map(PatHistory::getNote).toList();
+            return ResponseEntity.ok(noteList);
         } catch (NoSuchElementException e) {
             log.error(e.getMessage());
             return ResponseEntity.notFound().build();

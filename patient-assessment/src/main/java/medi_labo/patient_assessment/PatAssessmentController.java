@@ -1,6 +1,8 @@
 package medi_labo.patient_assessment;
 
+import medi_labo.patient_history.NoteListHistoriesDTO;
 import medi_labo.patient_history.PatHistory;
+import medi_labo.patient_information.BirthDayGenderDTO;
 import medi_labo.patient_information.PatInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @RestController
@@ -31,11 +34,11 @@ public class PatAssessmentController {
     public ResponseEntity<PatAssessment> getPatAssessment(@RequestBody RequestPatAssessment requestPatAssessment) {
         log.info("POST /assessment/");
         try {
-           return ResponseEntity.ok(patAssessmentService.generatePatAssessment(
-                   requestPatAssessment.getPatId(),
-                   requestPatAssessment.getPatientNoteList(),
-                   requestPatAssessment.getBirthDay(),
-                   requestPatAssessment.getGender()));
+            return ResponseEntity.ok(patAssessmentService.generatePatAssessment(
+                    requestPatAssessment.getPatId(),
+                    requestPatAssessment.getPatientNoteList(),
+                    requestPatAssessment.getBirthDay(),
+                    requestPatAssessment.getGender()));
         } catch (Exception e) {
 
             return ResponseEntity.badRequest().build();
@@ -46,14 +49,18 @@ public class PatAssessmentController {
     public ResponseEntity<PatAssessment> getPatAssessmentByPatId(@PathVariable("patId") String patId) {
         log.info("POST /assessment/patId/{}",patId);
 
-        ResponseEntity<List<PatHistory>> patientNoteListEntity = patHistoryClient.getPatientHistoryByPatId(patId);
-        ResponseEntity<PatInformation> patInformationResponseEntity = patInformationClient.getPatientInformationByPatId(patId);
-        List<PatHistory> patientNoteList = patientNoteListEntity.getBody();
-        PatInformation patInformation = patInformationResponseEntity.getBody();
-        List<String> patientNoteList2 = new ArrayList<>();
-        patientNoteList2.add(patientNoteList.get(0).getNote());
-        PatAssessment patAssessment = patAssessmentService.generatePatAssessment(patId,patientNoteList2,patInformation.getBirthDay(), patInformation.getGender());
+        try {
+            ResponseEntity<List<String>> patientNoteListEntity = patHistoryClient.getNoteListHistoriesByPatId(patId);
+            ResponseEntity<BirthDayGenderDTO> patInformationResponseEntity = patInformationClient.getBirthDayGenderByPatId(patId);
+            List<String> noteListHistories = patientNoteListEntity.getBody();
+            BirthDayGenderDTO birthDayGender = patInformationResponseEntity.getBody();
+            PatAssessment patAssessment = patAssessmentService.generatePatAssessment(patId,noteListHistories,birthDayGender.getBirthDay(), birthDayGender.getGender());
+            return ResponseEntity.ok(patAssessment);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
 
-        return ResponseEntity.ok(patAssessment);
+
+
     }
 }
