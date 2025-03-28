@@ -2,8 +2,13 @@ import axios from "axios";
 import PatInformation from "@/model/PatInformation.js";
 
 
-const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/information/'
+const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/pat-information/'
 
+const axiosInstance = axios.create({
+
+});
+
+axiosInstance.defaults.headers.common['Role'] = 'admin';
 
 class PatInformationService {
 
@@ -19,7 +24,7 @@ class PatInformationService {
 
     async getPatInformationByAllInformation(patId, lastName, firstName, birthDay, gender, address, phone){
        try {
-           const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL+'information/', {
+           const response = await axiosInstance.get(PATIENT_INFORMATION_API_BASE_URL+'information/', {
                params: {
                    patId: patId,
                    lastName: lastName,
