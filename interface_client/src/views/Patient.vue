@@ -10,28 +10,6 @@
     <p>Téléphone: {{ patInformation?.phone }}</p>
   </div>
 
-  <!--<div class="updatePatient">
-    <h2>Modifier les informations du patient</h2>
-    <div v-if="patInformationToUpdate">
-      <div v-for="(value, key) in patInformationToUpdate" :key="key" class="input-group">
-        <label :for="key">{{ key }}</label>
-        <input
-            :id="key"
-            type="text"
-            v-model="patInformationToUpdate[key]"
-            :class="{'is-invalid': errors[key]}"
-        />
-
-        <div v-if="errors[key]" class="error-message">
-          {{ errors[key] }}
-        </div>
-      </div>
-
-      <button @click="updatePatInformation">Mettre à jour</button>
-    </div>
-    <p v-else>Chargement des données...</p>
-  </div>-->
-
   <div class="body">
     <h2>Modifier les informations du patient</h2>
     <div class="form-container">

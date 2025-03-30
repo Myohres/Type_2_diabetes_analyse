@@ -1,0 +1,42 @@
+
+
+
+server:
+  port: 8083
+
+spring:
+  application:
+    name: gateway
+
+
+
+
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: medi_labo_solution_bdd
+
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+             - "*"
+             - "role"
+            allowCredentials: true
+
+
