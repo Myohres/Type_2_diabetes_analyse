@@ -20,7 +20,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pat-assessment")
-@CrossOrigin(origins = "http://localhost:5173/")
 public class PatAssessmentController {
 
     private static final Logger log = LoggerFactory.getLogger(PatAssessmentController.class);

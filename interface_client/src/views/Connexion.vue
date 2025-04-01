@@ -41,7 +41,10 @@ const getConnection = async () => {
 
   try {
     const response = await UserService.getConnection(login.value, password.value);
+
     if (response === true) {
+      const reponseToken = await UserService.authentification(login.value, password.value)
+
       message.value = "Authentification réussie"
       await router.push({
         name: 'recherche',

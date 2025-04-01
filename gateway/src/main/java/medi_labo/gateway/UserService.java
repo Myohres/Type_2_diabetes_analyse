@@ -1,20 +1,21 @@
 package medi_labo.gateway;
 
+import medi_labo.gateway.config.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     public User findUserByLogin(String login) {
         Optional<User> optionalUser = userRepository.findByLogin(login);
@@ -26,6 +27,14 @@ public class UserService {
         }
     }
 
+    public String authenticateAndGenerateToken(String login, String password) {
+
+        User user = findUserByLogin(login);
+        if (!Objects.equals(user.getPassword(), password)) {
+            throw new RuntimeException("Mot de passe incorrect");
+        }
+        return jwtUtils.generateToken(user.getLogin());
+    }
 
 
     public User addUser(User user) {

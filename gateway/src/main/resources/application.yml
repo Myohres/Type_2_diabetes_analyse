@@ -1,16 +1,27 @@
-
-
-
 server:
   port: 8083
 
 spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "http://localhost:5173/"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "Authorization"
+              - "*"
+            allowCredentials: true
+
   application:
     name: gateway
-
-
-
-
 
   data:
     mongodb:
@@ -21,22 +32,4 @@ spring:
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: true
-
-  cloud:
-    gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:5173"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowedHeaders:
-             - "*"
-             - "role"
-            allowCredentials: true
-
 

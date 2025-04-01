@@ -1,6 +1,7 @@
 <template>
   <div class="body">
     <h2>Recherche patient</h2>
+    <p>{{token}}</p>
     <div class="form-container">
     <form @submit.prevent="searchPatient">
 
@@ -63,6 +64,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import PatInformationService from "@/services/PatInformationService.js";
+import UserService from "@/services/UserService.js";
 
 // Déclaration des variables réactives
 const router = useRouter();
@@ -75,6 +77,7 @@ const address = ref("");
 const phone = ref("");
 const patientList = ref([]);
 const selectedPatient = ref(null);
+const token = UserService.getToken();
 
 // Méthode de recherche des patients
 const searchPatient = async () => {

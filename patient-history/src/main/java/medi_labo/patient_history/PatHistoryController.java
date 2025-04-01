@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 
 @RequestMapping("/pat-history")
 @Controller
-@CrossOrigin(origins = "http://localhost:5173/")
 public class PatHistoryController {
 
     private static final Logger log = LoggerFactory.getLogger(PatHistoryController.class);
