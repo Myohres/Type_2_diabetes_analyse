@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const PATIENT_USER_API_BASE_URL = 'http://localhost:8083/user'
+
 const PATIENT_AUTH_API_BASE_URL = 'http://localhost:8083/auth'
 
 let token_session = "";
@@ -8,7 +8,7 @@ let token_session = "";
 class UserService{
     async getConnection(login, password){
         try {
-            const response = await axios.get(PATIENT_USER_API_BASE_URL+'/connexion/',{
+            const response = await axios.get(PATIENT_AUTH_API_BASE_URL+'/connexion/',{
                 params : {
                     login : login,
                     password : password,
@@ -43,7 +43,7 @@ class UserService{
 
     async addUser(user){
         try {
-            const response = await axios.post(PATIENT_USER_API_BASE_URL, user)
+            const response = await axios.post(PATIENT_AUTH_API_BASE_URL, user)
             return response.data;
         } catch (error) {
             console.error('Service addUser error : ', error);
@@ -53,7 +53,7 @@ class UserService{
 
     async loginFree(login){
         try {
-            const response = await axios.get(`${PATIENT_USER_API_BASE_URL}/signUpLogin/`, {
+            const response = await axios.get(`${PATIENT_AUTH_API_BASE_URL}/signUpLogin/`, {
                 params : {
                     login : login,
                 }
@@ -67,7 +67,7 @@ class UserService{
 
     async getLogin(login){
         try {
-            const response = await axios.post(`${PATIENT_USER_API_BASE_URL}/login/`)
+            const response = await axios.post(`${PATIENT_AUTH_API_BASE_URL}/login/`)
             return response.data;
         } catch (error) {
             console.error('Service getLogin error : ', error);

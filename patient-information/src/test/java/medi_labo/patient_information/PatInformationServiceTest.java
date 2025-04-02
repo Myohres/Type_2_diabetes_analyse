@@ -1,6 +1,10 @@
 package medi_labo.patient_information;
 
 import medi_labo.patient_information.config.IdCounterService;
+import medi_labo.patient_information.model.BirthDayGenderDTO;
+import medi_labo.patient_information.model.PatInformation;
+import medi_labo.patient_information.repository.PatInformationRepository;
+import medi_labo.patient_information.service.PatInformationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;

@@ -2,9 +2,12 @@ package medi_labo.gateway;
 
 
 import medi_labo.gateway.config.JwtUtils;
+import medi_labo.gateway.dto.UserConnectedDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.*;
@@ -28,18 +31,29 @@ public class UserService {
         }
     }
 
-    public String authenticateAndGenerateToken(String login, String password) {
-
+    public UserConnectedDTO authenticateAndGenerateToken(String login, String password) {
         User user = findUserByLogin(login);
+
+
         if (!Objects.equals(user.getPassword(), password)) {
             throw new RuntimeException("Mot de passe incorrect");
         }
-        return jwtUtils.generateToken(user.getLogin());
+       String token = jwtUtils.generateToken(user.getLogin());
+        UserConnectedDTO userConnectedDTO = new UserConnectedDTO();
+        userConnectedDTO.setLogin(user.getLogin());
+        userConnectedDTO.setFirstName(user.getFirstName());
+        userConnectedDTO.setLastName(user.getLastName());
+        userConnectedDTO.setRole(user.getRole());
+        userConnectedDTO.setToken(token);
+        return userConnectedDTO;
     }
 
 
     public User addUser(User user) {
-        return userRepository.save(user);
+        if (checkLoginFree(user.getLogin())) {
+            return userRepository.save(user);
+        }
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "Login is already taken: " + user.getLogin());
     }
 
     public boolean checkLoginFree(String login) {
@@ -61,10 +75,9 @@ public class UserService {
         return userRepository.save(updatedUser);
     }
 
-    public boolean deleteUser(String login) {
+    public void deleteUser(String login) {
         User user = findUserByLogin(login);
         userRepository.delete(user);
-        return true;
     }
 
 

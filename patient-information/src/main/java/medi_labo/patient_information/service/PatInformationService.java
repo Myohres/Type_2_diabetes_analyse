@@ -1,11 +1,13 @@
-package medi_labo.patient_information;
+package medi_labo.patient_information.service;
 
+import medi_labo.patient_information.repository.PatInformationRepository;
 import medi_labo.patient_information.config.IdCounterService;
+import medi_labo.patient_information.model.BirthDayGenderDTO;
+import medi_labo.patient_information.model.PatInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -28,7 +30,7 @@ public class PatInformationService {
         if (patInformation.isPresent()) {
             return patInformation.get();
         } else {
-            throw new NoSuchElementException("Patient not found");
+            throw new NoSuchElementException("Patient not found with id: " + patId);
         }
     }
 

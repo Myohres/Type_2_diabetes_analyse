@@ -1,8 +1,11 @@
-package medi_labo.patient_information;
+package medi_labo.patient_information.controller;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import medi_labo.patient_information.model.BirthDayGenderDTO;
+import medi_labo.patient_information.model.PatInformation;
+import medi_labo.patient_information.service.PatInformationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/pat-information")
@@ -31,28 +32,16 @@ public class PatInformationController {
     @GetMapping("/")
     public ResponseEntity<List<PatInformation>> getPatientInformation() {
         log.info("GET " + pathController + "/");
-        try {
-            return ResponseEntity.ok(
-                    patInformationService.getAllPatInformation());
-        } catch (NoSuchElementException e) {
-            log.error("getAllPatInformation error : {}", e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(patInformationService.getAllPatInformation());
     }
 
     @GetMapping("/patId/{patId}")
     public ResponseEntity<PatInformation> getPatientInformationByPatId(@PathVariable(name="patId") String patId){
         log.info("GET " + pathController + "/patId/{}", patId);
-        try {
-            return ResponseEntity.ok(
-                    patInformationService.getPatInformationByPatId(patId));
-        } catch (NoSuchElementException e) {
-            log.error("getPatInformationByPatId error : {}", e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(patInformationService.getPatInformationByPatId(patId));
     }
 
-    @GetMapping("/information")
+    @GetMapping("/information/")
     public ResponseEntity<List<PatInformation>> getPatientByAllInformation(
             @RequestParam(required = false) String patId,
             @RequestParam(required = false) String lastName,
@@ -73,29 +62,15 @@ public class PatInformationController {
     ) {
         log.info("GET {}/information - patId: {}, lastName: {}, firstName: {}, birthDay: {}, gender: {}, address: {}, phone: {}",
                 pathController, patId, lastName, firstName, birthDay, gender, address, phone);
-        try {
-            return ResponseEntity.ok(
-                    patInformationService.getPatInformationByAllInformation(patId,
+        return ResponseEntity.ok(patInformationService.getPatInformationByAllInformation(patId,
                             lastName,firstName,birthDay,gender,address,phone)
             );
-        } catch (NoSuchElementException e) {
-            log.error("getPatientByAllInformation error : {}", e.getMessage());
-            return ResponseEntity.notFound().build();
-        } catch (DateTimeParseException e) {
-            log.error("Erreur de format de date : {}", e.getMessage());
-            return ResponseEntity.badRequest().body(null); // Retourne une réponse badRequest si la date est invalide
-        }
     }
 
     @GetMapping("/{patId}/birthDayGender")
     public ResponseEntity<BirthDayGenderDTO> getBirthDayGenderByPatId(@PathVariable String patId){
         log.info("GET {}/BirthDayGender", patId);
-        try {
             return ResponseEntity.ok(patInformationService.getBirthDayGenderByPatId(patId));
-        } catch (NoSuchElementException e) {
-            log.error("getBirthDayGenderByPatId error {}", e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PostMapping("/add/")
@@ -107,13 +82,7 @@ public class PatInformationController {
                 patInformation.getGender(),
                 patInformation.getAddress(),
                 patInformation.getPhone());
-        try {
-            return ResponseEntity.ok(
-                    patInformationService.addPatInformation(patInformation)
-            );} catch (Exception e){
-            log.error("createPatInformation error : {}", e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(patInformationService.addPatInformation(patInformation));
     }
 
     @PutMapping("/update/{patId}")
@@ -127,25 +96,13 @@ public class PatInformationController {
                 patInformation.getGender(),
                 patInformation.getAddress(),
                 patInformation.getPhone());
-        try {
-            return ResponseEntity.ok(
-                    patInformationService.updatePatInformation(patId, patInformation)
-            );
-        } catch (NoSuchElementException e){
-            log.error("updatePatInformation error : {}", e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(patInformationService.updatePatInformation(patId, patInformation));
     }
 
     @DeleteMapping("/delete/{patId}")
     public ResponseEntity<Void> deletePatient(@PathVariable(name = "patId") String patId) {
         log.info("DELETE " + pathController + "/delete/{}", patId);
-        try {
             patInformationService.deletePatInformation(patId);
             return ResponseEntity.noContent().build();
-        } catch (NoSuchElementException e){
-            log.error("deletePatInformation error : {}", e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
     }
 }

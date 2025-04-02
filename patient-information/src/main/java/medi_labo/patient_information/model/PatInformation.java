@@ -1,4 +1,4 @@
-package medi_labo.patient_information;
+package medi_labo.patient_information.model;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;

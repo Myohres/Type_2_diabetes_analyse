@@ -9,11 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:5173/")
 public class AuthController {
 
@@ -28,31 +29,6 @@ public class AuthController {
     private UserService userService;
 
 
-    @PostMapping("/login")
-    public ResponseEntity<UserConnectedDTO> login(@RequestParam String login, @RequestParam String password) {
-        log.info("POST /login/{}{}" , login, password);
-        try {
-            if (login == null || login.trim().isEmpty()) {
-                return ResponseEntity.badRequest().build();
-            }
-            String token = userService.authenticateAndGenerateToken(login, password);
-            UserConnectedDTO userConnectedDTO = new UserConnectedDTO();
-            User user = userService.findUserByLogin(login);
-            userConnectedDTO.setLogin(user.getLogin());
-            userConnectedDTO.setFirstName(user.getFirstName());
-            userConnectedDTO.setLastName(user.getLastName());
-            userConnectedDTO.setRole(user.getRole());
-            userConnectedDTO.setToken(token);
-            return ResponseEntity.ok(userConnectedDTO);
-        } catch (NoSuchElementException e) {
-            log.error("login error " + e.getMessage());
-           return ResponseEntity.notFound().build();
-        } catch (RuntimeException e) {
-            log.error("Login error " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
-
     @GetMapping("/{login}")
     public ResponseEntity<User> getUserByLogin(@PathVariable("login") String login) {
         log.info("GET/user/{}", login);
@@ -62,30 +38,22 @@ public class AuthController {
             log.error("GetUserByLogin error : {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
-
     }
 
-    @GetMapping("/signUpLogin/")
-    public ResponseEntity<Boolean> checkLoginFree(@RequestParam String login) {
-        log.info("GET/signUpLogin/{}", login);
+    @PostMapping("/auth/login")
+    public ResponseEntity<UserConnectedDTO> login(@RequestParam String login, @RequestParam String password) {
+        log.info("POST /login/{}{}" , login, password);
         try {
-            return ResponseEntity.ok(userService.checkLoginFree(login));
-        } catch (Exception e) {
-            log.error("CheckLoginFree error : {}", e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping("/connexion/")
-    public ResponseEntity<Boolean> checkPassWord(
-            @RequestParam String login,
-            @RequestParam String password) {
-        log.info("GET/connexion/{}{}", login, password);
-        try {
-            return ResponseEntity.ok(userService.checkPassword(login, password));
+            if (login == null || login.trim().isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+            return ResponseEntity.ok(userService.authenticateAndGenerateToken(login, password));
         } catch (NoSuchElementException e) {
-            log.error("CheckPassWord error : {}", e.getMessage());
+            log.error("login error {}", e.getMessage());
             return ResponseEntity.notFound().build();
+        } catch (RuntimeException e) {
+            log.error("Login error {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
@@ -94,9 +62,9 @@ public class AuthController {
         log.info("POST/createUser {}", user);
         try {
             return ResponseEntity.ok(userService.addUser(user));
-        } catch (Exception e) {
+        } catch (ResponseStatusException e) {
             log.error("CreateUser error : {}", e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
@@ -114,10 +82,11 @@ public class AuthController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Boolean> deleteUser(@RequestParam String login) {
+    public ResponseEntity<Void> deleteUser(@RequestParam String login) {
         log.info("DELETE/deleteUser {}", login);
         try {
-            return ResponseEntity.ok(userService.deleteUser(login));
+            userService.deleteUser(login);
+            return ResponseEntity.ok().build();
         } catch (NoSuchElementException e) {
             log.error("DeleteUser error : {}", e.getMessage());
             return ResponseEntity.notFound().build();

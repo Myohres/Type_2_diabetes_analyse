@@ -1,5 +1,9 @@
 package medi_labo.patient_information;
 
+import medi_labo.patient_information.controller.PatInformationController;
+import medi_labo.patient_information.model.BirthDayGenderDTO;
+import medi_labo.patient_information.model.PatInformation;
+import medi_labo.patient_information.service.PatInformationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

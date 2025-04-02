@@ -13,8 +13,6 @@ public class User {
     String firstName;
     String role;
 
-    String token;
-
     public String getLogin() {
         return login;
     }
@@ -54,11 +52,5 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-    public String getToken() {
-        return token;
-    }
-    public void setToken(String token) {
-        this.token = token;
-    }
+    
 }

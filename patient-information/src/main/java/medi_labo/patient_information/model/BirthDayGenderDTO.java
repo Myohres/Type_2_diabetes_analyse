@@ -1,4 +1,4 @@
-package medi_labo.patient_information;
+package medi_labo.patient_information.model;
 
 import java.time.LocalDate;
 
