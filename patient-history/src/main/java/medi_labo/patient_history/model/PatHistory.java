@@ -1,4 +1,4 @@
-package medi_labo.patient_history;
+package medi_labo.patient_history.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

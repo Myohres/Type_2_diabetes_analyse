@@ -1,5 +1,8 @@
 package medi_labo.patient_history;
 
+import medi_labo.patient_history.model.PatHistoriesDTO;
+import medi_labo.patient_history.model.PatHistoriesNoteDTO;
+import medi_labo.patient_history.model.PatHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +14,17 @@ import java.util.Optional;
 @Service
 public class PatHistoryService {
 
+    private final PatHistoriesMapper mapper = new PatHistoriesMapper();
+
     @Autowired
     private PatHistoryRepository patHistoryRepository;
 
-    public List<PatHistory> getAllPatHistory() {
+    public PatHistoriesDTO getAllPatHistory() {
         List<PatHistory> patHistory = patHistoryRepository.findAll();
         if (patHistory.isEmpty()) {
             throw new NoSuchElementException("No patHistory found");
         } else {
-            return patHistory;
+            return mapper.patHistoryToPatHistoriesDTO(patHistory);
         }
     }
 
@@ -32,35 +37,16 @@ public class PatHistoryService {
        }
     }
 
-    public List<PatHistory> getPatHistoryByPatientName(String patientName) {
-        List<PatHistory> patHistoryList = patHistoryRepository.findByPatient(patientName);
-        if (patHistoryList.isEmpty()) {
-            throw new NoSuchElementException("PatHistory with name : " +patientName + " not found");
-        } else {
-            return patHistoryList;
-        }
-    }
-
-    public List<PatHistory> getPatHistoryByPatId(String patId) {
+    public PatHistoriesDTO getPatHistoryByPatId(String patId) {
         List<PatHistory> patHistoryList = patHistoryRepository.findByPatId(patId);
         if (patHistoryList.isEmpty()) {
             throw new NoSuchElementException("PatHistory with id : " +patId + " not found");
         } else {
-            return patHistoryList;
+            return mapper.patHistoryToPatHistoriesDTO(patHistoryList);
         }
     }
 
-    public PatHistoriesDTO getPatHistoriesDTOByPatId(String patId) {
-        PatHistoriesDTO patHistoriesDTO = new PatHistoriesDTO();
-        List<PatHistory> patHistoryList = getPatHistoryByPatId(patId);
-        String patient = patHistoryList.get(0).getPatient();
-        List<String> noteListHistories = new ArrayList<>();
-        patHistoryList.forEach(patHistory -> noteListHistories.add(patHistory.getNote()));
-        patHistoriesDTO.setPatId(patId);
-        patHistoriesDTO.setPatient(patient);
-        patHistoriesDTO.setNoteListHistories(noteListHistories);
-        return patHistoriesDTO;
-    }
+
 
     public PatHistory addPatHistory(PatHistory patHistory) {
         return patHistoryRepository.save(patHistory);

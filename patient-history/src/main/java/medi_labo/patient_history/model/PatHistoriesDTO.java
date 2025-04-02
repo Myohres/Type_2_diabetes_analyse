@@ -1,4 +1,4 @@
-package medi_labo.patient_history;
+package medi_labo.patient_history.model;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class PatHistoriesDTO {
 
     private String patient;
 
-    private List<String> noteListHistories;
+    private List<PatHistoriesNoteDTO> noteListHistories;
 
     public String getPatId() {
         return patId;
@@ -26,11 +26,11 @@ public class PatHistoriesDTO {
         this.patient = patient;
     }
 
-    public List<String> getNoteListHistories() {
+    public List<PatHistoriesNoteDTO> getNoteListHistories() {
         return noteListHistories;
     }
 
-    public void setNoteListHistories(List<String> noteListHistories) {
+    public void setNoteListHistories(List<PatHistoriesNoteDTO> noteListHistories) {
         this.noteListHistories = noteListHistories;
     }
 }

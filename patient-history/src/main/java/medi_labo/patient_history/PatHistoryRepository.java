@@ -1,5 +1,6 @@
 package medi_labo.patient_history;
 
+import medi_labo.patient_history.model.PatHistory;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

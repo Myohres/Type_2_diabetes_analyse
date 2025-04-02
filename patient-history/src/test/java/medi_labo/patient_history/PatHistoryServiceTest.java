@@ -1,5 +1,7 @@
 package medi_labo.patient_history;
 
+import medi_labo.patient_history.model.PatHistoriesDTO;
+import medi_labo.patient_history.model.PatHistory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,7 +44,7 @@ class PatHistoryServiceTest {
     void getPatAllHistorique() {
         patHistoriquesList.add(patHistory);
         when(patHistoryRepository.findAll()).thenReturn(patHistoriquesList);
-        List<PatHistory> historiqueList = patHistoryService.getAllPatHistory();
+        PatHistoriesDTO historiqueList = patHistoryService.getAllPatHistory();
         assertEquals(patHistoriquesList, historiqueList);
     }
 
