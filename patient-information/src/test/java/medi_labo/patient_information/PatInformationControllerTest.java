@@ -13,6 +13,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,7 +38,7 @@ class PatInformationControllerTest {
         patInformation.setPatId("0001");
         patInformation.setLastName("LastName");
         patInformation.setFirstName("FirstName");
-        patInformation.setBirthDay("2000-01-01");
+        patInformation.setBirthDay(LocalDate.of(2000,1,1));
         patInformation.setGender("M");
         patInformation.setAddress("Address");
         patInformation.setPhone("000-000-0000");
@@ -106,7 +107,7 @@ class PatInformationControllerTest {
     @Test
     void getBirthDayGenderByPatIdFound() throws Exception {
         BirthDayGenderDTO birthDayGenderDTO = new BirthDayGenderDTO();
-        birthDayGenderDTO.setBirthDay("2000-01-01");
+        birthDayGenderDTO.setBirthDay(LocalDate.of(2000,1,1));
         birthDayGenderDTO.setGender("M");
         when(patInformationService.getBirthDayGenderByPatId(any())).thenReturn(birthDayGenderDTO);
         mockMvc.perform(get(URL_PATIENT_INFORMATION+"/1/birthDayGender"))

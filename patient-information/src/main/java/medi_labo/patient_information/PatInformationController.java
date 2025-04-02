@@ -6,10 +6,13 @@ import jakarta.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -55,9 +58,9 @@ public class PatInformationController {
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String firstName,
             @Nullable
-            @Pattern(regexp = "^$|\\d{4}-\\d{2}-\\d{2}", message = "birthDay doit être au format YYYY-MM-DD")
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
             @RequestParam(required = false)
-            String birthDay,
+            LocalDate birthDay,
             @Nullable
             @Pattern(
                     regexp = "^$|M|F",
@@ -74,10 +77,13 @@ public class PatInformationController {
             return ResponseEntity.ok(
                     patInformationService.getPatInformationByAllInformation(patId,
                             lastName,firstName,birthDay,gender,address,phone)
-            );} catch (NoSuchElementException e) {
-
+            );
+        } catch (NoSuchElementException e) {
             log.error("getPatientByAllInformation error : {}", e.getMessage());
             return ResponseEntity.notFound().build();
+        } catch (DateTimeParseException e) {
+            log.error("Erreur de format de date : {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null); // Retourne une réponse badRequest si la date est invalide
         }
     }
 

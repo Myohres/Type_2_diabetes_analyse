@@ -6,16 +6,18 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
 import java.util.Date;
 @Component
+
 public class JwtUtils {
 
 
-    private static final String SECRET_KEY = "votre_clé_secrète_votre_clé_secrète";
+    private String SECRET_KEY = "tjj,;fmuk,jnghbfdh5465265lkhuiyj";
     String encodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
 
     /**

@@ -23,6 +23,7 @@ spring:
   application:
     name: gateway
 
+
   data:
     mongodb:
       host: localhost

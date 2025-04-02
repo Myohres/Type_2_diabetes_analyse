@@ -1,4 +1,4 @@
-package medi_labo.gateway.config;
+package medi_labo.gateway.dto;
 
 public class LoginRequest {
 

@@ -1,14 +1,12 @@
-package medi_labo.gateway.config;
+package medi_labo.gateway;
 
-import medi_labo.gateway.User;
-import medi_labo.gateway.UserController;
-import medi_labo.gateway.UserService;
+
+import medi_labo.gateway.config.JwtUtils;
+import medi_labo.gateway.dto.UserConnectedDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,18 +29,27 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String login, @RequestParam String password) {
+    public ResponseEntity<UserConnectedDTO> login(@RequestParam String login, @RequestParam String password) {
         log.info("POST /login/{}{}" , login, password);
         try {
             if (login == null || login.trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Login invalide");
+                return ResponseEntity.badRequest().build();
             }
             String token = userService.authenticateAndGenerateToken(login, password);
-
-            return ResponseEntity.ok(token);
+            UserConnectedDTO userConnectedDTO = new UserConnectedDTO();
+            User user = userService.findUserByLogin(login);
+            userConnectedDTO.setLogin(user.getLogin());
+            userConnectedDTO.setFirstName(user.getFirstName());
+            userConnectedDTO.setLastName(user.getLastName());
+            userConnectedDTO.setRole(user.getRole());
+            userConnectedDTO.setToken(token);
+            return ResponseEntity.ok(userConnectedDTO);
         } catch (NoSuchElementException e) {
             log.error("login error " + e.getMessage());
            return ResponseEntity.notFound().build();
+        } catch (RuntimeException e) {
+            log.error("Login error " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

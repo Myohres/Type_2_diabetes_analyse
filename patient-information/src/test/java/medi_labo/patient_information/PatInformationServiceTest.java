@@ -39,7 +39,7 @@ class PatInformationServiceTest {
         patInformation.setPatId("0001");
         patInformation.setLastName("LastName");
         patInformation.setFirstName("FirstName");
-        patInformation.setBirthDay("2000-01-01");
+        patInformation.setBirthDay(LocalDate.of(2000,1,1));
         patInformation.setGender("M");
         patInformation.setAddress("Address");
         patInformation.setPhone("000-000-0000");
@@ -73,7 +73,7 @@ class PatInformationServiceTest {
         when(patInformationRepository.findByPatIdOrLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
                 any(),any(),any(),any(),any(),any(),any())).thenReturn(patList);
         List<PatInformation> patInformationList = patInformationService.getPatInformationByAllInformation(
-                "1","","","","","","");
+                "1","","",LocalDate.of(1,1,1),"","","");
         assertEquals(patInformationList.get(0).getLastName(), patInformation.getLastName());
     }
 
@@ -82,7 +82,7 @@ class PatInformationServiceTest {
         when(patInformationRepository.findByPatIdOrLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
                 any(), any(),any(),any(),any(),any(),any())).thenReturn(new ArrayList<>());
         assertThrows(NoSuchElementException.class, ()-> patInformationService.getPatInformationByAllInformation(
-                "1","","","","","",""));
+                "1","","",LocalDate.of(1,1,1),"","",""));
     }
 
     @Test
@@ -117,7 +117,7 @@ class PatInformationServiceTest {
         patInformation1.setPatId("0001");
         patInformation1.setLastName("LastName");
         patInformation1.setFirstName("FirstName");
-        patInformation1.setBirthDay("2000-01-01");
+        patInformation1.setBirthDay(LocalDate.of(2000,1,1));
         patInformation1.setGender("F");
         patInformation1.setAddress("Address");
         patInformation1.setPhone("000-000-0000");
@@ -132,12 +132,4 @@ class PatInformationServiceTest {
         verify(patInformationRepository,times(1)).deleteById(any());
     }
 
-    @Test
-    void calculateAgePatient() {
-        LocalDate presentTime = LocalDate.now();
-        LocalDate birthTime = LocalDate.of(2000,1,1);
-        Period age = Period.between(birthTime, presentTime);
-      int age2 =  patInformationService.calculateAgePatient(patInformation.getBirthDay());
-       assertEquals(age.getYears(),age2);
-    }
 }

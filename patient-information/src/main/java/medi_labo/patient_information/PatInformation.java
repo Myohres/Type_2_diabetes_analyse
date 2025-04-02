@@ -1,9 +1,13 @@
 package medi_labo.patient_information;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Document(collection = "patient-information")
 public class PatInformation {
@@ -17,12 +21,9 @@ public class PatInformation {
     @NotBlank(message = "firstName est obligatoire")
     private String firstName;
 
-    @NotBlank(message = "birthDay est obligatoire")
-    @Pattern(
-            regexp = "\\d{4}-\\d{2}-\\d{2}",
-            message = "La date de naissance doit être au format YYYY-MM-DD"
-    )
-    private String birthDay;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "birthDay est obligatoire")
+    private LocalDate birthDay;
 
     @NotBlank(message = "gender est obligatoire")
     @Pattern(
@@ -58,11 +59,11 @@ public class PatInformation {
         this.firstName = firstName;
     }
 
-    public String getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(String birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 

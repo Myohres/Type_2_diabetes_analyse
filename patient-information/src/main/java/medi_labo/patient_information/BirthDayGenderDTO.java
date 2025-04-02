@@ -1,15 +1,17 @@
 package medi_labo.patient_information;
 
+import java.time.LocalDate;
+
 public class BirthDayGenderDTO {
 
-    private String birthDay;
+    private LocalDate birthDay;
     private String gender;
 
-    public String getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(String birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 

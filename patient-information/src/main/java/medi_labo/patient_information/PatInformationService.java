@@ -33,7 +33,7 @@ public class PatInformationService {
     }
 
     public List<PatInformation> getPatInformationByAllInformation(
-          String patId, String lastName, String firstName, String birthday, String gender, String address, String phone
+          String patId, String lastName, String firstName, LocalDate birthday, String gender, String address, String phone
     ) {
         List<PatInformation> patInformationList = patInformationRepository.findByPatIdOrLastNameOrFirstNameOrBirthDayOrGenderOrAddressOrPhone(
                patId, lastName, firstName, birthday, gender, address, phone);
@@ -74,10 +74,5 @@ public class PatInformationService {
         patInformationRepository.deleteById(patInformation.getPatId());
     }
 
-    public Integer calculateAgePatient(String birthday) {
-        LocalDate birthdayLocalDate = LocalDate.parse(birthday);
-        LocalDate currentDate = LocalDate.now();
-        Period age = Period.between(birthdayLocalDate, currentDate);
-        return age.getYears();
-    }
+
 }
