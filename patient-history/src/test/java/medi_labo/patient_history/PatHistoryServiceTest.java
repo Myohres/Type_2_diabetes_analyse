@@ -1,7 +1,9 @@
 package medi_labo.patient_history;
 
-import medi_labo.patient_history.model.PatHistoriesDTO;
-import medi_labo.patient_history.model.PatHistory;
+import medi_labo.patient_history.model.DTO.PatHistoriesDTO;
+import medi_labo.patient_history.model.entity.PatHistory;
+import medi_labo.patient_history.repository.PatHistoryRepository;
+import medi_labo.patient_history.service.PatHistoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -68,25 +70,13 @@ class PatHistoryServiceTest {
     }
 
     @Test
-    void getPatHistoryByPatientName() {
-        patHistoriquesList.add(patHistory);
-        when(patHistoryRepository.findByPatient(any())).thenReturn(patHistoriquesList);
-        List<PatHistory> historiqueList = patHistoryService.getPatHistoryByPatientName("patient");
-        assertEquals(patHistoriquesList, historiqueList);
-    }
-
-    @Test
-    void getPatHistoryByPatientNameNoFound() {
-        when(patHistoryRepository.findByPatient(any())).thenThrow(new NoSuchElementException());
-        assertThrows(NoSuchElementException.class, () -> patHistoryService.getPatHistoryByPatientName("patient"));
-    }
-
-    @Test
     void getPatHistoryByPatId() {
         patHistoriquesList.add(patHistory);
         when(patHistoryRepository.findByPatId(any())).thenReturn(patHistoriquesList);
-        List<PatHistory> historiqueList = patHistoryService.getPatHistoryByPatId("01");
-        assertEquals(patHistoriquesList, historiqueList);
+        PatHistoriesDTO historiqueList = patHistoryService.getPatHistoryByPatId("01");
+        assertEquals(patHistoriquesList.get(0).getPatId(), historiqueList.getPatId());
+        assertEquals(patHistoriquesList.get(0).getPatient(), historiqueList.getPatient());
+        assertEquals(patHistoriquesList.get(0).getNote(), historiqueList.getNoteListHistories().get(0).getNote());
     }
 
     @Test

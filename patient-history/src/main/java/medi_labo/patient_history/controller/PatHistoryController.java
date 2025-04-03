@@ -1,20 +1,23 @@
-package medi_labo.patient_history;
+package medi_labo.patient_history.controller;
 
-import medi_labo.patient_history.model.PatHistoriesDTO;
-import medi_labo.patient_history.model.PatHistoriesNoteDTO;
-import medi_labo.patient_history.model.PatHistory;
+import jakarta.validation.Valid;
+import medi_labo.patient_history.model.DTO.PatHistoriesDTO;
+import medi_labo.patient_history.model.DTO.PatHistoriesNoteDTO;
+import medi_labo.patient_history.model.entity.PatHistory;
+import medi_labo.patient_history.service.PatHistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RequestMapping("/pat-history")
 @Controller
+@Validated
 public class PatHistoryController {
 
     private static final Logger log = LoggerFactory.getLogger(PatHistoryController.class);
@@ -24,7 +27,7 @@ public class PatHistoryController {
 
     @GetMapping("")
     public ResponseEntity<PatHistoriesDTO> findAll() {
-        log.info("Find all PatHistory");
+        log.info("GET /");
             return ResponseEntity.ok(patHistoryService.getAllPatHistory());
     }
 
@@ -52,7 +55,7 @@ public class PatHistoryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<PatHistory> addPatHistory(@RequestBody PatHistory patHistory) {
+    public ResponseEntity<PatHistory> addPatHistory(@Valid @RequestBody PatHistory patHistory) {
         log.info("POST/History/add");
             return ResponseEntity.ok(patHistoryService.addPatHistory(patHistory));
     }

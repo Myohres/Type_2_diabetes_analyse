@@ -1,10 +1,9 @@
-package medi_labo.patient_history;
+package medi_labo.patient_history.mapper;
 
-import medi_labo.patient_history.model.PatHistoriesDTO;
-import medi_labo.patient_history.model.PatHistoriesNoteDTO;
-import medi_labo.patient_history.model.PatHistory;
+import medi_labo.patient_history.model.DTO.PatHistoriesDTO;
+import medi_labo.patient_history.model.DTO.PatHistoriesNoteDTO;
+import medi_labo.patient_history.model.entity.PatHistory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PatHistoriesMapper {

@@ -1,4 +1,4 @@
-package medi_labo.patient_history.model;
+package medi_labo.patient_history.model.DTO;
 
 import java.util.List;
 

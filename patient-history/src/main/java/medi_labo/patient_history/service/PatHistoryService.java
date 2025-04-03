@@ -1,12 +1,12 @@
-package medi_labo.patient_history;
+package medi_labo.patient_history.service;
 
-import medi_labo.patient_history.model.PatHistoriesDTO;
-import medi_labo.patient_history.model.PatHistoriesNoteDTO;
-import medi_labo.patient_history.model.PatHistory;
+import medi_labo.patient_history.mapper.PatHistoriesMapper;
+import medi_labo.patient_history.repository.PatHistoryRepository;
+import medi_labo.patient_history.model.DTO.PatHistoriesDTO;
+import medi_labo.patient_history.model.entity.PatHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
