@@ -15,7 +15,7 @@ public class PatAssessmentService {
 
     private static final Logger log = LoggerFactory.getLogger(PatAssessmentService.class);
 
-    public PatAssessment generatePatAssessment(String PatId, List<String> patientNoteList, String birthday, String gender) {
+    public PatAssessment generatePatAssessment(String PatId, List<String> patientNoteList, LocalDate birthday, String gender) {
         PatAssessment patAssessment = new PatAssessment();
         Integer triggerWordNumber = getTriggerWordNumber(patientNoteList);
         Integer age = calculateAgePatient(birthday);
@@ -25,14 +25,13 @@ public class PatAssessmentService {
         return patAssessment;
     }
 
-    public Integer calculateAgePatient(String birthday) {
-        LocalDate birthdayLocalDate = LocalDate.parse(birthday);
+    public Integer calculateAgePatient(LocalDate birthday) {
         LocalDate currentDate = LocalDate.now();
-        Period age = Period.between(birthdayLocalDate, currentDate);
+        Period age = Period.between(birthday, currentDate);
 
         Integer ageInYears = age.getYears();
         log.info(String.valueOf(ageInYears));
-        return age.getYears();
+        return ageInYears;
     }
 
     public Integer getTriggerWordNumber(List<String> patientNoteList) {

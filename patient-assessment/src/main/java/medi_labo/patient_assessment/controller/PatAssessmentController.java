@@ -1,6 +1,8 @@
 package medi_labo.patient_assessment.controller;
 
+import feign.FeignException;
 import medi_labo.patient_assessment.dto.RequestPatAssessment;
+import medi_labo.patient_assessment.exception.CustomExceptions;
 import medi_labo.patient_assessment.integration.PatHistoryClient;
 import medi_labo.patient_assessment.integration.PatInformationClient;
 import medi_labo.patient_assessment.dto.BirthDayGenderDTO;
@@ -12,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -50,22 +50,48 @@ public class PatAssessmentController {
     @PostMapping("/patId/{patId}")
     public ResponseEntity<?> getPatAssessmentByPatId(@PathVariable("patId") String patId) {
         log.info("POST /assessment/patId/{}", patId);
-        BirthDayGenderDTO birthDayGender = new BirthDayGenderDTO();
-        List<String> noteListHistories = new ArrayList<>();
+
+        BirthDayGenderDTO birthDayGender;
+        List<String> noteListHistories;
+
         try {
             ResponseEntity<BirthDayGenderDTO> patInformationResponseEntity = patInformationClient.getBirthDayGenderByPatId(patId);
             birthDayGender = patInformationResponseEntity.getBody();
+        } catch (CustomExceptions.ResourceNotFoundException e) {
+            log.error("Patient introuvable (404) : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Patient non trouvé pour l'ID " + patId);
+        } catch (FeignException e) {
+            log.error("Erreur Feign lors de la récupération des infos patient : {} - {}", e.status(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body("Erreur lors de la communication avec le service pat-information");
+        } catch (Exception e) {
+            log.error("Erreur interne : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur interne du serveur");
+        }
+
+        try {
             ResponseEntity<List<String>> patientNoteListEntity = patHistoryClient.getNoteListHistoriesByPatId(patId);
             noteListHistories = patientNoteListEntity.getBody();
-        } catch (HttpClientErrorException e) {
-            log.error("Erreur : {}", e.getMessage());
-            return ResponseEntity.status(e.getStatusCode()).body("Erreur : " + e.getMessage());
+        } catch (CustomExceptions.ResourceNotFoundException e) {
+            log.error("Historique du patient introuvable (404) : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Aucun historique trouvé pour le patient ID " + patId);
+        } catch (FeignException e) {
+            log.error("Erreur Feign lors de la récupération des notes patient : Status {} - {}",e.status(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body("Erreur lors de la communication avec le service pat-history");
         } catch (Exception e) {
-            log.error("Erreur : {}", e.getMessage());
+            log.error("Erreur interne : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erreur interne : " + e.getMessage());
+                    .body("Erreur interne du serveur");
         }
-        PatAssessment patAssessment = patAssessmentService.generatePatAssessment(patId, noteListHistories, birthDayGender.getBirthDay(), birthDayGender.getGender());
+
+        PatAssessment patAssessment = patAssessmentService.generatePatAssessment(
+                patId, noteListHistories, birthDayGender.getBirthDay(), birthDayGender.getGender()
+        );
+
         return ResponseEntity.ok(patAssessment);
     }
 }
