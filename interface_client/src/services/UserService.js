@@ -1,11 +1,15 @@
 import axios from "axios";
 
 
-const PATIENT_AUTH_API_BASE_URL = 'http://localhost:8083/auth'
+const PATIENT_AUTH_API_BASE_URL = 'http://localhost:8083/user'
 
 let token_session = "";
 
 class UserService{
+
+    getToken() {
+        return token_session;
+}
 
     async getConnection(login, password){
         try {
@@ -34,7 +38,10 @@ class UserService{
                     password : password,
                 }
             })
-            token_session = response.data;
+            console.log(response.data)
+            console.log(token_session)
+            token_session = response.data.token;
+            console.log(token_session)
             return response.data
         } catch (error) {
             console.error("Service erreur lors de l'authentification", error);
@@ -75,10 +82,6 @@ class UserService{
             throw error;
         }
     }
-
-    getToken(){
-        return token_session;
-}
 
 }
 

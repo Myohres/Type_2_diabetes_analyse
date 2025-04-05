@@ -11,7 +11,7 @@
         <input v-model="password" type="text" placeholder="Mot de passe">
         <div class="error" :class="{ visible: errors.password }">{{ errors.password || " " }}</div>
       </div>
-      <button @click="getConnection">Connexion</button>
+      <button @click="getConnection2">Connexion</button>
     </div>
     <div class="message">{{ message }}</div>
   </div>
@@ -57,6 +57,18 @@ const getConnection = async () => {
       message.value = "Une erreur est survenue lors de la connexion.";
     }
   }
+}
+
+const getConnection2 = async() => {
+  message.value = "";
+  errors.login = login.value ? "" : "Le login est obligatoire.";
+  errors.password = password.value ? "" : "Le mot de passe est obligatoire.";
+  try {
+    const response = await UserService.authentification(login.value, password.value);
+  } catch (error){
+
+  }
+
 }
 
 </script>
