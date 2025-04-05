@@ -1,17 +1,12 @@
-package medi_labo.gateway;
+package medi_labo.gateway.model.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class UserConnectedDTO {
 
-@Document(collection = "User")
-public class User {
-
-    @Id
-    String login;
-    String password;
-    String lastName;
-    String firstName;
-    String role;
+    private String login;
+    private String lastName;
+    private String firstName;
+    private String role;
+    private String token;
 
     public String getLogin() {
         return login;
@@ -19,14 +14,6 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getLastName() {
@@ -52,5 +39,12 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-    
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

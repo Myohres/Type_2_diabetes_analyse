@@ -52,8 +52,8 @@ import {reactive, ref} from "vue";
 import { useRouter } from "vue-router";
 import PatInformationService from "@/services/PatInformationService.js";
 import UserService from "@/services/UserService.js";
-import PatInformation from "@/model/PatInformation.js";
-import PatInformationToAdd from "@/model/PatInformationToAdd.js";
+import PatInformation from "@/model/patient-information/PatInformation.js";
+import PatInformationToAdd from "@/model/patient-information/PatInformationToAdd.js";
 
 const lastName = ref("");
 const firstName = ref("");

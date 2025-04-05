@@ -1,26 +1,19 @@
 import axios from 'axios';
-import PatInformation from "@/model/PatInformation.js";
+import PatInformation from "@/model/patient-information/PatInformation.js";
 
 
-const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/pat-information/'
-
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWlsQG1haWwuZnIiLCJpYXQiOjE3NDM0NjcwNTgsImV4cCI6MTc0MzQ3MDY1OH0.GGwJEnmDWSZx38fwaXizlnBasSr54dI886ZGxjm-sOU";
-
-const options = {
-    hostname: 'localhost',
-    port: 8083,
-    path: 'pat-information/', // L'URL de l'API
-    method: 'GET',
-    headers: {
-        'X-User-role': 'admin' // Ajouter le header X-User-role avec la valeur "admin"
-    }
-};
+const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/pat-information'
 
 class PatInformationService {
 
-    async getPatInformationByPatId(patId){
+    async getPatInformationByPatId(patId, token){
         try {
-            const response = await axios.get(`${PATIENT_INFORMATION_API_BASE_URL}patId/${patId}`);
+            const response = await axios.get(`${PATIENT_INFORMATION_API_BASE_URL}/patId/${patId}`, {
+                withCredentials: true,
+                headers: {
+                    "Authorization" : "Bearer " + token
+                }
+            });
             return response.data;
         } catch (error) {
             console.error('Erreur lors de la récupération des informations des utilisateurs:', error);
@@ -28,12 +21,9 @@ class PatInformationService {
         }
     }
 
-
-
-
-    async getPatInformationByAllInformation(patId, lastName, firstName, birthDay, gender, address, phone){
+    async getPatInformationByAllInformation(patId, lastName, firstName, birthDay, gender, address, phone, token){
         try {
-            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL +'information', {
+            const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL +'/information/', {
                 withCredentials: true,
                 headers: {
                     "Authorization" : "Bearer " + token
@@ -62,9 +52,14 @@ class PatInformationService {
         }
     }
 
-    async addPatInformation(patInformation) {
+    async addPatInformation(patInformation, token) {
         try {
-            const response = await axios.post(PATIENT_INFORMATION_API_BASE_URL + 'add/', patInformation);
+            const response = await axios.post(PATIENT_INFORMATION_API_BASE_URL + '/add/', patInformation, {
+                withCredentials: true,
+                headers: {
+                    "Authorization" : "Bearer " + token
+                }
+            });
             return response.data;
         } catch (error){
             console.error("Erreur lors de l'ajout d'un nouveau patient", error);
@@ -72,9 +67,14 @@ class PatInformationService {
         }
     }
 
-    async updatePatInformation(patId, patInformation) {
+    async updatePatInformation(patId, patInformation, token) {
         try {
-            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + 'update/' + patId, patInformation);
+            const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + '/update/' + patId, patInformation, {
+                withCredentials: true,
+                headers: {
+                    "Authorization" : "Bearer " + token
+                }
+            });
             return response.data;
         } catch (error) {
             if (error.response && error.response.status === 400) {
@@ -85,6 +85,21 @@ class PatInformationService {
             } else {
                 console.error("Erreur lors de la soumission du formulaire", error);
             }
+        }
+    }
+
+    async deletePatientInformation(patId, token) {
+        try {
+           const response = await axios.delete(PATIENT_INFORMATION_API_BASE_URL + '/delete/' +patId, {
+               withCredentials: true,
+               headers: {
+                   "Authorization" : "Bearer " + token
+               }
+           });
+           return response.status;
+        } catch (error) {
+            console.error("erreur lors de la suppression du patient", error)
+            throw error;
         }
     }
 }

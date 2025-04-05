@@ -6,6 +6,7 @@ const PATIENT_AUTH_API_BASE_URL = 'http://localhost:8083/auth'
 let token_session = "";
 
 class UserService{
+
     async getConnection(login, password){
         try {
             const response = await axios.get(PATIENT_AUTH_API_BASE_URL+'/connexion/',{
@@ -27,7 +28,7 @@ class UserService{
 
     async authentification(login, password) {
         try {
-            const response = await axios.post(PATIENT_AUTH_API_BASE_URL+'/login', {
+            const response = await axios.post(PATIENT_AUTH_API_BASE_URL+'/auth/login', {
                 params : {
                     login : login,
                     password : password,

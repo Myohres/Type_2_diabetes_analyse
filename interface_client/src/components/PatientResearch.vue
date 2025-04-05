@@ -62,7 +62,7 @@
 
 <script>
 import PatientInformationService from "@/services/PatInformationService.js";
-import PatInformation from "@/model/PatInformation.js";
+import PatInformation from "@/model/patient-information/PatInformation.js";
 
 export default {
   name: "PatientResearch",

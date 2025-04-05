@@ -1,5 +1,6 @@
-package medi_labo.gateway;
+package medi_labo.gateway.repository;
 
+import medi_labo.gateway.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

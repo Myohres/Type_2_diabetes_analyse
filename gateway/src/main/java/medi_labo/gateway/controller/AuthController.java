@@ -1,8 +1,10 @@
-package medi_labo.gateway;
+package medi_labo.gateway.controller;
 
 
+import medi_labo.gateway.model.User;
 import medi_labo.gateway.config.JwtUtils;
-import medi_labo.gateway.dto.UserConnectedDTO;
+import medi_labo.gateway.model.dto.UserConnectedDTO;
+import medi_labo.gateway.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

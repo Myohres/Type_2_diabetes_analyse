@@ -70,7 +70,7 @@ import { useRoute} from "vue-router";
 import PatientinformationService from "@/services/PatInformationService.js";
 import PatHistoryService from "@/services/PatientHistoryService.js";
 import PatAssessmentService from "@/services/PatAssessmentService.js";
-import PatInformation from "@/model/PatInformation.js";
+import PatInformation from "@/model/patient-information/PatInformation.js";
 import PatHistory from "@/model/PatHistory.js";
 import RequestPatAssessment from "@/model/RequestPatAssessment.js";
 import PatAssessment from "@/model/PatAssessment.js";

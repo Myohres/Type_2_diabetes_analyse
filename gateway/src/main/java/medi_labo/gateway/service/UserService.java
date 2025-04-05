@@ -1,8 +1,10 @@
-package medi_labo.gateway;
+package medi_labo.gateway.service;
 
 
+import medi_labo.gateway.model.User;
+import medi_labo.gateway.repository.UserRepository;
 import medi_labo.gateway.config.JwtUtils;
-import medi_labo.gateway.dto.UserConnectedDTO;
+import medi_labo.gateway.model.dto.UserConnectedDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
