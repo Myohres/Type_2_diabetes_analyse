@@ -11,7 +11,7 @@
         <input v-model="password" type="text" placeholder="Mot de passe">
         <div class="error" :class="{ visible: errors.password }">{{ errors.password || " " }}</div>
       </div>
-      <button @click="getConnection2">Connexion</button>
+      <button @click="getConnection">Connexion</button>
     </div>
     <div class="message">{{ message }}</div>
   </div>
@@ -22,6 +22,7 @@
 import UserService from "@/services/UserService.js";
 import router from "@/router/index.js";
 import {reactive, ref} from "vue";
+import userService from "@/services/UserService.js";
 
 
 const login = ref('');
@@ -40,17 +41,16 @@ const getConnection = async () => {
 
 
   try {
-    const response = await UserService.getConnection(login.value, password.value);
+    await UserService.authentification(login.value, password.value)
 
-    if (response === true) {
-      const reponseToken = await UserService.authentification(login.value, password.value)
 
-      message.value = "Authentification réussie"
+      message.value = "Authentification réussie " +userService.getToken()
       await router.push({
         name: 'recherche',
       })
-    }
+
   } catch (error) {
+    console.log(error)
     if (error.response && error.response.status === 404) {
       message.value = "Login ou mot de passe incorrect";
     } else {
@@ -59,17 +59,7 @@ const getConnection = async () => {
   }
 }
 
-const getConnection2 = async() => {
-  message.value = "";
-  errors.login = login.value ? "" : "Le login est obligatoire.";
-  errors.password = password.value ? "" : "Le mot de passe est obligatoire.";
-  try {
-    const response = await UserService.authentification(login.value, password.value);
-  } catch (error){
 
-  }
-
-}
 
 </script>
 

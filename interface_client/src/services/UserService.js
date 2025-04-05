@@ -9,39 +9,24 @@ class UserService{
 
     getToken() {
         return token_session;
-}
+    }
 
-    async getConnection(login, password){
-        try {
-            const response = await axios.get(PATIENT_AUTH_API_BASE_URL+'/connexion/',{
-                params : {
-                    login : login,
-                    password : password,
-                }
-            })
-            return response.data
-        } catch (error) {
-            if (error.response && error.response.status === 404) {
-                console.error('Utilisateur non trouvé (404)');
-            } else {
-                console.error('Service Erreur lors de la connexion', error);
-            }
-            throw error;
-        }
+    setToken(token) {
+        token_session = token;
     }
 
     async authentification(login, password) {
         try {
-            const response = await axios.post(PATIENT_AUTH_API_BASE_URL+'/auth/login', {
-                params : {
-                    login : login,
-                    password : password,
+            const response = await axios.post(PATIENT_AUTH_API_BASE_URL+'/auth/login',
+                {
+                    login: login,
+                    password: password
                 }
-            })
+            );
             console.log(response.data)
             console.log(token_session)
             token_session = response.data.token;
-            console.log(token_session)
+            console.log("user service token session" + token_session)
             return response.data
         } catch (error) {
             console.error("Service erreur lors de l'authentification", error);
@@ -82,6 +67,8 @@ class UserService{
             throw error;
         }
     }
+
+
 
 }
 

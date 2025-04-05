@@ -1,6 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="detailPat">
     <h2>Détails du Patient</h2>
+    <h2>{{token}}</h2>
     <p>Numéro patient: {{ patInformation?.patId }}</p>
     <p>Nom: {{ patInformation?.lastName }}</p>
     <p>Prénom: {{ patInformation?.firstName }}</p>
@@ -42,7 +43,7 @@
       <table class="table table-striped">
         <tbody>
         <tr v-for="(patientHistorique, index) in patHistory" :key="index">
-          <td>{{ patientHistorique.note }}</td>
+          <td>{{ patientHistorique.noteListHistories.value }}</td>
         </tr>
         </tbody>
       </table>
@@ -74,6 +75,7 @@ import PatInformation from "@/model/patient-information/PatInformation.js";
 import PatHistory from "@/model/PatHistory.js";
 import RequestPatAssessment from "@/model/RequestPatAssessment.js";
 import PatAssessment from "@/model/PatAssessment.js";
+import userService from "@/services/UserService.js";
 
 
 const route = useRoute();
@@ -84,6 +86,7 @@ const patHistory = ref(null);
 const noteToADD = ref(null);
 const assessmentMessage = ref(null);
 const errors = ref({});
+const token = userService.getToken()
 
 onMounted(() => {
   try {
