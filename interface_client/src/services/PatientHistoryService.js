@@ -1,30 +1,60 @@
 import axios from "axios";
 import PatInformation from "@/model/patient-information/PatInformation.js";
-import PatHistory from "@/model/PatHistory.js";
+import PatHistory from "@/model/patient-history/PatHistory.js";
+import userService from "@/services/UserService.js";
+import PatHistories from "@/model/patient-history/PatHistories.js";
 
-const PATIENT_HISTORY_API_BASE_URL = 'http://localhost:8082/history'
+const PATIENT_HISTORY_API_BASE_URL = 'http://localhost:8083/pat-history'
+
 
 class PatientHistoryService {
     async getPatHistoryByPatId(patId) {
+        const token = userService.getToken()
         try {
-            const response = await axios.get(PATIENT_HISTORY_API_BASE_URL + '/patId', {
-                params: {patId: patId}
+            const response = await axios.get(`${PATIENT_HISTORY_API_BASE_URL}/patId/${patId}`,{
+                withCredentials: true,
+                headers: {
+                    "Authorization" : "Bearer " + token
+                }
             });
-            return response.data.map(patientHistorique => new PatHistory(
-                patientHistorique.id,
-                patientHistorique.patId,
-                patientHistorique.patient,
-                patientHistorique.note,
-            ));
+            return response.data.map(patHistories => new PatHistories(
+                patHistories.patId,
+                patHistories.patient,
+                patHistories.noteListHistories)
+            )
+
         } catch (error) {
             console.error('Erreur lors de la récupération des historiques des utilisateurs:', error);
             throw error;
         }
     }
 
-    async addNote(patHistory) {
+    async getNoteListHistoriesByPatId(patId) {
+        const token = userService.getToken()
         try {
-            const response = await axios.post(PATIENT_HISTORY_API_BASE_URL + '/note', patHistory);
+            const response = await axios.get(`${PATIENT_HISTORY_API_BASE_URL}/noteListHistories/${patId}`,{
+                withCredentials: true,
+                headers: {
+                    "Authorization" : "Bearer " + token
+                }
+            });
+            return response.data
+
+        } catch (error) {
+            console.error('Erreur lors de la récupération des historiques de utilisateur:', error);
+            throw error;
+        }
+    }
+
+    async addNote(patHistory) {
+        const token = userService.getToken()
+        try {
+            const response = await axios.post(PATIENT_HISTORY_API_BASE_URL + '/add', patHistory, {
+                withCredentials: true,
+                headers: {
+                    "Authorization" : "Bearer " + token
+                }
+            });
             return response.data;
         } catch (error) {
             console.error('Erreur lors de l\'ajout de la note:', error);

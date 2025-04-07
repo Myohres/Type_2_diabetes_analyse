@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/pat-history")
-@Controller
+@RestController
 @Validated
 public class PatHistoryController {
 

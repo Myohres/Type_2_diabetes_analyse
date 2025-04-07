@@ -41,8 +41,8 @@
       <h2>Historique du patient</h2>
       <table class="table table-striped">
         <tbody>
-        <tr v-for="(patientHistorique, index) in patHistory" :key="index">
-          <td>{{ patientHistorique.note }}</td>
+        <tr v-for="(patientHistorique, index) in noteListHistories" :key="index">
+          <td>{{ patientHistorique }}</td>
         </tr>
         </tbody>
       </table>
@@ -71,7 +71,7 @@ import PatientinformationService from "@/services/PatInformationService.js";
 import PatHistoryService from "@/services/PatientHistoryService.js";
 import PatAssessmentService from "@/services/PatAssessmentService.js";
 import PatInformation from "@/model/patient-information/PatInformation.js";
-import PatHistory from "@/model/PatHistory.js";
+import PatHistory from "@/model/patient-history/PatHistory.js";
 import RequestPatAssessment from "@/model/RequestPatAssessment.js";
 import PatAssessment from "@/model/PatAssessment.js";
 
@@ -80,7 +80,7 @@ const route = useRoute();
 
 const patInformation = ref(null);
 const patInformationToUpdate = new PatInformation();
-const patHistory = ref(null);
+const noteListHistories = ref(null);
 const noteToADD = ref(null);
 const assessmentMessage = ref(null);
 const errors = ref({});
@@ -134,7 +134,7 @@ const updatePatInformation = async () => {
 
 const getPatHistory = async () => {
   try {
-    patHistory.value = await PatHistoryService.getPatHistoryByPatId(patInformation.value.patId)
+    noteListHistories.value = await PatHistoryService.getNoteListHistoriesByPatId(patInformation.value.patId)
   } catch (error) {
     console.error("Erreur lors de la recherche de l'historique du patient", error)
   }
@@ -152,7 +152,7 @@ const addNote = async () => {
 }
 
 const generatePatAssessment = async () => {
-  const patientNoteListToPatAssessment = patHistory.value.map(patHistory => patHistory.note)
+  const patientNoteListToPatAssessment = noteListHistories.value
   const requestPatAssessment = new RequestPatAssessment(patInformation.value.patId, patientNoteListToPatAssessment, patInformation.value.birthDay, patInformation.value.gender)
   let patAssessment2 = new PatAssessment("","");
   try {

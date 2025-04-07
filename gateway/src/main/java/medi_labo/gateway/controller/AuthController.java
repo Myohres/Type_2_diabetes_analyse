@@ -1,8 +1,10 @@
 package medi_labo.gateway.controller;
 
 
+import jakarta.validation.Valid;
 import medi_labo.gateway.model.User;
 import medi_labo.gateway.config.JwtUtils;
+import medi_labo.gateway.model.dto.LoginRequest;
 import medi_labo.gateway.model.dto.UserConnectedDTO;
 import medi_labo.gateway.service.UserService;
 import org.slf4j.Logger;
@@ -43,13 +45,10 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<UserConnectedDTO> login(@RequestParam String login, @RequestParam String password) {
-        log.info("POST /login/{}{}" , login, password);
+    public ResponseEntity<UserConnectedDTO> login(@Valid @RequestBody LoginRequest loginRequest) {
+        log.info("POST /login/{}{}" , loginRequest.getLogin(), loginRequest.getPassword());
         try {
-            if (login == null || login.trim().isEmpty()) {
-                return ResponseEntity.badRequest().build();
-            }
-            return ResponseEntity.ok(userService.authenticateAndGenerateToken(login, password));
+            return ResponseEntity.ok(userService.authenticateAndGenerateToken(loginRequest.getLogin(), loginRequest.getPassword()));
         } catch (NoSuchElementException e) {
             log.error("login error {}", e.getMessage());
             return ResponseEntity.notFound().build();

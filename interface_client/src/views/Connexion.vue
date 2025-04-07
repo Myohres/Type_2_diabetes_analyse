@@ -11,7 +11,7 @@
         <input v-model="password" type="text" placeholder="Mot de passe">
         <div class="error" :class="{ visible: errors.password }">{{ errors.password || " " }}</div>
       </div>
-      <button @click="getConnection2">Connexion</button>
+      <button @click="getConnection">Connexion</button>
     </div>
     <div class="message">{{ message }}</div>
   </div>
@@ -40,16 +40,14 @@ const getConnection = async () => {
 
 
   try {
-    const response = await UserService.getConnection(login.value, password.value);
 
-    if (response === true) {
       const reponseToken = await UserService.authentification(login.value, password.value)
 
       message.value = "Authentification réussie"
       await router.push({
         name: 'recherche',
       })
-    }
+
   } catch (error) {
     if (error.response && error.response.status === 404) {
       message.value = "Login ou mot de passe incorrect";

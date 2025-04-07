@@ -33,10 +33,10 @@ class UserService{
     async authentification(login, password) {
         try {
             const response = await axios.post(PATIENT_AUTH_API_BASE_URL+'/auth/login', {
-                params : {
+
                     login : login,
                     password : password,
-                }
+
             })
             console.log(response.data)
             console.log(token_session)
