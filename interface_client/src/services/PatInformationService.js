@@ -6,6 +6,7 @@ import userService from "@/services/UserService.js";
 const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/pat-information'
 const token = localStorage.getItem("jwt")
 
+const token = userService.getToken();
 class PatInformationService {
 
     async getPatInformationByPatId(patId){
@@ -49,7 +50,7 @@ class PatInformationService {
                 patientInformation.address,
                 patientInformation.phone));
         } catch (error) {
-            console.error('Erreur lors de la récupération des utilisateurs:', error.response?.status);
+            console.error('Erreur lors de la récupération des utilisateurs:',  error.response?.status, error.response?.data);
             throw error;
         }
     }
