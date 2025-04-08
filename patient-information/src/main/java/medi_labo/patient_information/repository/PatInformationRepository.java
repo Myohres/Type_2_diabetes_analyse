@@ -1,6 +1,6 @@
 package medi_labo.patient_information.repository;
 
-import medi_labo.patient_information.model.PatInformation;
+import medi_labo.patient_information.model.document.PatInformation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

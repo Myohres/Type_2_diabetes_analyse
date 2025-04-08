@@ -11,7 +11,7 @@ public class User {
     String password;
     String lastName;
     String firstName;
-    String role;
+    Role role;
 
     public String getLogin() {
         return login;
@@ -45,11 +45,11 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
     

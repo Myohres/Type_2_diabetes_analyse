@@ -3,6 +3,7 @@ package medi_labo.patient_history.controller;
 import jakarta.validation.Valid;
 import medi_labo.patient_history.model.DTO.PatHistoriesDTO;
 import medi_labo.patient_history.model.DTO.PatHistoriesNoteDTO;
+import medi_labo.patient_history.model.DTO.PatHistoryToAddDTO;
 import medi_labo.patient_history.model.entity.PatHistory;
 import medi_labo.patient_history.service.PatHistoryService;
 import org.slf4j.Logger;
@@ -55,9 +56,9 @@ public class PatHistoryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<PatHistory> addPatHistory(@Valid @RequestBody PatHistory patHistory) {
+    public ResponseEntity<PatHistory> addPatHistory(@Valid @RequestBody PatHistoryToAddDTO patHistoryToAddDTO) {
         log.info("POST/History/add");
-            return ResponseEntity.ok(patHistoryService.addPatHistory(patHistory));
+            return ResponseEntity.ok(patHistoryService.addPatHistory(patHistoryToAddDTO));
     }
 
     @PutMapping("/note")

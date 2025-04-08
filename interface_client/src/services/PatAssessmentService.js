@@ -4,11 +4,10 @@ import PatAssessment from "@/model/PatAssessment.js";
 import userService from "@/services/UserService.js";
 
 const PATIENT_ASSESSMENT_API_BASE_URL = 'http://localhost:8083/pat-assessment'
-
+const token = localStorage.getItem("jwt")
 
 class PatAssessmentService {
     async getPatAssessment(requestAssessment){
-        const token = userService.getToken()
         try {
             const response = await axios.post(PATIENT_ASSESSMENT_API_BASE_URL,requestAssessment, {
                 withCredentials: true,

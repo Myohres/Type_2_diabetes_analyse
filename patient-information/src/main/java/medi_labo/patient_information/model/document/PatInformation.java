@@ -1,4 +1,4 @@
-package medi_labo.patient_information.model;
+package medi_labo.patient_information.model.document;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
@@ -25,12 +25,8 @@ public class PatInformation {
     @NotNull(message = "birthDay est obligatoire")
     private LocalDate birthDay;
 
-    @NotBlank(message = "gender est obligatoire")
-    @Pattern(
-            regexp = "M|F",
-            message = "Le genre doit être 'M' ou 'F'"
-    )
-    private String gender;
+    @NotNull(message = "gender est obligatoire")
+    private Gender gender;
 
     private String address;
     private String phone;
@@ -67,11 +63,11 @@ public class PatInformation {
         this.birthDay = birthDay;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

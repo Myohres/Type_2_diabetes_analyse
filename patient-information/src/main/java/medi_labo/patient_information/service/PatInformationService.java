@@ -2,8 +2,8 @@ package medi_labo.patient_information.service;
 
 import medi_labo.patient_information.repository.PatInformationRepository;
 import medi_labo.patient_information.config.IdCounterService;
-import medi_labo.patient_information.model.BirthDayGenderDTO;
-import medi_labo.patient_information.model.PatInformation;
+import medi_labo.patient_information.model.dto.BirthDayGenderDTO;
+import medi_labo.patient_information.model.document.PatInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +50,7 @@ public class PatInformationService {
         BirthDayGenderDTO birthDayGenderDTO = new BirthDayGenderDTO();
         PatInformation patInformation = getPatInformationByPatId(patId);
         birthDayGenderDTO.setBirthDay(patInformation.getBirthDay());
-        birthDayGenderDTO.setGender(patInformation.getGender());
+        birthDayGenderDTO.setGender(patInformation.getGender().name());
         return birthDayGenderDTO;
     }
 

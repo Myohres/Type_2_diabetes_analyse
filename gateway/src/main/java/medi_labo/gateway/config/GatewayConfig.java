@@ -1,5 +1,6 @@
 package medi_labo.gateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 
@@ -24,10 +25,20 @@ public class GatewayConfig {
         this.jwtUtils = jwtUtils;
     }
 
+
+    @Value("${routes.patient-information-uri}")
+    private String patientInformationUri;
+
+    @Value("${routes.patient-history-uri}")
+    private String patientHistoryUri;
+
+    @Value("${routes.patient-assessment-uri}")
+    private String patientAssessmentUri;
+
     private static final Map<String, List<String>> routeRoles = Map.of(
-            "/pat-assessment", List.of("ADMIN", "Praticien"),
-            "/pat-history", List.of("ADMIN", "Praticien"),
-            "/pat-information", List.of("ADMIN", "Organisateur", "Praticien")
+            "/pat-assessment", List.of("ADMIN", "PRATICIEN"),
+            "/pat-history", List.of("ADMIN", "PRATICIEN"),
+            "/pat-information", List.of("ADMIN", "ORGANISATEUR", "PRATICIEN")
     );
 
     @Bean
@@ -35,13 +46,13 @@ public class GatewayConfig {
         return builder.routes()
                 .route("patient-information", r -> r.path("/pat-information/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri("http://localhost:8080"))
+                        .uri(patientInformationUri))
                 .route("patient-history", r -> r.path("/pat-history/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri("http://localhost:8081"))
+                        .uri(patientHistoryUri))
                 .route("patient-assessment", r -> r.path("/pat-assessment/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri("http://localhost:8082"))
+                        .uri(patientAssessmentUri))
                 .build();
     }
 

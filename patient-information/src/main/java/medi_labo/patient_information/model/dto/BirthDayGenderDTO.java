@@ -1,4 +1,4 @@
-package medi_labo.patient_information.model;
+package medi_labo.patient_information.model.dto;
 
 import java.time.LocalDate;
 

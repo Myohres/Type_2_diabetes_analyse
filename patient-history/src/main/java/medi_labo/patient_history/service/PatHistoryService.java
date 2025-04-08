@@ -1,6 +1,7 @@
 package medi_labo.patient_history.service;
 
 import medi_labo.patient_history.mapper.PatHistoriesMapper;
+import medi_labo.patient_history.model.DTO.PatHistoryToAddDTO;
 import medi_labo.patient_history.repository.PatHistoryRepository;
 import medi_labo.patient_history.model.DTO.PatHistoriesDTO;
 import medi_labo.patient_history.model.entity.PatHistory;
@@ -46,9 +47,11 @@ public class PatHistoryService {
         }
     }
 
-
-
-    public PatHistory addPatHistory(PatHistory patHistory) {
+    public PatHistory addPatHistory(PatHistoryToAddDTO patHistoryToAddDTO) {
+        PatHistory patHistory = new PatHistory();
+        patHistory.setPatId(patHistoryToAddDTO.getPatId());
+        patHistory.setPatient(patHistoryToAddDTO.getPatient());
+        patHistory.setNote(patHistoryToAddDTO.getNote());
         return patHistoryRepository.save(patHistory);
     }
 

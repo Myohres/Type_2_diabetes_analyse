@@ -3,7 +3,9 @@
 services:
 
   vue-app:
-    build: .
+    build:
+      context: interface_client
+      dockerfile: Dockerfile
     container_name: vue-container
     ports:
       - "8085:80"
@@ -13,7 +15,7 @@ services:
         condition: service_started
       pat_historique:
         condition: service_started
-      pat_bilan:
+      patient-assessment:
         condition: service_started
       gateway:
         condition: service_started
@@ -24,17 +26,23 @@ services:
 
   gateway:
     build:
-      context: ./gateway
+      context: gateway
       dockerfile: Dockerfile
     container_name: gateway
     ports:
       - "8083:8083"
+    environment:
+      - PAT_INFO_URI=http://patient_information:8080
+      - PAT_HISTORY_URI=http://pat_historique:8081
+      - PAT_ASSESS_URI=http://patient-assessment:8082
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/medi_labo_solution_bdd
+
     depends_on:
         pat_information:
           condition: service_started
         pat_historique:
           condition: service_started
-        pat_bilan:
+        patient-assessment:
           condition: service_started
         mongo:
           condition: service_started
@@ -52,13 +60,13 @@ services:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
         mongo :
-        condition: service_healthy
+          condition: service_healthy
     networks:
       - springboot-network
 
   pat_historique:
     build:
-      context: ./patient_historique
+      context: patient-history
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
@@ -72,12 +80,14 @@ services:
     networks:
       - springboot-network
 
-  pat_bilan:
+  patient-assessment:
     build:
-      context: ./patient_bilan
+      context: patient-assessment
       dockerfile: Dockerfile
     ports:
       - "8082:8082"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
       pat_information:
         condition: service_started
@@ -102,7 +112,7 @@ services:
       - springboot-network
     healthcheck:
         test: [ "CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })" ]
-        interval: 10s
+        interval: 60s
         timeout: 5s
         retries: 5
 

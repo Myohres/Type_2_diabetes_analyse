@@ -74,6 +74,7 @@ import PatInformation from "@/model/patient-information/PatInformation.js";
 import PatHistory from "@/model/patient-history/PatHistory.js";
 import RequestPatAssessment from "@/model/RequestPatAssessment.js";
 import PatAssessment from "@/model/PatAssessment.js";
+import PatHistoryToAdd from "@/model/patient-history/PatHistoryToAdd.js";
 
 
 const route = useRoute();
@@ -127,9 +128,6 @@ const updatePatInformation = async () => {
       console.error("Erreur lors de l'update du patient", error);
     }
   }
-
-
-
 }
 
 const getPatHistory = async () => {
@@ -141,9 +139,9 @@ const getPatHistory = async () => {
 }
 
 const addNote = async () => {
-  const patHistory = new PatHistory("", patInformation.value.patId, patInformation.value.lastName, noteToADD.value)
+  const patHistoryToAdd = new PatHistoryToAdd(patInformation.value.patId, patInformation.value.lastName, noteToADD.value)
   try {
-    await PatHistoryService.addNote(patHistory)
+    await PatHistoryService.addNote(patHistoryToAdd)
   } catch (error) {
     console.error("Erreur lors de l'ajout de la note'", error)
   }
@@ -194,18 +192,7 @@ textarea{
   margin-bottom: 5px;
 }
 
-.BilanPat{
-
-}
-
-.updatePatient{
-  margin-bottom: 10px;
-}
-
 label {
-
-
-
   font-weight: bold;
   margin-bottom: 5px;
 }

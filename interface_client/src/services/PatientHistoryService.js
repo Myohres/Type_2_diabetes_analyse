@@ -5,11 +5,10 @@ import userService from "@/services/UserService.js";
 import PatHistories from "@/model/patient-history/PatHistories.js";
 
 const PATIENT_HISTORY_API_BASE_URL = 'http://localhost:8083/pat-history'
-
+const token = localStorage.getItem("jwt")
 
 class PatientHistoryService {
     async getPatHistoryByPatId(patId) {
-        const token = userService.getToken()
         try {
             const response = await axios.get(`${PATIENT_HISTORY_API_BASE_URL}/patId/${patId}`,{
                 withCredentials: true,
@@ -30,7 +29,6 @@ class PatientHistoryService {
     }
 
     async getNoteListHistoriesByPatId(patId) {
-        const token = userService.getToken()
         try {
             const response = await axios.get(`${PATIENT_HISTORY_API_BASE_URL}/noteListHistories/${patId}`,{
                 withCredentials: true,
@@ -47,7 +45,6 @@ class PatientHistoryService {
     }
 
     async addNote(patHistory) {
-        const token = userService.getToken()
         try {
             const response = await axios.post(PATIENT_HISTORY_API_BASE_URL + '/add', patHistory, {
                 withCredentials: true,

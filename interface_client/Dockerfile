@@ -5,9 +5,9 @@ Copy package*.json ./
 
 RUN npm install
 
-COPY..
+COPY . .
 
-Run npm run build
+RUN npm run build
 
 FROM nginx:alpine AS production-stage
 

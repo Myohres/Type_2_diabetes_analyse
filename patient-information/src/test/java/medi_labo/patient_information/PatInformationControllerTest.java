@@ -1,8 +1,9 @@
 package medi_labo.patient_information;
 
 import medi_labo.patient_information.controller.PatInformationController;
-import medi_labo.patient_information.model.BirthDayGenderDTO;
-import medi_labo.patient_information.model.PatInformation;
+import medi_labo.patient_information.model.dto.BirthDayGenderDTO;
+import medi_labo.patient_information.model.document.Gender;
+import medi_labo.patient_information.model.document.PatInformation;
 import medi_labo.patient_information.service.PatInformationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ class PatInformationControllerTest {
         patInformation.setLastName("LastName");
         patInformation.setFirstName("FirstName");
         patInformation.setBirthDay(LocalDate.of(2000,1,1));
-        patInformation.setGender("M");
+        patInformation.setGender(Gender.M);
         patInformation.setAddress("Address");
         patInformation.setPhone("000-000-0000");
     }

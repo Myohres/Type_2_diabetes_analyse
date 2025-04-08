@@ -1,6 +1,7 @@
 package medi_labo.patient_history;
 
 import medi_labo.patient_history.model.DTO.PatHistoriesDTO;
+import medi_labo.patient_history.model.DTO.PatHistoryToAddDTO;
 import medi_labo.patient_history.model.entity.PatHistory;
 import medi_labo.patient_history.repository.PatHistoryRepository;
 import medi_labo.patient_history.service.PatHistoryService;
@@ -47,7 +48,7 @@ class PatHistoryServiceTest {
         patHistoriquesList.add(patHistory);
         when(patHistoryRepository.findAll()).thenReturn(patHistoriquesList);
         PatHistoriesDTO historiqueList = patHistoryService.getAllPatHistory();
-        assertEquals(patHistoriquesList, historiqueList);
+        assertEquals(patHistoriquesList.get(0).getPatient(), historiqueList.getPatient());
     }
 
     @Test
@@ -87,8 +88,9 @@ class PatHistoryServiceTest {
 
     @Test
     void addPatHistory() {
+        PatHistoryToAddDTO patHistoryToAddDTO = new PatHistoryToAddDTO();
         when(patHistoryRepository.save(any())).thenReturn(patHistory);
-        PatHistory patHistory1 = patHistoryService.addPatHistory(patHistory);
+        PatHistory patHistory1 = patHistoryService.addPatHistory(patHistoryToAddDTO);
         assertEquals(patHistory, patHistory1);
     }
 

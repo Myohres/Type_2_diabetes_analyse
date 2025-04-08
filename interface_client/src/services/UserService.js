@@ -42,7 +42,10 @@ class UserService{
             console.log(token_session)
             token_session = response.data.token;
             console.log(token_session)
+            localStorage.setItem('jwt', response.data.token)
+
             return response.data
+
         } catch (error) {
             console.error("Service erreur lors de l'authentification", error);
             throw error;

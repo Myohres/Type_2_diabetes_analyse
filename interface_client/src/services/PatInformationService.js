@@ -4,12 +4,11 @@ import userService from "@/services/UserService.js";
 
 
 const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/pat-information'
-
+const token = localStorage.getItem("jwt")
 
 class PatInformationService {
 
     async getPatInformationByPatId(patId){
-        const token = userService.getToken()
         try {
             const response = await axios.get(`${PATIENT_INFORMATION_API_BASE_URL}/patId/${patId}`, {
                 withCredentials: true,
@@ -25,7 +24,6 @@ class PatInformationService {
     }
 
     async getPatInformationByAllInformation(patId, lastName, firstName, birthDay, gender, address, phone){
-        const token = userService.getToken()
         try {
             const response = await axios.get(PATIENT_INFORMATION_API_BASE_URL +'/information/', {
                 withCredentials: true,
@@ -57,7 +55,6 @@ class PatInformationService {
     }
 
     async addPatInformation(patInformation) {
-        const token = userService.getToken()
         try {
             const response = await axios.post(PATIENT_INFORMATION_API_BASE_URL + '/add/', patInformation, {
                 withCredentials: true,
@@ -73,7 +70,6 @@ class PatInformationService {
     }
 
     async updatePatInformation(patId, patInformation) {
-        const token = userService.getToken()
         try {
             const response = await axios.put(PATIENT_INFORMATION_API_BASE_URL + '/update/' + patId, patInformation, {
                 withCredentials: true,
@@ -95,7 +91,6 @@ class PatInformationService {
     }
 
     async deletePatientInformation(patId) {
-        const token = userService.getToken()
         try {
            const response = await axios.delete(PATIENT_INFORMATION_API_BASE_URL + '/delete/' +patId, {
                withCredentials: true,

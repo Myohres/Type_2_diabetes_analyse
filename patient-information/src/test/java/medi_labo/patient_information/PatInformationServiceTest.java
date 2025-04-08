@@ -1,8 +1,9 @@
 package medi_labo.patient_information;
 
 import medi_labo.patient_information.config.IdCounterService;
-import medi_labo.patient_information.model.BirthDayGenderDTO;
-import medi_labo.patient_information.model.PatInformation;
+import medi_labo.patient_information.model.document.Gender;
+import medi_labo.patient_information.model.dto.BirthDayGenderDTO;
+import medi_labo.patient_information.model.document.PatInformation;
 import medi_labo.patient_information.repository.PatInformationRepository;
 import medi_labo.patient_information.service.PatInformationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ class PatInformationServiceTest {
         patInformation.setLastName("LastName");
         patInformation.setFirstName("FirstName");
         patInformation.setBirthDay(LocalDate.of(2000,1,1));
-        patInformation.setGender("M");
+        patInformation.setGender(Gender.M);
         patInformation.setAddress("Address");
         patInformation.setPhone("000-000-0000");
     }
@@ -92,7 +93,7 @@ class PatInformationServiceTest {
     void getBirthDayGenderByPatId() {
         when(patInformationRepository.findByPatId(any())).thenReturn(Optional.of(patInformation));
         BirthDayGenderDTO birthDayGenderDTO = patInformationService.getBirthDayGenderByPatId("0001");
-        assertEquals(birthDayGenderDTO.getGender(), patInformation.getGender());
+        assertEquals(birthDayGenderDTO.getGender(), patInformation.getGender().name());
         assertEquals(birthDayGenderDTO.getBirthDay(), patInformation.getBirthDay());
     }
 
@@ -121,11 +122,11 @@ class PatInformationServiceTest {
         patInformation1.setLastName("LastName");
         patInformation1.setFirstName("FirstName");
         patInformation1.setBirthDay(LocalDate.of(2000,1,1));
-        patInformation1.setGender("F");
+        patInformation1.setGender(Gender.F);
         patInformation1.setAddress("Address");
         patInformation1.setPhone("000-000-0000");
         patInformation = patInformationService.updatePatInformation("1",patInformation1);
-        assertSame("F", patInformation.getGender());
+        assertSame("F", patInformation.getGender().name());
 
     }
 
