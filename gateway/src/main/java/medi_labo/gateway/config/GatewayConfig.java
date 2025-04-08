@@ -11,6 +11,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 @Configuration
 public class GatewayConfig {
 
@@ -19,6 +23,12 @@ public class GatewayConfig {
     public GatewayConfig(JwtUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
     }
+
+    private static final Map<String, List<String>> routeRoles = Map.of(
+            "/pat-assessment", List.of("ADMIN", "Praticien"),
+            "/pat-history", List.of("ADMIN", "Praticien"),
+            "/pat-information", List.of("ADMIN", "Organisateur", "Praticien")
+    );
 
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder, ServiceUnavailableGatewayFilter serviceUnavailableFilter) {
@@ -55,6 +65,19 @@ public class GatewayConfig {
                 exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
                 return exchange.getResponse().setComplete();
             }
+
+            String role = jwtUtils.getRoleFromToken(token);
+            String path = request.getPath().toString();
+
+            Optional<Map.Entry<String, List<String>>> matched = routeRoles.entrySet().stream()
+                    .filter(entry -> path.startsWith(entry.getKey()))
+                    .findFirst();
+
+            if (matched.isPresent() && !matched.get().getValue().contains(role)) {
+                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                return exchange.getResponse().setComplete();
+            }
+
 
             return chain.filter(exchange);
         };

@@ -40,7 +40,7 @@ public class UserService {
         if (!Objects.equals(user.getPassword(), password)) {
             throw new RuntimeException("Mot de passe incorrect");
         }
-       String token = jwtUtils.generateToken(user.getLogin());
+       String token = jwtUtils.generateToken(user.getLogin(), user.getRole());
         UserConnectedDTO userConnectedDTO = new UserConnectedDTO();
         userConnectedDTO.setLogin(user.getLogin());
         userConnectedDTO.setFirstName(user.getFirstName());
