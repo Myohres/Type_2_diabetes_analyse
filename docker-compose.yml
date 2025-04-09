@@ -11,11 +11,11 @@ services:
       - "8085:80"
     restart: always
     depends_on:
-      pat_information:
+      pat-information:
         condition: service_started
-      pat_historique:
+      pat-history:
         condition: service_started
-      patient-assessment:
+      pat-assessment:
         condition: service_started
       gateway:
         condition: service_started
@@ -32,28 +32,25 @@ services:
     ports:
       - "8083:8083"
     environment:
-      - PAT_INFO_URI=http://patient_information:8080
-      - PAT_HISTORY_URI=http://pat_historique:8081
-      - PAT_ASSESS_URI=http://patient-assessment:8082
       - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/medi_labo_solution_bdd
 
     depends_on:
-        pat_information:
+        pat-information:
           condition: service_started
-        pat_historique:
+        pat-history:
           condition: service_started
-        patient-assessment:
+        pat-assessment:
           condition: service_started
         mongo:
           condition: service_started
     networks:
       - springboot-network
 
-  pat_information:
+  pat-information:
     build:
       context: patient-information
       dockerfile: Dockerfile
-    container_name: patient_information
+    container_name: pat-information
     ports:
       - "8080:8080"
     environment:
@@ -64,7 +61,7 @@ services:
     networks:
       - springboot-network
 
-  pat_historique:
+  pat-history:
     build:
       context: patient-history
       dockerfile: Dockerfile
@@ -73,14 +70,14 @@ services:
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
-        pat_information:
+        pat-information:
           condition: service_started
         mongo:
           condition: service_started
     networks:
       - springboot-network
 
-  patient-assessment:
+  pat-assessment:
     build:
       context: patient-assessment
       dockerfile: Dockerfile
@@ -89,9 +86,9 @@ services:
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
-      pat_information:
+      pat-information:
         condition: service_started
-      pat_historique:
+      pat-history:
         condition : service_started
       mongo:
         condition: service_started

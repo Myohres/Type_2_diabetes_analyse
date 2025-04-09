@@ -26,15 +26,6 @@ public class GatewayConfig {
     }
 
 
-    @Value("${routes.patient-information-uri}")
-    private String patientInformationUri;
-
-    @Value("${routes.patient-history-uri}")
-    private String patientHistoryUri;
-
-    @Value("${routes.patient-assessment-uri}")
-    private String patientAssessmentUri;
-
     private static final Map<String, List<String>> routeRoles = Map.of(
             "/pat-assessment", List.of("ADMIN", "PRATICIEN"),
             "/pat-history", List.of("ADMIN", "PRATICIEN"),
@@ -46,13 +37,13 @@ public class GatewayConfig {
         return builder.routes()
                 .route("patient-information", r -> r.path("/pat-information/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri(patientInformationUri))
+                        .uri("https://patient-information:8080"))
                 .route("patient-history", r -> r.path("/pat-history/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri(patientHistoryUri))
+                        .uri("https://patient-history:8081"))
                 .route("patient-assessment", r -> r.path("/pat-assessment/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri(patientAssessmentUri))
+                        .uri("https://patient-assessment:8082"))
                 .build();
     }
 

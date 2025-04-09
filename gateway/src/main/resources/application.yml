@@ -4,13 +4,6 @@ server:
 spring:
   cloud:
     gateway:
-      routes:
-        - id: "patient-information"
-          uri: ${PAT_INFO_URI:http://localhost:8080}
-        - id: "patient-history"
-          uri: ${PAT_HISTORY_URI:http://localhost:8081}
-        - id: "patient-assessment"
-          uri: ${PAT_ASSESS_URI:http://localhost:8082}
       globalcors:
         cors-configurations:
           '[/**]':
@@ -40,4 +33,5 @@ spring:
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: true
+
 

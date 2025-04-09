@@ -6,7 +6,7 @@ import userService from "@/services/UserService.js";
 const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/pat-information'
 const token = localStorage.getItem("jwt")
 
-const token = userService.getToken();
+
 class PatInformationService {
 
     async getPatInformationByPatId(patId){
