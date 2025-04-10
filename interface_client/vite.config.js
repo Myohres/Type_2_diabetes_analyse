@@ -6,29 +6,32 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  server: {
-    proxy: {
-      '/patient': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-        secure: false
-      },
-      '/historique' : {
-        target: 'http://localhost:8081',
-        changeOrigin: true,
-        secure: false
-      },
-      '/assessment' : {
-        target: 'http://localhost:8082',
-        changeOrigin: true,
-        secure: false
-      },
-      '/user' : {
-        target: 'http://localhost:8083',
-        changeOrigin: true,
-        secure: false,
-      }
-    },
+      server: {
+        host: '0.0.0.0',
+        port: 5173,
+        proxy: {
+          '/patient': {
+            target: 'http://gateway:8080',
+            changeOrigin: true,
+            secure: false
+          },
+          '/historique': {
+            target: 'http://gateway:8081',
+            changeOrigin: true,
+            secure: false
+          },
+          '/assessment': {
+            target: 'http://gateway:8082',
+            changeOrigin: true,
+            secure: false
+          },
+          '/user': {
+            target: 'http://gateway:8083',
+            changeOrigin: true,
+            secure: false
+          }
+        }
+
 
 
 

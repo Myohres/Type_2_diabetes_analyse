@@ -4,7 +4,7 @@ import PatHistory from "@/model/patient-history/PatHistory.js";
 import userService from "@/services/UserService.js";
 import PatHistories from "@/model/patient-history/PatHistories.js";
 
-const PATIENT_HISTORY_API_BASE_URL = 'http://localhost:8083/pat-history'
+const PATIENT_HISTORY_API_BASE_URL = 'http://gateway:8083/pat-history'
 const token = localStorage.getItem("jwt")
 
 class PatientHistoryService {

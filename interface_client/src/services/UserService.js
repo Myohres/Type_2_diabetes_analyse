@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const PATIENT_AUTH_API_BASE_URL = 'http://localhost:8083/user'
+const PATIENT_AUTH_API_BASE_URL = 'http://gateway:8083/user'
 
 let token_session = "";
 

@@ -3,7 +3,7 @@ import PatInformation from "@/model/patient-information/PatInformation.js";
 import userService from "@/services/UserService.js";
 
 
-const PATIENT_INFORMATION_API_BASE_URL = 'http://localhost:8083/pat-information'
+const PATIENT_INFORMATION_API_BASE_URL = 'http://gateway:8083/pat-information'
 const token = localStorage.getItem("jwt")
 
 

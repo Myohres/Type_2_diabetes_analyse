@@ -8,7 +8,7 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOriginPatterns:
-              - "http://localhost:5173/"
+              - "http://vue-app:5173/"
             allowedMethods:
               - GET
               - POST

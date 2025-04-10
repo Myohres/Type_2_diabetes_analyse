@@ -37,13 +37,13 @@ public class GatewayConfig {
         return builder.routes()
                 .route("patient-information", r -> r.path("/pat-information/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri("https://patient-information:8080"))
+                        .uri("http://patient-information:8080"))
                 .route("patient-history", r -> r.path("/pat-history/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri("https://patient-history:8081"))
+                        .uri("http://patient-history:8081"))
                 .route("patient-assessment", r -> r.path("/pat-assessment/**")
                         .filters(f -> f.filter(jwtFilter()).filter(serviceUnavailableFilter))
-                        .uri("https://patient-assessment:8082"))
+                        .uri("http://patient-assessment:8082"))
                 .build();
     }
 
