@@ -36,3 +36,7 @@ spring:
     allow-bean-definition-overriding: true
 
 
+logging:
+  level:
+    org.springframework.web.cors: DEBUG
+    org.springframework.web.filter.CorsFilter: DEBUG
