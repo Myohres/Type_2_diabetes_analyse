@@ -19,6 +19,7 @@ public class PatAssessmentService {
         PatAssessment patAssessment = new PatAssessment();
         Integer triggerWordNumber = getTriggerWordNumber(patientNoteList);
         Integer age = calculateAgePatient(birthday);
+        System.out.println(triggerWordNumber);
         String riskLevel = evaluationRiskLevel(triggerWordNumber, age, gender);
         patAssessment.setPatId(PatId);
         patAssessment.setRiskLevel(riskLevel);
@@ -30,7 +31,7 @@ public class PatAssessmentService {
         Period age = Period.between(birthday, currentDate);
 
         Integer ageInYears = age.getYears();
-        log.info(String.valueOf(ageInYears));
+
         return ageInYears;
     }
 
@@ -43,17 +44,23 @@ public class PatAssessmentService {
                 List<String> triggerWords = reader.lines().toList();
 
                 triggerWordNumber = (int) triggerWords.stream()
-                        .filter(word -> patientNoteList.stream().anyMatch(note -> note.contains(word)))
+                        .filter(word -> {
+                            boolean found = patientNoteList.stream().anyMatch(note -> note.contains(word));
+                            if (found) System.out.println("Trigger word trouvé : " + word);
+                            return found;
+                        })
                         .count();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        System.out.println(triggerWordNumber);
             return triggerWordNumber;
         }
 
 
     public String evaluationRiskLevel(Integer triggerWordNumber, Integer age, String gender) {
+        System.out.println(triggerWordNumber);
         if (triggerWordNumber == 0) {
             return "None";
         }

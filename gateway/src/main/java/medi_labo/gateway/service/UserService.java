@@ -8,6 +8,7 @@ import medi_labo.gateway.model.dto.UserConnectedDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,6 +23,8 @@ public class UserService {
 
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public User findUserByLogin(String login) {
         Optional<User> optionalUser = userRepository.findByLogin(login);
@@ -37,7 +40,7 @@ public class UserService {
         User user = findUserByLogin(login);
 
 
-        if (!Objects.equals(user.getPassword(), password)) {
+        if (!checkPassword(password, user.getPassword())) {
             throw new RuntimeException("Mot de passe incorrect");
         }
        String token = jwtUtils.generateToken(user.getLogin(), user.getRole().name());
@@ -53,6 +56,9 @@ public class UserService {
 
     public User addUser(User user) {
         if (checkLoginFree(user.getLogin())) {
+            String rawPassword = user.getPassword();
+            String hashedPassword = passwordEncoder.encode(rawPassword);
+            user.setPassword(hashedPassword);
             return userRepository.save(user);
         }
         throw new ResponseStatusException(HttpStatus.CONFLICT, "Login is already taken: " + user.getLogin());
@@ -63,9 +69,8 @@ public class UserService {
         return optionalUser.isEmpty();
     }
 
-    public boolean checkPassword(String login, String password) {
-        User user = findUserByLogin(login);
-        return user.getPassword().equals(password);
+    public boolean checkPassword(String rawPassword, String hashedPassword) {
+        return passwordEncoder.matches(rawPassword, hashedPassword);
     }
 
     public User updateUser(String login , User user) {
