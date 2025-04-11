@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "patient-history", url = "http://patient-history:8081", configuration = FeignConfig.class)
+@FeignClient(name = "patient-history", url = "http://localhost:8081", configuration = FeignConfig.class)
 public interface PatHistoryClient {
 
     @GetMapping("/pat-history/noteListHistories/{patId}")
