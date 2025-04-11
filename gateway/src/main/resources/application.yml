@@ -8,7 +8,8 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOriginPatterns:
-              - "http://vue-app:5173/"
+              - "http://localhost:5173"
+              - "http://vue-app:5173"
             allowedMethods:
               - GET
               - POST
@@ -26,7 +27,7 @@ spring:
 
   data:
     mongodb:
-      host: localhost
+      host: mongo
       port: 27017
       database: medi_labo_solution_bdd
 

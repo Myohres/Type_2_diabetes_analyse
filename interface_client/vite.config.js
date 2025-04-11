@@ -10,18 +10,18 @@ export default defineConfig({
         host: '0.0.0.0',
         port: 5173,
         proxy: {
-          '/patient': {
-            target: 'http://gateway:8080',
+          '/pat-information': {
+            target: 'http://gateway:8083',
             changeOrigin: true,
             secure: false
           },
-          '/historique': {
-            target: 'http://gateway:8081',
+          '/pat-history': {
+            target: 'http://gateway:8083',
             changeOrigin: true,
             secure: false
           },
-          '/assessment': {
-            target: 'http://gateway:8082',
+          '/pat-assessment': {
+            target: 'http://gateway:8083',
             changeOrigin: true,
             secure: false
           },
