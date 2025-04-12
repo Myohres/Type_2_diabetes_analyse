@@ -9,6 +9,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 public class PatAssessmentService {
@@ -19,7 +20,6 @@ public class PatAssessmentService {
         PatAssessment patAssessment = new PatAssessment();
         Integer triggerWordNumber = getTriggerWordNumber(patientNoteList);
         Integer age = calculateAgePatient(birthday);
-        System.out.println(triggerWordNumber);
         String riskLevel = evaluationRiskLevel(triggerWordNumber, age, gender);
         patAssessment.setPatId(PatId);
         patAssessment.setRiskLevel(riskLevel);
@@ -29,10 +29,7 @@ public class PatAssessmentService {
     public Integer calculateAgePatient(LocalDate birthday) {
         LocalDate currentDate = LocalDate.now();
         Period age = Period.between(birthday, currentDate);
-
-        Integer ageInYears = age.getYears();
-
-        return ageInYears;
+        return age.getYears();
     }
 
     public Integer getTriggerWordNumber(List<String> patientNoteList) {
@@ -45,8 +42,9 @@ public class PatAssessmentService {
 
                 triggerWordNumber = (int) triggerWords.stream()
                         .filter(word -> {
-                            boolean found = patientNoteList.stream().anyMatch(note -> note.contains(word));
-                            if (found) System.out.println("Trigger word trouvé : " + word);
+                            Pattern pattern = Pattern.compile(word, Pattern.CASE_INSENSITIVE);
+                            boolean found = patientNoteList.stream()
+                                    .anyMatch(note -> pattern.matcher(note).find());
                             return found;
                         })
                         .count();
@@ -54,40 +52,46 @@ public class PatAssessmentService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        System.out.println(triggerWordNumber);
             return triggerWordNumber;
         }
 
 
     public String evaluationRiskLevel(Integer triggerWordNumber, Integer age, String gender) {
-        System.out.println(triggerWordNumber);
-        if (triggerWordNumber == 0) {
-            return "None";
-        }
-        if (triggerWordNumber >= 2 && triggerWordNumber <= 5 && age > 30) {
-            return "Borderline";
-        }
-        if (gender.equals("M") && triggerWordNumber >= 3 && age < 30) {
-            return "In Danger";
-        }
-        if (gender.equals("F") && triggerWordNumber >= 4 && age < 30) {
-            return "In Danger";
-        }
-        if ( triggerWordNumber >= 6 && triggerWordNumber <= 7 && age > 30) {
-            return "In Danger";
-        }
-        if (gender.equals("M") && triggerWordNumber >= 5 && age < 30) {
-            return "Early onset";
-        }
-        if (gender.equals("F") && triggerWordNumber >= 7 && age < 30) {
-            return "Early onset";
-        }
-        if ( triggerWordNumber >= 8 && age > 30) {
-            return "Early onset";
-        }
-        else {
-            return "No situation";
+        if (age > 30) {
+            if (triggerWordNumber < 2) {
+                return "None";
+            }
+            if (triggerWordNumber < 6) {
+                return "Bordeline";
+            }
+            if (triggerWordNumber < 8) {
+                return "In danger";
+            } else {
+                return "Early onset";
+            }
+        } else {
+            if (gender.equals("M")) {
+                if (triggerWordNumber < 3) {
+                    return "None";
+                }
+                if (triggerWordNumber < 5) {
+                    return "In danger";
+                } else {
+                    return "Early onset";
+                }
+            }
+            if (gender.equals("F")) {
+                if (triggerWordNumber < 4) {
+                    return "None";
+                }
+                if (triggerWordNumber < 7) {
+                    return "In danger";
+                } else {
+                    return "early onset";
+                }
+            } else {
+                return "Ni homme ni femme, impossible d'appliquer le protocole, pour le coup bon courage...";
+            }
         }
     }
-
 }

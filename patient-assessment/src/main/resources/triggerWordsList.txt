@@ -1,12 +1,11 @@
-hémoglobine A1C
+hémoglobine\s*A1C
 microalbumine
 taille
 poids
-fumeur
-fumeuse
-anormal
+fume(ur|r|use)?
+anormal(e|s|es)
 cholestérol
 vertiges
-rechute
-réaction
+rechute(s)
+réaction(s)
 anticorps
