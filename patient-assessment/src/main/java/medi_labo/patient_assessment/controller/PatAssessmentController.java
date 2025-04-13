@@ -1,8 +1,7 @@
 package medi_labo.patient_assessment.controller;
 
 import feign.FeignException;
-import jakarta.validation.Valid;
-import medi_labo.patient_assessment.dto.RequestPatAssessment;
+
 import medi_labo.patient_assessment.exception.CustomExceptions;
 import medi_labo.patient_assessment.integration.PatHistoryClient;
 import medi_labo.patient_assessment.integration.PatInformationClient;
@@ -35,21 +34,6 @@ public class PatAssessmentController {
     private PatInformationClient patInformationClient;
 
     private final PatAssessmentService patAssessmentService = new PatAssessmentService();
-
-    @PostMapping("")
-    public ResponseEntity<PatAssessment> getPatAssessment(@RequestBody RequestPatAssessment requestPatAssessment) {
-        log.info("POST /assessment/");
-        try {
-            return ResponseEntity.ok(patAssessmentService.generatePatAssessment(
-                    requestPatAssessment.getPatId(),
-                    requestPatAssessment.getPatientNoteList(),
-                    requestPatAssessment.getBirthDay(),
-                    requestPatAssessment.getGender()));
-        } catch (Exception e) {
-
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
     @PostMapping("/patId/{patId}")
     public ResponseEntity<?> getPatAssessmentByPatId(@PathVariable("patId") String patId) {

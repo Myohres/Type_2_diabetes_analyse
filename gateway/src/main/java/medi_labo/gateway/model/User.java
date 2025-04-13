@@ -1,5 +1,6 @@
 package medi_labo.gateway.model;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,8 +9,11 @@ public class User {
 
     @Id
     String login;
+    @NotBlank(message = "password est obligatoire")
     String password;
+    @NotBlank(message = "lastName est obligatoire")
     String lastName;
+    @NotBlank(message = "firstName est obligatoire")
     String firstName;
     Role role;
 
