@@ -47,8 +47,8 @@ class PatHistoryServiceTest {
     void getPatAllHistorique() {
         patHistoriquesList.add(patHistory);
         when(patHistoryRepository.findAll()).thenReturn(patHistoriquesList);
-        PatHistoriesDTO historiqueList = patHistoryService.getAllPatHistory();
-        assertEquals(patHistoriquesList.get(0).getPatient(), historiqueList.getPatient());
+        List<PatHistory> historiqueList = patHistoryService.getAllPatHistory();
+        assertEquals(patHistoriquesList, historiqueList);
     }
 
     @Test
@@ -91,13 +91,6 @@ class PatHistoryServiceTest {
         PatHistoryToAddDTO patHistoryToAddDTO = new PatHistoryToAddDTO();
         when(patHistoryRepository.save(any())).thenReturn(patHistory);
         PatHistory patHistory1 = patHistoryService.addPatHistory(patHistoryToAddDTO);
-        assertEquals(patHistory, patHistory1);
-    }
-
-    @Test
-    void addNote() {
-        when(patHistoryRepository.save(any())).thenReturn(patHistory);
-        PatHistory patHistory1 = patHistoryService.addNote("01", "patient","note");
         assertEquals(patHistory, patHistory1);
     }
 

@@ -11,10 +11,6 @@ public class BirthDayGenderDTO {
     @NotBlank(message = "birthDay est obligatoire")
     private LocalDate birthDay;
     @NotBlank(message = "gender est obligatoire")
-    @Pattern(
-            regexp = "M|F",
-            message = "Le genre doit être 'M' ou 'F'"
-    )
     private String gender;
 
     public LocalDate getBirthDay() {

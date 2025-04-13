@@ -26,10 +26,6 @@ public class PatInformation {
     private LocalDate birthDay;
 
     @NotNull(message = "gender est obligatoire")
-    @Pattern(
-            regexp = "M|F",
-            message = "Le genre doit être 'M' ou 'F'"
-    )
     private Gender gender;
 
     private String address;
