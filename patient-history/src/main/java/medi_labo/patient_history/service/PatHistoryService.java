@@ -20,12 +20,12 @@ public class PatHistoryService {
     @Autowired
     private PatHistoryRepository patHistoryRepository;
 
-    public PatHistoriesDTO getAllPatHistory() {
-        List<PatHistory> patHistory = patHistoryRepository.findAll();
-        if (patHistory.isEmpty()) {
+    public List<PatHistory> getAllPatHistory() {
+        List<PatHistory> patHistoryList = patHistoryRepository.findAll();
+        if (patHistoryList.isEmpty()) {
             throw new NoSuchElementException("No patHistory found");
         } else {
-            return mapper.patHistoryToPatHistoriesDTO(patHistory);
+            return patHistoryList;
         }
     }
 
@@ -52,14 +52,6 @@ public class PatHistoryService {
         patHistory.setPatId(patHistoryToAddDTO.getPatId());
         patHistory.setPatient(patHistoryToAddDTO.getPatient());
         patHistory.setNote(patHistoryToAddDTO.getNote());
-        return patHistoryRepository.save(patHistory);
-    }
-
-    public PatHistory addNote(String patId, String patient, String note) {
-        PatHistory patHistory = new PatHistory();
-        patHistory.setPatId(patId);
-        patHistory.setPatient(patient);
-        patHistory.setNote(note);
         return patHistoryRepository.save(patHistory);
     }
 

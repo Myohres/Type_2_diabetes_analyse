@@ -27,7 +27,7 @@ public class PatHistoryController {
     private PatHistoryService patHistoryService;
 
     @GetMapping("")
-    public ResponseEntity<PatHistoriesDTO> findAll() {
+    public ResponseEntity<List<PatHistory>> findAll() {
         log.info("GET /");
             return ResponseEntity.ok(patHistoryService.getAllPatHistory());
     }

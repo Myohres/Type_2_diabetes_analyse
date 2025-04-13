@@ -14,8 +14,6 @@ import java.util.regex.Pattern;
 
 public class PatAssessmentService {
 
-    private static final Logger log = LoggerFactory.getLogger(PatAssessmentService.class);
-
     public PatAssessment generatePatAssessment(String PatId, List<String> patientNoteList, LocalDate birthday, String gender) {
         PatAssessment patAssessment = new PatAssessment();
         Integer triggerWordNumber = getTriggerWordNumber(patientNoteList);
