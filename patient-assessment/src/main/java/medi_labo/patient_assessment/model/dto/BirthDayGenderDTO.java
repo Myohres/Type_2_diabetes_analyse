@@ -1,8 +1,6 @@
-package medi_labo.patient_assessment.dto;
+package medi_labo.patient_assessment.model.dto;
 
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,6 +11,10 @@ public class BirthDayGenderDTO {
     @NotBlank(message = "birthDay est obligatoire")
     private LocalDate birthDay;
     @NotBlank(message = "gender est obligatoire")
+    @Pattern(
+            regexp = "M|F",
+            message = "Le genre doit être 'M' ou 'F'"
+    )
     private String gender;
 
     public LocalDate getBirthDay() {

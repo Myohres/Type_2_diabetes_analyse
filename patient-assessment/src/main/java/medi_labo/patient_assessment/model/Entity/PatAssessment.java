@@ -1,4 +1,4 @@
-package medi_labo.patient_assessment.model;
+package medi_labo.patient_assessment.model.Entity;
 
 public class PatAssessment {
 

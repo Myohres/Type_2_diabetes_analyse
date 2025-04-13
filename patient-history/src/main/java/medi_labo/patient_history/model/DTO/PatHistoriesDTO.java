@@ -1,11 +1,14 @@
 package medi_labo.patient_history.model.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 public class PatHistoriesDTO {
 
+    @NotBlank(message = "patId est obligatoire")
     private String patId;
-
+    @NotBlank(message = "patient est obligatoire")
     private String patient;
 
     private List<PatHistoriesNoteDTO> noteListHistories;
