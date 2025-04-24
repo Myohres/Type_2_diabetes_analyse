@@ -53,7 +53,7 @@ class PatHistoryServiceTest {
 
     @Test
     void getPatAllHistoriqueNoFound() {
-        when(patHistoryRepository.findAll()).thenThrow(new NoSuchElementException());
+        when(patHistoryRepository.findAll()).thenReturn(new ArrayList<>());
         assertThrows(NoSuchElementException.class, () -> patHistoryService.getAllPatHistory());
     }
 
@@ -65,9 +65,9 @@ class PatHistoryServiceTest {
     }
 
     @Test
-    void getPatHistoriqueByPatIdNotFound() {
-        when(patHistoryRepository.findByPatId(any())).thenReturn(patHistoriquesList);
-        assertThrows(NoSuchElementException.class, () -> patHistoryService.getPatHistoryByPatId("01"));
+    void getPatHistoryByIdNotFound() {
+        when(patHistoryRepository.findById(any())).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class, () -> patHistoryService.getPatHistoryById("01"));
     }
 
     @Test

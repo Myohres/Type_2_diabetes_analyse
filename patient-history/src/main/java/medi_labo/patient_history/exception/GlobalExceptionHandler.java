@@ -13,11 +13,6 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DateTimeParseException.class)
-    public ResponseEntity<String> handleInvalidDateFormat(DateTimeParseException ex) {
-        return ResponseEntity.badRequest().body("Invalid date format: " + ex.getParsedString());
-    }
-
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found: " + ex.getMessage());
