@@ -110,6 +110,36 @@ class PatInformationControllerTest {
     }
 
     @Test
+    void getPatientByAllInformationNotValidGender() throws Exception {
+        patInformationList = new ArrayList<>();
+        patInformationList.add(patInformation);
+        when(patInformationService.getPatInformationByAllInformation(any(),any(),any(),any(),any(),any(),any())).thenThrow(new NoSuchElementException());
+        mockMvc.perform(get(URL_PATIENT_INFORMATION +"/information/")
+                        .param("lastName", "lastName")
+                        .param("firstName", "lastName")
+                        .param("birthDay", "1950-01-01")
+                        .param("gender", "SFGHSFGHSFGJH")
+                        .param("address", "lastName")
+                        .param("phone", "lastName"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getPatientByAllInformationNotValidDate() throws Exception {
+        patInformationList = new ArrayList<>();
+        patInformationList.add(patInformation);
+        when(patInformationService.getPatInformationByAllInformation(any(),any(),any(),any(),any(),any(),any())).thenThrow(new NoSuchElementException());
+        mockMvc.perform(get(URL_PATIENT_INFORMATION +"/information/")
+                        .param("lastName", "lastName")
+                        .param("firstName", "lastName")
+                        .param("birthDay", "1950-01-1")
+                        .param("gender", "SFGHSFGHSFGJH")
+                        .param("address", "lastName")
+                        .param("phone", "lastName"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void getBirthDayGenderByPatIdFound() throws Exception {
         BirthDayGenderDTO birthDayGenderDTO = new BirthDayGenderDTO();
         birthDayGenderDTO.setBirthDay(LocalDate.of(2000,1,1));
@@ -125,6 +155,8 @@ class PatInformationControllerTest {
         mockMvc.perform(get(URL_PATIENT_INFORMATION+"/1/birthDayGender"))
                 .andExpect(status().isNotFound());
     }
+
+
 
 
     @Test
