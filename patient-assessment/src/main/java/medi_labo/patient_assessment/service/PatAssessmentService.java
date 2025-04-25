@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -30,8 +31,11 @@ public class PatAssessmentService {
         return age.getYears();
     }
 
+
     public Integer getTriggerWordNumber(List<String> patientNoteList) {
             int triggerWordNumber = 0;
+
+
 
             try (InputStream inputStream = new ClassPathResource("triggerWordsList.txt").getInputStream();
                  BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -60,7 +64,7 @@ public class PatAssessmentService {
                 return "None";
             }
             if (triggerWordNumber < 6) {
-                return "Bordeline";
+                return "Borderline";
             }
             if (triggerWordNumber < 8) {
                 return "In danger";
@@ -85,7 +89,7 @@ public class PatAssessmentService {
                 if (triggerWordNumber < 7) {
                     return "In danger";
                 } else {
-                    return "early onset";
+                    return "Early onset";
                 }
             } else {
                 return "Ni homme ni femme, impossible d'appliquer le protocole, pour le coup bon courage...";

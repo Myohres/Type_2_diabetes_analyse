@@ -50,7 +50,7 @@ public class PatAssessmentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Patient non trouvé pour l'ID " + patId);
         } catch (FeignException e) {
-            log.error("Erreur Feign lors de la récupération des infos patient : {} - {}", e.status(), e.getMessage());
+            log.error("Erreur Feign lors de la récupération des infos patient : {} - {} - {}", e.status(), e.getMessage(), e.getCause());
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                     .body("Erreur lors de la communication avec le service pat-information");
         } catch (HttpMessageNotReadableException e){
