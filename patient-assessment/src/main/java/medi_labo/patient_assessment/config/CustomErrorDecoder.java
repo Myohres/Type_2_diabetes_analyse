@@ -28,6 +28,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
             case 400 -> new CustomExceptions.BadRequestException("Erreur 400: Requête incorrecte. "  + errorMessage );
             case 404 -> new CustomExceptions.ResourceNotFoundException("Erreur 404: Ressource non trouvée. " + errorMessage);
             case 500 -> new CustomExceptions.InternalServerErrorException("Erreur 500: Problème interne du serveur. " + errorMessage);
+            case 502 -> new CustomExceptions.ServiceUnavailableException("Erreur 502 : " +errorMessage);
             default -> new Exception("Erreur inconnue: " + response.status());
         };
     }
