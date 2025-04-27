@@ -71,10 +71,25 @@ class PatAssessmentControllerTest {
     }
 
     @Test
+    void getPatAssessmentByPatIdWhenServiceNotAvailable() throws Exception {
+        when(patInformationClient.getBirthDayGenderByPatId(any())).thenThrow(new CustomExceptions.ServiceUnavailableException("not found"));
+        when(patHistoryClient.getNoteListHistoriesByPatId(any())).thenReturn(ResponseEntity.ok(noteListHistories));
+        mockMvc.perform(post("/pat-assessment/patId/1")).andExpect(status().isServiceUnavailable());
+    }
+
+    @Test
     void getPatAssessmentByPatIdWhenPatInformationNotFound() throws Exception {
         when(patInformationClient.getBirthDayGenderByPatId(any())).thenThrow(new CustomExceptions.ResourceNotFoundException("not found"));
         when(patHistoryClient.getNoteListHistoriesByPatId(any())).thenReturn(ResponseEntity.ok(noteListHistories));
         mockMvc.perform(post("/pat-assessment/patId/1")).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getPatAssessmentByPatIdWhenPatInformationWithGenderWrongFormat() throws Exception {
+        birthDayGenderDTO = new BirthDayGenderDTO();
+        birthDayGenderDTO.setGender("A");
+        when(patInformationClient.getBirthDayGenderByPatId(any())).thenReturn(ResponseEntity.ok(birthDayGenderDTO));
+        mockMvc.perform(post("/pat-assessment/patId/1")).andExpect(status().isBadRequest());
     }
 
 

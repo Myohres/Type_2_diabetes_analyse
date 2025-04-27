@@ -59,6 +59,7 @@ public class UserService {
             String rawPassword = user.getPassword();
             String hashedPassword = passwordEncoder.encode(rawPassword);
             user.setPassword(hashedPassword);
+
             return userRepository.save(user);
         }
         throw new ResponseStatusException(HttpStatus.CONFLICT, "Login is already taken: " + user.getLogin());
@@ -71,6 +72,7 @@ public class UserService {
 
     public boolean checkPassword(String rawPassword, String hashedPassword) {
         return passwordEncoder.matches(rawPassword, hashedPassword);
+
     }
 
     public User updateUser(String login , User user) {
