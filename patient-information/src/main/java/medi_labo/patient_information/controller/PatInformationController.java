@@ -74,7 +74,7 @@ public class PatInformationController {
     }
 
     @PostMapping("/add/")
-    public ResponseEntity<PatInformation> createPatient(@Valid @RequestBody PatInformation patInformation) {
+    public ResponseEntity<PatInformation> createPatInformation(@Valid @RequestBody PatInformation patInformation) {
         log.info("POST " + pathController + "/add{}{}{}{}{}{}",
                 patInformation.getLastName(),
                 patInformation.getFirstName(),

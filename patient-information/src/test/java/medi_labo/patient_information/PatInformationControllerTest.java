@@ -160,7 +160,7 @@ class PatInformationControllerTest {
 
 
     @Test
-    void createPatient() throws Exception {
+    void createPatInformation() throws Exception {
         when(patInformationService.addPatInformation(any())).thenReturn(patInformation);
         mockMvc.perform(post(URL_PATIENT_INFORMATION + "/add/")
                         .contentType(MediaType.APPLICATION_JSON).content(

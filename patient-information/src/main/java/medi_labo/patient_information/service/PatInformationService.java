@@ -1,7 +1,7 @@
 package medi_labo.patient_information.service;
 
 import medi_labo.patient_information.repository.PatInformationRepository;
-import medi_labo.patient_information.config.IdCounterService;
+import medi_labo.patient_information.config.IdCounter.IdCounterService;
 import medi_labo.patient_information.model.dto.BirthDayGenderDTO;
 import medi_labo.patient_information.model.document.PatInformation;
 import org.springframework.beans.factory.annotation.Autowired;

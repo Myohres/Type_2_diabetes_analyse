@@ -1,4 +1,4 @@
-package medi_labo.patient_information.config;
+package medi_labo.patient_information.config.validation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

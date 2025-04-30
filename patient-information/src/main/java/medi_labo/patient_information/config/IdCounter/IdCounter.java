@@ -1,4 +1,4 @@
-package medi_labo.patient_information.config;
+package medi_labo.patient_information.config.IdCounter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

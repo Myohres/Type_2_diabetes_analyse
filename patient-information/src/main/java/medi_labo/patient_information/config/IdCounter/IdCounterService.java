@@ -1,4 +1,4 @@
-package medi_labo.patient_information.config;
+package medi_labo.patient_information.config.IdCounter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
