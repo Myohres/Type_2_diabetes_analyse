@@ -7,9 +7,13 @@ const PATIENT_ASSESSMENT_API_BASE_URL = '/pat-assessment'
 const token = localStorage.getItem("jwt")
 
 class PatAssessmentService {
-    async getPatAssessment(requestAssessment){
+    setToken(token) {
+        this.token = token
+    }
+
+    async getPatAssessment(patId){
         try {
-            const response = await axios.post(PATIENT_ASSESSMENT_API_BASE_URL,requestAssessment, {
+            const response = await axios.get(`${PATIENT_ASSESSMENT_API_BASE_URL}/patId/${patId}`, {
                 withCredentials: true,
                 headers: {
                     "Authorization" : "Bearer " + token
@@ -21,5 +25,7 @@ class PatAssessmentService {
         }
     }
 }
+
+
 
 export default new PatAssessmentService()

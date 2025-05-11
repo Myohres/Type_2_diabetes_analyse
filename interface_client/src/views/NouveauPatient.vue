@@ -1,4 +1,10 @@
 <template>
+  <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/recherche">Recherche Patient</RouterLink>
+    <RouterLink to="/nouveauPatient">Ajouter patient</RouterLink>
+    <RouterLink to="/deconnexion">Déconnexion</RouterLink>
+  </nav>
   <div class="body">
     <h2>Ajouter Patient</h2>
     <div class="form-container">
@@ -49,7 +55,7 @@
 
 <script setup>
 import {reactive, ref} from "vue";
-import { useRouter } from "vue-router";
+import {RouterLink, useRouter} from "vue-router";
 import PatInformationService from "@/services/PatInformationService.js";
 import UserService from "@/services/UserService.js";
 import PatInformation from "@/model/patient-information/PatInformation.js";

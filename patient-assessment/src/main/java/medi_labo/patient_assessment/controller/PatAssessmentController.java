@@ -34,7 +34,7 @@ public class PatAssessmentController {
 
     private final PatAssessmentService patAssessmentService = new PatAssessmentService();
 
-    @PostMapping("/patId/{patId}")
+    @GetMapping("/patId/{patId}")
     public ResponseEntity<?> getPatAssessmentByPatId(@PathVariable("patId") String patId) {
         log.info("POST /assessment/patId/{}", patId);
 

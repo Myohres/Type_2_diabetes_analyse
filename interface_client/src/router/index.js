@@ -24,6 +24,11 @@ const router = createRouter({
       component: () => import('../views/Connexion.vue'),
     },
     {
+      path: '/deconnexion',
+      name: 'deconnexion',
+      component: () => import('../views/deconnexion.vue'),
+    },
+    {
       path: '/recherche',
       name: 'recherche',
       component: () => import('@/views/Recherche.vue'),

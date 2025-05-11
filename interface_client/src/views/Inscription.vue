@@ -1,4 +1,10 @@
 <template>
+  <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/inscription">Inscription</RouterLink>
+    <RouterLink to="/connexion">Connexion</RouterLink>
+
+  </nav>
   <h1>Inscription</h1>
   <div class="form-container">
     <div class="input-group">
@@ -35,6 +41,7 @@
 import UserService from "@/services/UserService.js";
 import User from "@/model/User.js";
 import { ref, reactive } from 'vue';
+import {RouterLink} from "vue-router";
 
 const lastName = ref('');
 const firstName = ref('');

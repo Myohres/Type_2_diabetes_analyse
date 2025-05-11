@@ -1,4 +1,12 @@
 <template>
+
+  <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/inscription">Inscription</RouterLink>
+    <RouterLink to="/connexion">Connexion</RouterLink>
+
+  </nav>
+
   <h1>Connexion</h1>
   <div>
     <div class="form-container">
@@ -22,6 +30,7 @@
 import UserService from "@/services/UserService.js";
 import router from "@/router/index.js";
 import {reactive, ref} from "vue";
+import {RouterLink} from "vue-router";
 
 
 const login = ref('');
@@ -38,11 +47,8 @@ const getConnection = async () => {
   errors.login = login.value ? "" : "Le login est obligatoire.";
   errors.password = password.value ? "" : "Le mot de passe est obligatoire.";
 
-
   try {
-
-      const reponseToken = await UserService.authentification(login.value, password.value)
-
+      await UserService.authentification(login.value, password.value)
       message.value = "Authentification réussie"
       await router.push({
         name: 'recherche',

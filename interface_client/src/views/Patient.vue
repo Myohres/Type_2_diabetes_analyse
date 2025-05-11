@@ -1,4 +1,11 @@
 <template xmlns="http://www.w3.org/1999/html">
+  <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/recherche">Recherche Patient</RouterLink>
+    <RouterLink to="/nouveauPatient">Ajouter patient</RouterLink>
+    <RouterLink to="/deconnexion">Déconnexion</RouterLink>
+  </nav>
+
   <div class="detailPat">
     <h2>Détails du Patient</h2>
     <p>Numéro patient: {{ patInformation?.patId }}</p>
@@ -66,7 +73,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute} from "vue-router";
+import {RouterLink, useRoute} from "vue-router";
 import PatientinformationService from "@/services/PatInformationService.js";
 import PatHistoryService from "@/services/PatientHistoryService.js";
 import PatAssessmentService from "@/services/PatAssessmentService.js";
@@ -151,10 +158,10 @@ const addNote = async () => {
 
 const generatePatAssessment = async () => {
   const patientNoteListToPatAssessment = noteListHistories.value
-  const requestPatAssessment = new RequestPatAssessment(patInformation.value.patId, patientNoteListToPatAssessment, patInformation.value.birthDay, patInformation.value.gender)
+
   let patAssessment2 = new PatAssessment("","");
   try {
-    patAssessment2 = await PatAssessmentService.getPatAssessment(requestPatAssessment);
+    patAssessment2 = await PatAssessmentService.getPatAssessment(patInformation.value.patId);
     assessmentMessage.value = patAssessment2.riskLevel
   } catch (error) {
     console.error("valeur " + patInformation.value.id, patientNoteListToPatAssessment, patInformation.value.birthDay, patInformation.value.gender)

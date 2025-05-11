@@ -7,6 +7,7 @@ import PatHistories from "@/model/patient-history/PatHistories.js";
 const PATIENT_HISTORY_API_BASE_URL = '/pat-history'
 const token = localStorage.getItem("jwt")
 
+
 class PatientHistoryService {
     async getPatHistoryByPatId(patId) {
         try {
