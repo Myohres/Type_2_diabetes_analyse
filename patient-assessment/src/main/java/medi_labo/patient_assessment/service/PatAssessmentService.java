@@ -16,12 +16,16 @@ import java.util.regex.Pattern;
 public class PatAssessmentService {
 
     public PatAssessment generatePatAssessment(String PatId, List<String> patientNoteList, LocalDate birthday, String gender) {
+        patientNoteList.forEach(System.out::println);
         PatAssessment patAssessment = new PatAssessment();
         Integer triggerWordNumber = getTriggerWordNumber(patientNoteList);
         Integer age = calculateAgePatient(birthday);
         String riskLevel = evaluationRiskLevel(triggerWordNumber, age, gender);
         patAssessment.setPatId(PatId);
         patAssessment.setRiskLevel(riskLevel);
+        System.out.println(triggerWordNumber);
+        System.out.println(age);
+        System.out.println(gender);
         return patAssessment;
     }
 
@@ -47,6 +51,10 @@ public class PatAssessmentService {
                             Pattern pattern = Pattern.compile(word, Pattern.CASE_INSENSITIVE);
                             boolean found = patientNoteList.stream()
                                     .anyMatch(note -> pattern.matcher(note).find());
+                            if (found) {
+                                System.out.println(word);
+                                return true;
+                            }
                             return found;
                         })
                         .count();
@@ -54,7 +62,9 @@ public class PatAssessmentService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
             return triggerWordNumber;
+
         }
 
 
