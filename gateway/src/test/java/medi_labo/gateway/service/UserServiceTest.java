@@ -3,6 +3,7 @@ package medi_labo.gateway.service;
 import medi_labo.gateway.config.JwtUtils;
 import medi_labo.gateway.model.Role;
 import medi_labo.gateway.model.User;
+import medi_labo.gateway.model.dto.LoginRequest;
 import medi_labo.gateway.model.dto.UserConnectedDTO;
 import medi_labo.gateway.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,6 +74,7 @@ class UserServiceTest {
         assertEquals(userConnectedDTO.getLogin(), user.getLogin());
         assertEquals(userConnectedDTO.getFirstName(), user.getFirstName());
         assertEquals(userConnectedDTO.getLastName(), user.getLastName());
+        assertEquals(userConnectedDTO.getRole(), user.getRole().name());
     }
 
     @Test
@@ -111,8 +113,11 @@ class UserServiceTest {
 
     @Test
     void checkPasswordTrue() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setLogin("login");
+        loginRequest.setPassword("password");
         when(passwordEncoder.matches(any(),any())).thenReturn(true);
-        assertTrue(userService.checkPassword("1","2"));
+        assertTrue(userService.checkPassword(loginRequest.getLogin(),loginRequest.getPassword()));
     }
 
     @Test
@@ -124,6 +129,7 @@ class UserServiceTest {
     @Test
     void updateUser() {
         when(userRepository.findByLogin(any())).thenReturn(Optional.of(user));
+        when(userRepository.save(any())).thenReturn(user);
         User userInfoUpdate = new User();
         userInfoUpdate.setLogin("loginUp");
         userInfoUpdate.setPassword("123");
@@ -132,7 +138,7 @@ class UserServiceTest {
         userInfoUpdate.setRole(Role.PRATICIEN);
         User userUpdated = userService.updateUser("login", userInfoUpdate );
         assertEquals(userUpdated.getLogin(),"login");
-        assertEquals(userUpdated.getRole().name(), "Praticien");
+        assertEquals(userUpdated.getRole().name(), "PRATICIEN");
         assertEquals(userUpdated.getPassword(), "123");
         assertEquals(userUpdated.getLastName(), "lastNameUp");
         assertEquals(userUpdated.getFirstName(), "firstNameUp");
@@ -140,7 +146,8 @@ class UserServiceTest {
 
     @Test
     void deleteUser() {
+        when(userRepository.findByLogin(any())).thenReturn(Optional.of(user));
         userService.deleteUser("1");
-        verify(userRepository,times(1)).deleteById(any());
+        verify(userRepository,times(1)).delete(any());
     }
 }

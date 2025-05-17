@@ -7,8 +7,6 @@ services:
       context: interface_client
       dockerfile: Dockerfile
     container_name: vue-container
-    ports:
-      - "5173:5173"
     restart: always
     depends_on:
       patient-information:
@@ -32,8 +30,6 @@ services:
       context: gateway
       dockerfile: Dockerfile
     container_name: gateway
-    ports:
-      - "8083:8083"
     environment:
       - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/medi_labo_solution_bdd
 
@@ -54,8 +50,6 @@ services:
       context: patient-information
       dockerfile: Dockerfile
     container_name: patient-information
-    ports:
-      - "8080:8080"
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
@@ -68,8 +62,6 @@ services:
     build:
       context: patient-history
       dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
@@ -84,8 +76,6 @@ services:
     build:
       context: patient-assessment
       dockerfile: Dockerfile
-    ports:
-      - "8082:8082"
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
@@ -101,8 +91,6 @@ services:
   mongo:
     image: mongo:latest
     container_name: medi_labo_mongo
-    ports:
-      - "27018:27017"
     environment:
       MONGO_INITDB_DATABASE: medi_labo_solution_bdd
     restart: unless-stopped

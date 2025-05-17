@@ -18,13 +18,16 @@ public class JwtUtils {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
-    String encodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+
+
+
 
     /**
      * Décode la clé qui est en encodé en base64.
      * @return une SecretKey nécéssaire à la validation du JWT token
      */
     private SecretKey getSigningKey() {
+        String encodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
         byte[] keyBytes = Decoders.BASE64.decode(encodedKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }

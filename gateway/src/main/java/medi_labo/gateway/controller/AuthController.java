@@ -23,9 +23,9 @@ import java.util.NoSuchElementException;
 public class AuthController {
 
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
-    private final JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils ;
 
-    public AuthController(JwtUtils jwtUtils) {
+  public AuthController(JwtUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
     }
 
@@ -96,7 +96,6 @@ public class AuthController {
 
     @GetMapping("/validate")
     public ResponseEntity<String> validateToken(@RequestParam String token) {
-        try {
             boolean isValid = jwtUtils.validateToken(token);
             if (isValid) {
                 String extractedUsername = jwtUtils.extractUsername(token);
@@ -104,9 +103,6 @@ public class AuthController {
             } else {
                 return ResponseEntity.status(401).body("Token invalide ou expiré");
             }
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Erreur lors de la validation du token : " + e.getMessage());
-        }
     }
 }
 
