@@ -16,8 +16,8 @@ import java.util.Date;
 
 public class JwtUtils {
 
-
-    private String SECRET_KEY = "tjj,;fmuk,jnghbfdh5465265lkhuiyj";
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
     String encodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
 
     /**

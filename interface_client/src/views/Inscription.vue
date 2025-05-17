@@ -23,6 +23,16 @@
     </div>
 
     <div class="input-group">
+    <select id="gender" v-model="role" >
+      <option value="">Role</option>
+      <option value="ADMIN">Admin</option>
+      <option value="PRATICIEN">Praticien</option>
+      <option value="ORGANISATEUR">Organisateur</option>
+    </select>
+      <div class="error" :class="{ visible: errors.role }">{{ errors.role || " " }}</div>
+    </div>
+
+    <div class="input-group">
       <input v-model="password" type="password" placeholder="Mot de passe">
       <div class="error" :class="{ visible: errors.password }">{{ errors.password || " " }}</div>
     </div>
@@ -39,13 +49,14 @@
 
 <script setup>
 import UserService from "@/services/UserService.js";
-import User from "@/model/User.js";
+import User from "@/model/user/User.js";
 import { ref, reactive } from 'vue';
 import {RouterLink} from "vue-router";
 
 const lastName = ref('');
 const firstName = ref('');
 const login = ref('');
+const role = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 const message = ref('');
@@ -53,6 +64,7 @@ const errors = reactive({
   lastName: "",
   firstName: "",
   login: "",
+  role:"",
   password: "",
   confirmPassword: ""
 });
@@ -62,6 +74,7 @@ const inscription = async () => {
   errors.lastName = lastName.value ? "" : "Le nom est obligatoire.";
   errors.firstName = firstName.value ? "" : "Le prénom est obligatoire.";
   errors.login = login.value ? "" : "Le login est obligatoire.";
+  errors.role = login.value ? "" : "Le role est obligatoire.";
   errors.password = password.value ? "" : "Le mot de passe est obligatoire.";
   errors.confirmPassword = confirmPassword.value === password.value ? "" : "Les mots de passe doivent être identiques.";
 
@@ -78,7 +91,7 @@ const inscription = async () => {
       return;
     }*/
 
-    const user = new User(login.value, password.value, lastName.value, firstName.value);
+    const user = new User(login.value, password.value, lastName.value, firstName.value, role.value);
     await UserService.addUser(user);
     message.value = "Inscription réussie !";
   } catch (error) {

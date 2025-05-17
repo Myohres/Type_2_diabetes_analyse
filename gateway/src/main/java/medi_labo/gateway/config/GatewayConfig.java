@@ -1,6 +1,5 @@
 package medi_labo.gateway.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 

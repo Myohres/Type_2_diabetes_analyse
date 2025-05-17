@@ -79,8 +79,8 @@ import PatHistoryService from "@/services/PatientHistoryService.js";
 import PatAssessmentService from "@/services/PatAssessmentService.js";
 import PatInformation from "@/model/patient-information/PatInformation.js";
 import PatHistory from "@/model/patient-history/PatHistory.js";
-import RequestPatAssessment from "@/model/RequestPatAssessment.js";
-import PatAssessment from "@/model/PatAssessment.js";
+import RequestPatAssessment from "@/model/patient-assessment/RequestPatAssessment.js";
+import PatAssessment from "@/model/patient-assessment/PatAssessment.js";
 import PatHistoryToAdd from "@/model/patient-history/PatHistoryToAdd.js";
 
 

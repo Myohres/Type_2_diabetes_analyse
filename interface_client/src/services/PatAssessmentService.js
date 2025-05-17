@@ -1,6 +1,6 @@
 import axios from "axios";
 import PatInformation from "@/model/patient-information/PatInformation.js";
-import PatAssessment from "@/model/PatAssessment.js";
+import PatAssessment from "@/model/patient-assessment/PatAssessment.js";
 import userService from "@/services/UserService.js";
 
 const PATIENT_ASSESSMENT_API_BASE_URL = '/pat-assessment'

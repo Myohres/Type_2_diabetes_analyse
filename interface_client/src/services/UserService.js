@@ -1,4 +1,4 @@
-import axios from "axios";
+ import axios from "axios";
 
 
 const PATIENT_AUTH_API_BASE_URL = '/user'

@@ -94,9 +94,6 @@ public class AuthController {
         }
     }
 
-
-
-
     @GetMapping("/validate")
     public ResponseEntity<String> validateToken(@RequestParam String token) {
         try {
