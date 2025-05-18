@@ -29,7 +29,7 @@ spring:
 
   data:
     mongodb:
-      host: localhost
+      host: mongo
       port: 27017
       database: medi_labo_solution_bdd
 
