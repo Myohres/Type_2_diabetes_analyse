@@ -1,0 +1,11 @@
+(?i)\bhémoglobine\s*A1C\b
+(?i)\bmicroalbumine\b
+(?i)\btaille\b
+(?i)\bpoids\b
+(?i)\bfume(ur|r|use)?s?\b
+(?i)\banormal(e|s|es)?\b
+(?i)\bcholestérol\b
+(?i)\bvertige(s)?\b
+(?i)\brechute(s)?\b
+(?i)\bréaction(s)?\b
+(?i)\banticorps\b

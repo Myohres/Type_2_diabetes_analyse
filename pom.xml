@@ -10,6 +10,7 @@
     </parent>
     <groupId>medi_labo</groupId>
     <artifactId>Type2_diabetes_analyse</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>Type 2 diabetes analyse</name>
     <description>Type 2 diabetes analyse</description>
@@ -40,6 +41,24 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>medi_labo</groupId>
+            <artifactId>patient-information</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>medi_labo</groupId>
+            <artifactId>patient-history</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>medi_labo</groupId>
+            <artifactId>patient-assessment</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -50,5 +69,12 @@
             </plugin>
         </plugins>
     </build>
+
+    <modules>
+        <module>patient-information</module>
+        <module>patient-history</module>
+        <module>patient-assessment</module>
+        <module>gateway</module>
+    </modules>
 
 </project>

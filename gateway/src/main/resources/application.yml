@@ -1,0 +1,40 @@
+server:
+  port: 8083
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "http://localhost:5173"
+              - "http://vue-app:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "Authorization"
+              - "*"
+            allowCredentials: true
+
+  application:
+    name: gateway
+
+  jwt:
+    secret: ${JWT_SECRET}
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: medi_labo_solution_bdd
+
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+
+

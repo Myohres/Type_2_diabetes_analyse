@@ -1,0 +1,112 @@
+
+
+services:
+
+  vue-app:
+    build:
+      context: interface_client
+      dockerfile: Dockerfile
+    container_name: vue-container
+    restart: always
+    depends_on:
+      patient-information:
+        condition: service_started
+      patient-history:
+        condition: service_started
+      patient-assessment:
+        condition: service_started
+      gateway:
+        condition: service_started
+      mongo:
+        condition: service_started
+    volumes:
+      - ./interface_client:/app  # Volume pour synchroniser les fichiers entre ton PC et le conteneur
+      - /app/node_modules  # Permet d'éviter les conflits avec les node_modules
+    networks:
+      - springboot-network
+
+  gateway:
+    build:
+      context: gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/medi_labo_solution_bdd
+
+    depends_on:
+        patient-information:
+          condition: service_started
+        patient-history:
+          condition: service_started
+        patient-assessment:
+          condition: service_started
+        mongo:
+          condition: service_started
+    networks:
+      - springboot-network
+
+  patient-information:
+    build:
+      context: patient-information
+      dockerfile: Dockerfile
+    container_name: patient-information
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
+    depends_on:
+        mongo :
+          condition: service_healthy
+    networks:
+      - springboot-network
+
+  patient-history:
+    build:
+      context: patient-history
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
+    depends_on:
+        patient-information:
+          condition: service_started
+        mongo:
+          condition: service_started
+    networks:
+      - springboot-network
+
+  patient-assessment:
+    build:
+      context: patient-assessment
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
+    depends_on:
+      patient-information:
+        condition: service_started
+      patient-history:
+        condition : service_started
+      mongo:
+        condition: service_started
+    networks:
+      - springboot-network
+
+  mongo:
+    image: mongo:latest
+    container_name: medi_labo_mongo
+    environment:
+      MONGO_INITDB_DATABASE: medi_labo_solution_bdd
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - springboot-network
+    healthcheck:
+        test: [ "CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })" ]
+        interval: 60s
+        timeout: 5s
+        retries: 5
+
+volumes:
+  mongo_data:
+
+networks:
+  springboot-network:
+    driver: bridge
