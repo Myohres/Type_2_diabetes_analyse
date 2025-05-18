@@ -27,8 +27,7 @@ public class JwtUtils {
      * @return une SecretKey nécéssaire à la validation du JWT token
      */
     private SecretKey getSigningKey() {
-        String encodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
-        byte[] keyBytes = Decoders.BASE64.decode(encodedKey);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

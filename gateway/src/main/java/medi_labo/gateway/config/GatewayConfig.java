@@ -74,11 +74,16 @@ public class GatewayConfig {
                     .filter(entry -> path.startsWith(entry.getKey()))
                     .findFirst();
 
-            if (matched.isPresent() && !matched.get().getValue().contains(role)) {
+            if (matched.isPresent()) {
+                if (!matched.get().getValue().contains(role)) {
+                    exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                    return exchange.getResponse().setComplete();
+                }
+            } else {
+
                 exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
                 return exchange.getResponse().setComplete();
             }
-
 
             return chain.filter(exchange);
         };
