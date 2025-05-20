@@ -4,13 +4,19 @@ Application de detection de signes avant-coureurs du diabète de type 2.
 
 Application déployé dans envrionnement docker.
 
-# Installation
+# Installation 
+src : **\Type_2_diabetes_analyse
 
-Pour installer l'application : *\Type_2_diabetes_analyse> docker-compose build
+- docker-compose build
+- docker-compose up
 
-Une fois installé lancer le docker : *\Type_2_diabetes_analyse> docker-compose build
 
-Se rendre à la page sur navigateur  : http://localhost:5173/home
+# Lancement
+src : **\Type_2_diabetes_analyse
+
+- docker-compose start
+ 
+Navigateur : http://localhost:5173/home
 
 # Fonctionnalitées
 

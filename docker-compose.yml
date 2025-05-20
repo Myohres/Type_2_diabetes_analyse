@@ -7,6 +7,8 @@ services:
       context: interface_client
       dockerfile: Dockerfile
     container_name: vue-container
+    ports:
+      - "5173:5173"
     restart: always
     depends_on:
       patient-information:
@@ -20,8 +22,8 @@ services:
       mongo:
         condition: service_started
     volumes:
-      - ./interface_client:/app  # Volume pour synchroniser les fichiers entre ton PC et le conteneur
-      - /app/node_modules  # Permet d'éviter les conflits avec les node_modules
+      - ./interface_client:/app
+      - /app/node_modules
     networks:
       - springboot-network
 
