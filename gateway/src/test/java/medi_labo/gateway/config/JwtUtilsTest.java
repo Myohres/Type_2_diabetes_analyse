@@ -20,7 +20,7 @@ class JwtUtilsTest {
     @BeforeEach
     void setUp() {
         jwtUtils = new JwtUtils();
-        ReflectionTestUtils.setField(jwtUtils, "SECRET_KEY", "my-very-secret-key-for-testing-only-123456");
+        ReflectionTestUtils.setField(jwtUtils, "SECRET_KEY", "bXktdmVyeS1zZWNyZXQta2V5LWZvci10ZXN0aW5nLW9ubHktMTIzNDU2");
 
     }
 
