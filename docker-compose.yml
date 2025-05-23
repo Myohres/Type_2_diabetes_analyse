@@ -34,7 +34,8 @@ services:
     container_name: gateway
     environment:
       - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/medi_labo_solution_bdd
-
+    ports:
+      - "8083:8083"
     depends_on:
         patient-information:
           condition: service_started
@@ -52,6 +53,8 @@ services:
       context: patient-information
       dockerfile: Dockerfile
     container_name: patient-information
+    ports:
+      - "8080:8080"
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
@@ -64,6 +67,9 @@ services:
     build:
       context: patient-history
       dockerfile: Dockerfile
+    container_name: patient-history
+    ports:
+      - "8081:8081"
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
@@ -78,6 +84,9 @@ services:
     build:
       context: patient-assessment
       dockerfile: Dockerfile
+    container_name: patient-assessment
+    ports:
+      - "8082:8082"
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/medi_labo_solution_bdd
     depends_on:
@@ -93,6 +102,8 @@ services:
   mongo:
     image: mongo:latest
     container_name: medi_labo_mongo
+    ports:
+      - "27018:27017"
     environment:
       MONGO_INITDB_DATABASE: medi_labo_solution_bdd
     restart: unless-stopped
