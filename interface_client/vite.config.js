@@ -11,22 +11,22 @@ export default defineConfig({
         port: 5173,
         proxy: {
           '/pat-information': {
-            target: 'http://localhost:8083',
+            target: 'http://gateway:8083',
             changeOrigin: true,
             secure: false
           },
           '/pat-history': {
-            target: 'http://localhost:8083',
+            target: 'http://gateway:8083',
             changeOrigin: true,
             secure: false
           },
           '/pat-assessment': {
-            target: 'http://localhost:8083',
+            target: 'http://gateway:8083',
             changeOrigin: true,
             secure: false
           },
           '/user': {
-            target: 'http://localhost:8083',
+            target: 'http://gateway:8083',
             changeOrigin: true,
             secure: false
           }
